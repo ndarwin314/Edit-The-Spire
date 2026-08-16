@@ -1,13 +1,17 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
+fn is_default<T: Default + PartialEq>(value: &T) -> bool {
+    value == &T::default()
+}
+
 #[derive(Debug, Serialize, Deserialize, Default)]
+#[serde(default)]
 pub struct Player {
     pub base_orb_slot_count: i32,
     pub character_id: String,
     pub current_hp: i32,
     pub deck: Vec<Card>,
-    pub extra_fields: Value,
     pub gold: i32,
     pub max_energy: i32,
     pub max_hp: i32,
@@ -26,20 +30,23 @@ pub struct Player {
     pub other: serde_json::Map<String, Value>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct Card {
     pub floor_added_to_deck: i32,
     pub id: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "is_default")]
     pub current_upgrade_level: u8,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "is_default")]
     pub enchantment: Enchantment,
-    pub props: Value,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]
 pub struct Enchantment {
     pub id: String,
     pub amount: i32,
-    pub props: Value,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

@@ -1,22 +1,41 @@
 import { invoke } from "@tauri-apps/api/core";
+import { open } from "@tauri-apps/plugin-dialog";
+import {localDataDir, join} from '@tauri-apps/api/path';
 
-let greetInputEl: HTMLInputElement | null;
-let greetMsgEl: HTMLElement | null;
+const homePage = document.querySelector<HTMLElement>('#home-page')!;
+const editorPage = document.querySelector<HTMLElement>('#editor-page')!;
 
-async function greet() {
-  if (greetMsgEl && greetInputEl) {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    greetMsgEl.textContent = await invoke("greet", {
-      name: greetInputEl.value,
-    });
+const openFileButton = document.querySelector('#open-file')!;
+const backFileButton = document.querySelector("#back-button")
+
+const local = await localDataDir();
+const users = await join(local, "SlayTheSpire2", "steam")
+
+
+async function selectFile(){
+  console.log('Button clicked');
+  const file = await open({
+    multiple: false,
+    directory: false,
+    defaultPath: users,
+    filters: [
+      {
+        name: 'Save Files',
+        extensions: ['save'],
+      },
+    ],
+  });
+
+  if (file) {
+    await invoke('load_save', {fileName: file})
+    homePage.hidden = true;
+    editorPage.hidden = false;
   }
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  greetInputEl = document.querySelector("#greet-input");
-  greetMsgEl = document.querySelector("#greet-msg");
-  document.querySelector("#greet-form")?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    greet();
-  });
-});
+openFileButton.addEventListener('click', selectFile);
+backFileButton?.addEventListener('click', () => {
+  homePage.hidden = false;
+  editorPage.hidden = true;
+})
+
