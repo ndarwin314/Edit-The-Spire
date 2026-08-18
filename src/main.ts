@@ -8,6 +8,8 @@ const editorPage = document.querySelector<HTMLElement>('#editor-page')!;
 const openFileButton = document.querySelector('#open-file')!;
 const backFileButton = document.querySelector("#back-button")
 
+const testContent = document.querySelector<HTMLParagraphElement>('#test')
+
 const local = await localDataDir();
 const users = await join(local, "SlayTheSpire2", "steam")
 
@@ -30,6 +32,8 @@ async function selectFile(){
     await invoke('load_save', {fileName: file})
     homePage.hidden = true;
     editorPage.hidden = false;
+    let t: [number, number] = await invoke("get_health");
+    testContent.textContent = `(${t[0]}, ${t[1]})`;
   }
 }
 
