@@ -11,7 +11,7 @@
   <body>
 
     <!-- STARTUP SCREEN --- INCOMPLETE -->
-    <section id="startup-screen-page" class="blurred-bg-page">
+    <section id="startup-screen-page" hidden>
 
       <div class="hero-container">
         <img id="title" src="src/assets/title.png" alt="Edit the Spire title text">
@@ -19,34 +19,33 @@
       </div>
     </section>
 
-    <!-- SAVE SELECTOR SCREEN --- INCOMPLETE -->
+    <!-- SAVE SELECTOR SCREEN --- SEMI-COMPLETE -->
     <section id="save-selector-page" class="blurred-bg-page" hidden>
       <h1>Select a Save File</h1>
       <div class="save-grid">
         <div class="save-card">
-          <h3>Slot 1: The Ironclad</h3>
-          <p>Floor 42 - Ascension 9</p>
+          <h3>The Ironclad</h3>
+          <img src="src/assets/ironclad.png">
+          <p>Floor 1 - Ascension 5</p>
           <button type="button" class="file-select">Select</button>
         </div>
 
         <div class="save-card">
-          <h3>Slot 2: The Silent</h3>
-          <p>Floor 12 - Ascension 5</p>
+          <h3>Empty</h3>
+          <div class="image-placeholder"></div>
+          <p>New save</p>
           <button type="button" class="file-select">Select</button>
         </div>
       </div>
       <button type="button" class="back-button"></button>
-      <div class="save-list">
-
-      </div>
     </section>
 
     <!-- CHARACTER, STATS, and INVENTORY SCREEN --- COMPLETE -->
-    <section id="char-stats-inventory-page" class="blurred-bg-page" hidden>
+    <section id="char-stats-inventory-page" class="blurred-bg-page">
       <header class="editor-header">
         <nav class="editor-tabs">
-          <button id="stat-tab" type="button" class="tab-button active">Stats & Inventory</button>
-          <button id="deck-tab" type="button" class="tab-button">Deck Editor</button>
+          <button type="button" class="tab-button active">Stats & Inventory</button>
+          <button type="button" class="tab-button">Deck Editor</button>
         </nav>
       </header>
 

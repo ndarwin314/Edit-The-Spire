@@ -11,6 +11,10 @@ body {
   overflow: hidden;
 }
 
+[hidden] {
+  display: none;
+}
+
 .blurred-bg-page {
   position: relative;
 }
@@ -66,18 +70,58 @@ h2 {
 }
 
 /* ------------------------------------ */
+/*        Save File Select Page         */
+/* ------------------------------------ */
+#save-selector-page {
+  height: 100vh;
+  width: 100%;
+  padding: 32px;
+  position: relative;
+}
+
+#save-selector-page:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.save-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.save-card {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  padding: 24px;
+  
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 18.29px;
+}
+
+.image-placeholder {
+  width: 200px;
+  height: 200px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+}
+
+/* ------------------------------------ */
 /* Character, Stats, and Inventory Page */
 /* ------------------------------------ */
 #char-stats-inventory-page {
   height: 100vh;
   width: 100%;
-
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-
   padding: 32px;
   position: relative;
+}
+
+#char-stats-inventory-page:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .editor-tabs {
