@@ -11,7 +11,7 @@
   <body>
 
     <!-- STARTUP SCREEN --- INCOMPLETE -->
-    <section id="startup-screen-page" hidden>
+    <section id="startup-screen-page" class="blurred-bg-page">
 
       <div class="hero-container">
         <img id="title" src="src/assets/title.png" alt="Edit the Spire title text">
@@ -42,11 +42,11 @@
     </section>
 
     <!-- CHARACTER, STATS, and INVENTORY SCREEN --- COMPLETE -->
-    <section id="char-stats-inventory-page" class="blurred-bg-page">
+    <section id="char-stats-inventory-page" class="blurred-bg-page" hidden>
       <header class="editor-header">
         <nav class="editor-tabs">
-          <button type="button" class="tab-button active">Stats & Inventory</button>
-          <button type="button" class="tab-button">Deck Editor</button>
+          <button id="stat-tab" type="button" class="tab-button active">Stats & Inventory</button>
+          <button id="deck-tab" type="button" class="tab-button">Deck Editor</button>
         </nav>
       </header>
 
@@ -111,4 +111,3 @@
 
   </body>
 </html>
-<script type="module" src="/src/main.ts"></script>

@@ -108,6 +108,9 @@ pub struct UnlockState {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SaveFile {
     pub players: Vec<Player>,
+    pub ascension: i32,
+    #[serde(default)]
+    pub map_point_history: Vec<Value>,
 
     #[serde(flatten)]
     pub other: serde_json::Map<String, Value>,
@@ -122,7 +125,11 @@ impl Default for AppState {
     fn default() -> AppState {
         AppState {
             index: 0,
-            save: SaveFile{ players: vec![], other: serde_json::Map::new() },
+            save: SaveFile{
+                ascension: 0,
+                players: vec![],
+                other: serde_json::Map::new(),
+                map_point_history: vec![]},
         }
     }
 }
