@@ -23,7 +23,7 @@ pub struct Player {
     pub relics: Vec<Relic>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub potions: Vec<Potion>,
-    pub rng: PlayerRng,
+    //pub rng: PlayerRng,
     pub unlock_state: UnlockState,
 
     #[serde(flatten)]

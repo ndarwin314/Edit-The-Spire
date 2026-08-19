@@ -9,8 +9,10 @@ const deckPage = document.querySelector<HTMLElement>('#deck-page')!;
 const mapPage = document.querySelector<HTMLElement>('#map-page')!;
 
 const startButton = document.querySelector('#btn-start')!;
+const backButtons = document.querySelectorAll<HTMLButtonElement>(".back-button");
 
-const saveList = document.querySelector<HTMLDivElement>("#save-list")!;
+
+const saveGrid = document.querySelector<HTMLDivElement>("#save-grid")!;
 
 interface SaveFile {
   steam_id: string;
@@ -21,38 +23,76 @@ interface SaveFile {
   character: string
 }
 
+backButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const section = button.closest("section")!;
+    let prev;
+    switch (section.id) {
+      case "save-selector-page":
+        prev = startupPage;
+        break;
+      default:
+        prev = saveSelectorPage;
+    }
+    prev.hidden = false;
+    section.hidden = true;
+  });
+});
+
+
 async function selectSave(save: SaveFile) {
-  await invoke("load_save", {path: save.path});
+  await invoke("load_save", {fileName: save.path});
+  saveSelectorPage.hidden = true;
+  characterStatsPage.hidden = false;
+}
+function cleanCharName(char: string): string {
+  char = char.replace("CHARACTER.", "").toLowerCase()
+  char = char.charAt(0).toUpperCase() + char.slice(1);
+  return "The " + char;
+}
+
+function createSaveCard(sf: SaveFile): HTMLDivElement {
+  const card = document.createElement("div");
+  card.classList.add("save-card")
+  card.setAttribute("char-name", cleanCharName(sf.character));
+
+  const inner =
+      `<div class="save-file-image">
+          <div class="charcension">
+            <h3 class="save-card-character"></h3>
+            <div class="ascension" ascension-value="${sf.ascension}"></div>
+          </div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon icon-floor"></span>
+          <span class="floor-value" contenteditable="false" spellcheck="false">1</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon icon-deck"></span>
+          <span class="deck-value" contenteditable="false" spellcheck="false">10</span>
+        </div>
+        <button type="button" class="file-select">Select</button>`;
+  card.innerHTML = inner;
+  const button =
+      card.querySelector<HTMLButtonElement>(".file-select")!;
+  button.addEventListener("click", async () => {
+    await selectSave(sf);
+  });
+
+  return card;
 }
 
 async function loadSaveList() {
   startupPage.hidden = true;
   saveSelectorPage.hidden = false;
 
-  const saves = await invoke<SaveFile[]>('find_current_runs');
-  saveList.replaceChildren();
+  const saves = await invoke<SaveFile[]>('find_runs');
+  console.log(saves);
+  saveGrid.replaceChildren();
 
   for (const save of saves) {
-    const card = document.createElement("div");
-    card.classList.add("save-card");
-
-    const title = document.createElement("h3");
-    title.textContent = `Slot ${save.profile}: ${save.character}`;
-
-    const info = document.createElement("p");
-    info.textContent = `Floor ${save.floor} - Ascension ${save.ascension}`;
-
-    const button = document.createElement("button");
-    button.type = "button";
-    button.classList.add("file-select");
-    button.textContent = "Select";
-
-    button.addEventListener("click", async () => {
-      await selectSave(save);
-    });
-
-    card.append(title, info, button);
-    saveList.appendChild(card);
+    const card = createSaveCard(save);
+    saveGrid.appendChild(card);
   }
 }
 

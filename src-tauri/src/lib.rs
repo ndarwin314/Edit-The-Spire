@@ -62,7 +62,8 @@ fn find_runs(app: tauri::AppHandle) -> Result<Vec<SaveInfo>, String> {
 
             if !profile.starts_with("profile") { continue; }
 
-            let save_path = profile_dir.join("current_run.save");
+            let save_path = profile_dir.join("saves").join("current_run.save");
+
             if save_path.exists() && save_path.is_file() {
                 let path = save_path.to_string_lossy().into_owned();
                 let save_file = save_helper(path);

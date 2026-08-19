@@ -11,7 +11,7 @@
   <body>
 
     <!-- STARTUP SCREEN --- INCOMPLETE -->
-    <section id="startup-screen-page" hidden>
+    <section id="startup-screen-page">
 
       <div class="hero-container">
         <img id="title" src="src/assets/title.png" alt="Edit the Spire title text">
@@ -20,9 +20,9 @@
     </section>
 
     <!-- SAVE SELECTOR SCREEN --- SEMI-COMPLETE -->
-    <section id="save-selector-page" class="blurred-bg-page">
+    <section id="save-selector-page" class="blurred-bg-page" hidden>
       <h1>Select a Save File</h1>
-      <div class="save-grid">
+      <div class="save-grid" id="save-grid">
 
         <div class="save-card" char-name="The Ironclad">
           <div class="save-file-image">
@@ -44,6 +44,7 @@
 
         <div class="save-card empty">
         </div>
+      </div>
       <button type="button" class="back-button"></button>
     </section>
 
