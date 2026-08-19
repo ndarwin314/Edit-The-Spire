@@ -20,28 +20,35 @@
     </section>
 
     <!-- SAVE SELECTOR SCREEN --- SEMI-COMPLETE -->
-    <section id="save-selector-page" class="blurred-bg-page" hidden>
+    <section id="save-selector-page" class="blurred-bg-page">
       <h1>Select a Save File</h1>
       <div class="save-grid">
-        <div class="save-card">
-          <h3>The Ironclad</h3>
-          <img src="src/assets/ironclad.png">
-          <p>Floor 1 - Ascension 5</p>
+
+        <div class="save-card" char-name="The Ironclad">
+          <div class="save-file-image">
+            <div class="charcension">
+              <h3 class="save-card-character"></h3>
+              <div class="ascension" ascension-value="1"></div>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon icon-floor"></span>
+            <span class="floor-value" contenteditable="false" spellcheck="false">1</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon icon-deck"></span>
+            <span class="deck-value" contenteditable="false" spellcheck="false">10</span>
+          </div>
           <button type="button" class="file-select">Select</button>
         </div>
 
-        <div class="save-card">
-          <h3>Empty</h3>
-          <div class="image-placeholder"></div>
-          <p>New save</p>
-          <button type="button" class="file-select">Select</button>
+        <div class="save-card empty">
         </div>
-      </div>
       <button type="button" class="back-button"></button>
     </section>
 
     <!-- CHARACTER, STATS, and INVENTORY SCREEN --- COMPLETE -->
-    <section id="char-stats-inventory-page" class="blurred-bg-page">
+    <section id="char-stats-inventory-page" class="blurred-bg-page" hidden>
       <header class="editor-header">
         <nav class="editor-tabs">
           <button type="button" class="tab-button active">Stats & Inventory</button>

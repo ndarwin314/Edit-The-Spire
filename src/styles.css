@@ -69,6 +69,28 @@ h2 {
   margin-bottom: 0px;
 }
 
+
+/*            Stats and Icons            */
+/* referenced in #save-selector-page and */
+/*      #char-stats-inventory-page       */
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-left: 15px;
+}
+
+.stat-icon {
+  width: 28px;
+  height: 28px;
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 /* ------------------------------------ */
 /*        Save File Select Page         */
 /* ------------------------------------ */
@@ -77,6 +99,8 @@ h2 {
   width: 100%;
   padding: 32px;
   position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 #save-selector-page:not([hidden]) {
@@ -86,27 +110,151 @@ h2 {
 }
 
 .save-grid {
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(5, 250px);
+  gap: 48px;
+
+  max-height: calc(100vh - 150px);
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.save-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.save-grid::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.save-grid::-webkit-scrollbar-thumb {
+  background: #DB6514;
+  border-radius: 4px;
+}
+
+.save-grid::-webkit-scrollbar-thumb:hover {
+  background: #f47f19;
 }
 
 .save-card {
   display: flex;
   flex-direction: column;
-  width: 200px;
-  padding: 24px;
+  width: 250px;
+  padding: 12px;
   
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 18.29px;
 }
 
-.image-placeholder {
-  width: 200px;
-  height: 200px;
+.save-file-image {
+  width: 250px;
+  height: 250px;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 10px;
+
+  background-image: url(./assets/ironclad.png);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+
+  gap: 24px;
 }
+
+.save-card-character {
+  margin-top: 0px;
+  margin-bottom: 15px;
+
+  text-align: left;
+  white-space: nowrap;
+
+  font-size: 1.5rem;
+  color: #EFC851; 
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.4);
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.save-card[char-name="The Ironclad"] .save-card-character::before {
+  content: "The Ironclad";
+}
+.save-card[char-name="The Silent"] .save-card-character::before {
+  content: "The Silent";
+}
+.save-card[char-name="The Regent"] .save-card-character::before {
+  content: "The Regent";
+}
+.save-card[char-name="The Necrobinder"] .save-card-character::before {
+  content: "The Necrobinder";
+}
+.save-card[char-name="The Defect"] .save-card-character::before {
+  content: "The Defect";
+}
+
+.save-card[char-name="The Ironclad"] .save-file-image {
+  background-image: url('./assets/characters/char_select_ironclad.png');
+}
+.save-card[char-name="The Silent"] .save-file-image {
+  background-image: url('./assets/characters/char_select_silent.png');
+}
+.save-card[char-name="The Regent"] .save-file-image {
+  background-image: url('./assets/characters/char_select_regent.png');
+}
+.save-card[char-name="The Necrobinder"] .save-file-image {
+  background-image: url('./assets/characters/char_select_necrobinder.png');
+}
+.save-card[char-name="The Defect"] .save-file-image {
+  background-image: url('./assets/characters/char_select_defect.png');
+}
+
+.charcension {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 8px 8px 8px;
+  box-sizing: border-box;
+}
+
+.ascension {
+  width: 50px;
+  height: 70px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.ascension[ascension-value="1"]  { background-image: url('./assets/ascensions/ascension_1.png'); }
+.ascension[ascension-value="2"]  { background-image: url('./assets/ascensions/ascension_2.png'); }
+.ascension[ascension-value="3"]  { background-image: url('./assets/ascensions/ascension_3.png'); }
+.ascension[ascension-value="4"]  { background-image: url('./assets/ascensions/ascension_4.png'); }
+.ascension[ascension-value="5"]  { background-image: url('./assets/ascensions/ascension_5.png'); }
+.ascension[ascension-value="6"]  { background-image: url('./assets/ascensions/ascension_6.png'); }
+.ascension[ascension-value="7"]  { background-image: url('./assets/ascensions/ascension_7.png'); }
+.ascension[ascension-value="8"]  { background-image: url('./assets/ascensions/ascension_8.png'); }
+.ascension[ascension-value="9"]  { background-image: url('./assets/ascensions/ascension_9.png'); }
+.ascension[ascension-value="10"] { background-image: url('./assets/ascensions/ascension_10.png'); }
+
+.floor-value {
+  font-family: inherit;
+  color: white;
+  font-size: 25px;
+}
+
+.deck-value {
+  font-family: inherit;
+  color: white;
+  font-size: 25px;
+}
+
+.icon-floor { background-image: url('./assets/top_bar_floor.webp'); }
+.icon-deck { background-image: url('./assets/top_bar_deck.webp'); }
 
 /* ------------------------------------ */
 /* Character, Stats, and Inventory Page */
@@ -161,24 +309,6 @@ h2 {
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 18.29px;
   
-}
-
-.stat-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
-  margin-top: 5px;
-  margin-left: 30px;
-}
-
-.stat-icon {
-  width: 28px;
-  height: 28px;
-  display: inline-block;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 .health-value {
