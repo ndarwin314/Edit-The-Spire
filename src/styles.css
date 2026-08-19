@@ -1,157 +1,160 @@
+/* ------------------------------------ */
+/* Global Reset & Responsive Scalers    */
+/* ------------------------------------ */
+:root {
+  font-size: clamp(14px, 1vw + 0.5rem, 18px);
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
 body {
   font-family: 'Kreon', serif;
   color: white;
+  margin: 0;
+  padding: 0;
 
   background-image: url('./assets/main_background.png');
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;
-
   background-attachment: fixed;
   overflow: hidden;
-}
-
-[hidden] {
-  display: none;
-}
-
-.blurred-bg-page {
-  position: relative;
 }
 
 [hidden] {
   display: none !important;
 }
 
+/* ------------------------------------ */
+/* Page Layout & Background Blur        */
+/* ------------------------------------ */
+.blurred-bg-page {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  padding: 2rem 2vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
 .blurred-bg-page::before {
   content: "";
   position: fixed;
-  top: -20px;
-  left: -20px;
-  right: -20px;
-  bottom: -20px;
-  
+  inset: -20px;
   background-image: url('./assets/main_background.png');
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-
   filter: blur(10px) brightness(0.95);
   z-index: -1;
 }
 
-button {
-  font-family: inherit;
-}
-
+/* Back Button */
 .back-button {
-  width: 188px;
-  aspect-ratio: 2/1;
-
+  width: clamp(120px, 12vw, 188px);
+  aspect-ratio: 2 / 1;
   background-image: url('./assets/back_button.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   background-color: transparent;
   border: none;
-  padding: 0;
   cursor: pointer;
 
   position: fixed;
-  left: -48px;
-  top: 72.222%;
-  transform: translateY(-50%);
+  left: -2.5rem;
+  bottom: 2rem;
+  z-index: 100;
 }
 
-h2 {
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-
-/*            Stats and Icons            */
-/* referenced in #save-selector-page and */
-/*      #char-stats-inventory-page       */
-.stat-item {
+/* ------------------------------------ */
+/* Startup Screen                       */
+/* ------------------------------------ */
+#startup-screen-page {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  margin-left: 15px;
+  flex-direction: row;
+  justify-content: center;
 }
 
-.stat-icon {
-  width: 28px;
-  height: 28px;
-  display: inline-block;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-/* ------------------------------------ */
-/*        Save File Select Page         */
-/* ------------------------------------ */
-#save-selector-page {
-  height: 100vh;
-  width: 100%;
-  padding: 32px;
-  position: relative;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-#save-selector-page:not([hidden]) {
+.title-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+
+  width: 25%;
+
+  margin-top: 10rem;
+}
+
+#title {
+  margin-bottom: 5rem;
+}
+
+#btn-start {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: 0;
+  border-radius: 0.6rem;
+  padding: 0.8rem 1.8rem;
+  font-family: inherit;
+  font-size: clamp(1rem, 1.2vw, 1.25rem);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#btn-start:hover {
+  border: 2px solid #DB6514;
+}
+
+.title-spacer {
+  width: 25%;
+}
+
+/* ------------------------------------ */
+/* Save File Selector Page              */
+/* ------------------------------------ */
+#save-selector-page h1 {
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.save-page-title {
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.4);
 }
 
 .save-grid {
   display: grid;
-  grid-template-columns: repeat(5, 250px);
-  gap: 48px;
-
-  max-height: calc(100vh - 150px);
-  padding: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(180px, 15vw, 240px), 1fr));
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 2.5rem);
+  width: 100%;
+  max-width: 1400px;
+  max-height: calc(100vh - 160px);
+  padding: 1rem;
   overflow-y: auto;
 }
 
-.save-grid::-webkit-scrollbar {
-  width: 8px;
-}
-
-.save-grid::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
-}
-
-.save-grid::-webkit-scrollbar-thumb {
-  background: #DB6514;
-  border-radius: 4px;
-}
-
-.save-grid::-webkit-scrollbar-thumb:hover {
-  background: #f47f19;
-}
-
+/* Save Cards & Responsive Image Boxes */
 .save-card {
   display: flex;
   flex-direction: column;
-  width: 250px;
-  padding: 12px;
-  
+  width: 100%;
+  padding: 0.5rem;
   background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 18.29px;
+  border-radius: 1rem;
 }
 
 .save-file-image {
-  width: 250px;
-  height: 250px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
+  border-radius: 0.75rem;
 
   background-image: url(./assets/ironclad.png);
   background-size: contain;
@@ -159,57 +162,8 @@ h2 {
   background-repeat: no-repeat;
 
   display: flex;
-  flex-direction: row;
   align-items: flex-end;
-  justify-content: center;
   overflow: hidden;
-
-  gap: 24px;
-}
-
-.save-card-character {
-  margin-top: 0px;
-  margin-bottom: 15px;
-
-  text-align: left;
-  white-space: nowrap;
-
-  font-size: 1.5rem;
-  color: #EFC851; 
-  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.4);
-  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
-}
-
-.save-card[char-name="The Ironclad"] .save-card-character::before {
-  content: "The Ironclad";
-}
-.save-card[char-name="The Silent"] .save-card-character::before {
-  content: "The Silent";
-}
-.save-card[char-name="The Regent"] .save-card-character::before {
-  content: "The Regent";
-}
-.save-card[char-name="The Necrobinder"] .save-card-character::before {
-  content: "The Necrobinder";
-}
-.save-card[char-name="The Defect"] .save-card-character::before {
-  content: "The Defect";
-}
-
-.save-card[char-name="The Ironclad"] .save-file-image {
-  background-image: url('./assets/characters/char_select_ironclad.png');
-}
-.save-card[char-name="The Silent"] .save-file-image {
-  background-image: url('./assets/characters/char_select_silent.png');
-}
-.save-card[char-name="The Regent"] .save-file-image {
-  background-image: url('./assets/characters/char_select_regent.png');
-}
-.save-card[char-name="The Necrobinder"] .save-file-image {
-  background-image: url('./assets/characters/char_select_necrobinder.png');
-}
-.save-card[char-name="The Defect"] .save-file-image {
-  background-image: url('./assets/characters/char_select_defect.png');
 }
 
 .charcension {
@@ -218,17 +172,39 @@ h2 {
   align-items: flex-end;
   justify-content: space-between;
   width: 100%;
-  padding: 0 8px 8px 8px;
-  box-sizing: border-box;
+  padding: 0.5rem;
+}
+
+.save-card-character {
+  margin: 0;
+  white-space: nowrap;
+  font-size: clamp(1rem, 1.3vw, 1.5rem);
+  color: #EFC851; 
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.6);
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .ascension {
-  width: 50px;
-  height: 70px;
+  width: clamp(35px, 3.5vw, 50px);
+  height: clamp(50px, 5vw, 70px);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  flex-shrink: 0;
 }
+
+/* Save Card Image/Text Mappings */
+.save-card[char-name="The Ironclad"] .save-card-character::before { content: "The Ironclad"; }
+.save-card[char-name="The Silent"] .save-card-character::before { content: "The Silent"; }
+.save-card[char-name="The Regent"] .save-card-character::before { content: "The Regent"; }
+.save-card[char-name="The Necrobinder"] .save-card-character::before { content: "The Necrobinder"; }
+.save-card[char-name="The Defect"] .save-card-character::before { content: "The Defect"; }
+
+.save-card[char-name="The Ironclad"] .save-file-image { background-image: url('./assets/characters/char_select_ironclad.png'); }
+.save-card[char-name="The Silent"] .save-file-image { background-image: url('./assets/characters/char_select_silent.png'); }
+.save-card[char-name="The Regent"] .save-file-image { background-image: url('./assets/characters/char_select_regent.png'); }
+.save-card[char-name="The Necrobinder"] .save-file-image { background-image: url('./assets/characters/char_select_necrobinder.png'); }
+.save-card[char-name="The Defect"] .save-file-image { background-image: url('./assets/characters/char_select_defect.png'); }
 
 .ascension[ascension-value="1"]  { background-image: url('./assets/ascensions/ascension_1.png'); }
 .ascension[ascension-value="2"]  { background-image: url('./assets/ascensions/ascension_2.png'); }
@@ -241,191 +217,170 @@ h2 {
 .ascension[ascension-value="9"]  { background-image: url('./assets/ascensions/ascension_9.png'); }
 .ascension[ascension-value="10"] { background-image: url('./assets/ascensions/ascension_10.png'); }
 
-.floor-value {
-  font-family: inherit;
-  color: white;
-  font-size: 25px;
+.save-card-bottom {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-.deck-value {
-  font-family: inherit;
+/* Shared Stat Styling */
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0.5rem;
+}
+
+.stat-icon {
+  width: clamp(20px, 2vw, 28px);
+  height: clamp(20px, 2vw, 28px);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.floor-value, .deck-value {
   color: white;
-  font-size: 25px;
+  font-size: clamp(1.1rem, 1.5vw, 1.6rem);
 }
 
 .icon-floor { background-image: url('./assets/top_bar_floor.webp'); }
 .icon-deck { background-image: url('./assets/top_bar_deck.webp'); }
-
-/* ------------------------------------ */
-/* Character, Stats, and Inventory Page */
-/* ------------------------------------ */
-#char-stats-inventory-page {
-  height: 100vh;
-  width: 100%;
-  padding: 32px;
-  position: relative;
-}
-
-#char-stats-inventory-page:not([hidden]) {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.editor-tabs {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.char-stats-inventory-container {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: row;
-  gap: 24px;
-  width: 75vw;
-}
-
-/* Tab Buttons */
-.tab-button {
-  background-color: rgba(0, 0, 0, 0.4);
-  color: white;
-  border: 0px;
-  border-radius: 10px;
-  padding: 24px 32px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-.tab-button.active {
-  border: 5px solid #DB6514;
-}
-
-/* Character and Stats */
-.char-stats-container {
-  width: fit-content;
-  background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 18.29px;
-  
-}
-
-.health-value {
-  font-family: inherit;
-  color: #D84A48;
-  font-size: 37px;
-}
-
-.gold-value {
-  font-family: inherit;
-  color: #EFC851;
-  font-size: 37px;
-}
-
-.energy-value {
-  font-family: inherit;
-  color: #F47F19;
-  font-size: 37px;
-}
-
 .icon-hp { background-image: url('./assets/health.webp'); }
 .icon-gold { background-image: url('./assets/gold.webp'); }
 .icon-energy { background-image: url('./assets/energy_ironclad.webp'); }
 
-.health-value[contenteditable="true"],
-.gold-value[contenteditable="true"],
-.energy-value[contenteditable="true"] {
-  outline: none;
-  cursor: text;
+.file-select {
+  background-image: url(./assets/confirm_button.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  border: 0px;
+
+  width: 60%;
+  height: 50%;
 }
 
-.health-value[contenteditable="true"]:focus,
-.gold-value[contenteditable="true"]:focus,
-.energy-value[contenteditable="true"]:focus {
-  border-bottom: 2px dashed rgba(255, 255, 255, 0.4);
+/* ------------------------------------ */
+/* Character, Stats & Inventory Screen  */
+/* ------------------------------------ */
+.editor-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.stat-compound {
-  display: inline-flex;
-  align-items: center;
+.tab-button {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: 0;
+  border-radius: 0.6rem;
+  padding: 0.8rem 1.8rem;
+  font-family: inherit;
+  font-size: clamp(1rem, 1.2vw, 1.25rem);
+  font-weight: 600;
+  cursor: pointer;
 }
 
-.slash {
-  user-select: none;
-  -webkit-user-select: none;
-  pointer-events: none;
+.tab-button.active {
+  border: 4px solid #DB6514;
 }
 
-[contenteditable="true"] {
-  outline: none;
-  cursor: text;
-  white-space: nowrap;
-  min-width: 1ch;
-  display: inline-block;
+.char-stats-inventory-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  width: 90vw;
+  max-width: 1200px;
 }
 
-[contenteditable="true"]:focus {
-  border-bottom: 2px dashed rgba(255, 255, 255, 0.4);
+.char-stats-container {
+  width: clamp(240px, 25vw, 350px);
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 1rem;
+  flex-shrink: 0;
 }
 
-/* Inventory */
+.char-headshot {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 0.6rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: flex-end;
+}
+
+.stat-card-character {
+  margin: 0;
+  color: #EFC851;
+  font-size: clamp(1.2rem, 1.8vw, 2rem);
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.6);
+}
+
+.char-stats-container[char-name="The Ironclad"] .char-headshot { background-image: url('./assets/characters/char_select_ironclad.png'); }
+.char-stats-container[char-name="The Ironclad"] .stat-card-character::before { content: "The Ironclad"; }
+
+.char-stats-container[char-name="The Silent"] .char-headshot { background-image: url('./assets/characters/char_select_silent.png'); }
+.char-stats-container[char-name="The Silent"] .stat-card-character::before { content: "The Silent"; }
+
+.char-stats-container[char-name="The Defect"] .char-headshot { background-image: url('./assets/characters/char_select_defect.png'); }
+.char-stats-container[char-name="The Defect"] .stat-card-character::before { content: "The Defect"; }
+
+.char-stats-container[char-name="The Regent"] .char-headshot { background-image: url('./assets/characters/char_select_regent.png'); }
+.char-stats-container[char-name="The Regent"] .stat-card-character::before { content: "The Regent"; }
+
+.char-stats-container[char-name="The Necrobinder"] .char-headshot { background-image: url('./assets/characters/char_select_necrobinder.png'); }
+.char-stats-container[char-name="The Necrobinder"] .stat-card-character::before { content: "The Necrobinder"; }
+
+.health-value { color: #D84A48; font-size: clamp(1.5rem, 2.2vw, 2.4rem); }
+.gold-value { color: #EFC851; font-size: clamp(1.5rem, 2.2vw, 2.4rem); }
+.energy-value { color: #F47F19; font-size: clamp(1.5rem, 2.2vw, 2.4rem); }
+
+/* Inventory Section */
 .inventory-container {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-
-  max-height: calc(100vh - 200px);
+  gap: 1rem;
+  max-height: calc(100vh - 180px);
   overflow-y: auto;
-  padding-right: 8px;
-}
-
-.inventory-container::-webkit-scrollbar {
-  width: 8px;
-}
-
-.inventory-container::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
-}
-
-.inventory-container::-webkit-scrollbar-thumb {
-  background: #DB6514;
-  border-radius: 4px;
-}
-
-.inventory-container::-webkit-scrollbar-thumb:hover {
-  background: #f47f19;
+  padding-right: 0.5rem;
 }
 
 .potion-relic {
   background-color: rgba(0, 0, 0, 0.4);
-  padding: 16px;
-  border-radius: 18.29px;
+  padding: 1rem;
+  border-radius: 1rem;
   width: 100%;
-  box-sizing: border-box;
+}
+
+.potion-relic h2 {
+  margin: 0;
+  font-size: clamp(1.2rem, 1.8vw, 1.8rem);
 }
 
 .item-grid {
   display: grid;
-  grid-template-columns: repeat(10, minmax(0, 64px));
-  gap: 12px;
-  margin-top: 12px;
-
-  justify-content: center;
-  justify-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(48px, 4vw, 64px), 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
 }
 
 .item-slot {
-  width: 64px;
-  height: 64px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
-  border-radius: 8px;
-  padding: 4px;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
 }
 
 .item-slot:hover {
@@ -436,4 +391,24 @@ h2 {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+/* ------------------------------------ */
+/* Scrollbar Styling                    */
+/* ------------------------------------ */
+.save-grid::-webkit-scrollbar,
+.inventory-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.save-grid::-webkit-scrollbar-track,
+.inventory-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.save-grid::-webkit-scrollbar-thumb,
+.inventory-container::-webkit-scrollbar-thumb {
+  background: #DB6514;
+  border-radius: 4px;
 }

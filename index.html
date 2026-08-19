@@ -12,16 +12,16 @@
 
     <!-- STARTUP SCREEN --- INCOMPLETE -->
     <section id="startup-screen-page">
-
-      <div class="hero-container">
+      <div class="title-container">
         <img id="title" src="src/assets/title.png" alt="Edit the Spire title text">
         <button id="btn-start" class="btn-primary">Continue</button>
       </div>
+      <div class="title-spacer">
     </section>
 
-    <!-- SAVE SELECTOR SCREEN --- SEMI-COMPLETE -->
+    <!-- SAVE SELECTOR SCREEN --- COMPLETE -->
     <section id="save-selector-page" class="blurred-bg-page" hidden>
-      <h1>Select a Save File</h1>
+      <h1 class="save-page-title">Select a Save File</h1>
       <div class="save-grid" id="save-grid">
 
         <div class="save-card" char-name="The Ironclad">
@@ -31,17 +31,27 @@
               <div class="ascension" ascension-value="1"></div>
             </div>
           </div>
-          <div class="stat-item">
-            <span class="stat-icon icon-floor"></span>
-            <span class="floor-value" contenteditable="false" spellcheck="false">1</span>
+          <div class="save-card-bottom">
+            <div class="floor-deck-stats">
+              <div class="stat-item">
+                <span class="stat-icon icon-floor"></span>
+                <span class="floor-value" contenteditable="false" spellcheck="false">1</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-icon icon-deck"></span>
+                <span class="deck-value" contenteditable="false" spellcheck="false">10</span>
+              </div>
+            </div>
+            <button type="button" class="file-select"></button>
           </div>
-          <div class="stat-item">
-            <span class="stat-icon icon-deck"></span>
-            <span class="deck-value" contenteditable="false" spellcheck="false">10</span>
-          </div>
-          <button type="button" class="file-select">Select</button>
         </div>
 
+        <div class="save-card empty">
+        </div>
+        <div class="save-card empty">
+        </div>
+        <div class="save-card empty">
+        </div>
         <div class="save-card empty">
         </div>
       </div>
@@ -58,8 +68,13 @@
       </header>
 
       <div class="char-stats-inventory-container">
-        <div class="char-stats-container">
-          <img id="char-headshot" src="src/assets/ironclad.png">
+        <div class="char-stats-container" char-name="The Ironclad">
+          <div class="char-headshot">
+            <div class="charcension">
+              <h3 class="stat-card-character"></h3>
+              <div class="ascension" ascension-value="1"></div>
+            </div>
+          </div>
           <div class="stat-item">
             <span class="stat-icon icon-hp"></span>
             <span class="stat-compound health-value">
