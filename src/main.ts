@@ -7,6 +7,13 @@ const saveSelectorPage = document.querySelector<HTMLElement>('#save-selector-pag
 const characterStatsPage = document.querySelector<HTMLElement>('#char-stats-inventory-page')!;
 const deckPage = document.querySelector<HTMLElement>('#deck-page')!;
 const mapPage = document.querySelector<HTMLElement>('#map-page')!;
+const charName = document.querySelector<HTMLElement>('#char-name')!;
+const currentHP = document.querySelector<HTMLElement>('#current-hp')!;
+const maxHP = document.querySelector<HTMLElement>('#max-hp')!;
+const ascension = document.querySelector<HTMLElement>('#ascension')!;
+const goldElement = document.querySelector<HTMLElement>('#gold')!;
+const energyElement = document.querySelector<HTMLElement>('#energy')!;
+const relic_box = characterStatsPage.querySelector<HTMLDivElement>('#relics')!;
 
 const startButton = document.querySelector('#btn-start')!;
 const backButtons = document.querySelectorAll<HTMLButtonElement>(".back-button");
@@ -86,78 +93,27 @@ async function selectSave(save: SaveInfo) {
   let potions: Potion[] = await invoke("get_potions");
   let relics: Relic[] = await invoke("get_relics");
 
+  charName.setAttribute("char-name", cleanCharName(save.character));
+  ascension.setAttribute("ascension-value", String(save.ascension));
+  currentHP.innerHTML = String(hp[0]);
+  maxHP.innerHTML = String(hp[1]);
+  goldElement.innerHTML = String(gold);
+  energyElement.innerHTML = String(energy)
 
-  let inner = `<header class="editor-header">
-        <nav class="editor-tabs">
-          <button type="button" class="tab-button active">Stats & Inventory</button>
-          <button type="button" class="tab-button">Deck Editor</button>
-        </nav>
-      </header>
+  relic_box.replaceChildren();
+  for (const relic of relics) {
+    const relic_html = document.createElement("div");
+    relic_html.classList.add("item-slot");
+    relic_html.innerHTML = `<img src="src/assets/relics/${cleanRelicName(relic.id)}.webp">`;
+    relic_box.appendChild(relic_html);
+  }
 
-      <div class="char-stats-inventory-container">
-        <div class="char-stats-container" char-name="${cleanCharName(save.character)}">
-          <div class="char-headshot">
-            <div class="charcension">
-              <h3 class="stat-card-character"></h3>
-              <div class="ascension" ascension-value="${save.ascension}"></div>
-            </div>
-          </div>
-          <div class="stat-item">
-            <span class="stat-icon icon-hp"></span>
-            <span class="stat-compound health-value">
-              <span contenteditable="true" spellcheck="false" class="editable-val">${hp[0]}</span>
-              <span class="slash" contenteditable="false">/</span>
-              <span contenteditable="true" spellcheck="false" class="editable-val">${hp[1]}</span>
-            </span>
-          </div>
-
-          <div class="stat-item">
-            <span class="stat-icon icon-gold"></span>
-            <span class="gold-value" contenteditable="true" spellcheck="false">${gold}</span>
-          </div>
-
-          <div class="stat-item">
-            <span class="stat-icon icon-energy"></span>
-            <span class="stat-compound energy-value">
-              <span contenteditable="true" spellcheck="false" class="editable-val">${energy}</span>
-              <span class="slash" contenteditable="false">/</span>
-              <span contenteditable="true" spellcheck="false" class="editable-val">${energy}</span>
-            </span>
-          </div>
-        </div>
-
-        <div class="inventory-container">
-          <div class="potion-relic">
-            <h2>Potions</h2>
-            <div class="item-grid" id="potions">
-            </div>
-          </div>
-
-          <div class="potion-relic">
-            <h2>Relics</h2>
-            <div class="item-grid" id="relics">
-              <div class="item-slot"><img src="src/assets/relics/burning_blood.webp"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <button type="button" class="back-button" id="editor-back"></button>`
-  characterStatsPage.innerHTML = inner;
   const button =
-     characterStatsPage.querySelector<HTMLButtonElement>('#editor-back')!;
+      characterStatsPage.querySelector<HTMLButtonElement>('#editor-back')!;
   button.addEventListener("click", async () => {
     characterStatsPage.hidden = true;
     saveSelectorPage.hidden = false;
   });
-  const relic_box = characterStatsPage.querySelector<HTMLDivElement>('#relics')!;
-  relic_box.replaceChildren();
-  for (const relic of relics) {
-    const relic_html = document.createElement("div");
-    relic_html.classList.add("item-slot")
-    relic_html.innerHTML = `<img src="src/assets/relics/${cleanRelicName(relic.id)}.webp">`
-    relic_box.appendChild(relic_html)
-  }
 
 }
 function cleanCharName(char: string): string {

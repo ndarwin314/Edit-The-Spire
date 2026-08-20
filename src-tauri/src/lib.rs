@@ -151,7 +151,6 @@ fn get_deck(state: State<'_, Mutex<AppState>>) -> Vec<Card> {
 }
 
 
-
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     Builder::default()
