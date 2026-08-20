@@ -14,13 +14,49 @@ const backButtons = document.querySelectorAll<HTMLButtonElement>(".back-button")
 
 const saveGrid = document.querySelector<HTMLDivElement>("#save-grid")!;
 
-interface SaveFile {
+interface SaveInfo {
   steam_id: string;
   profile: string;
   path: string;
   ascension: number
   floor: number
   character: string
+  deck_size: number
+}
+
+interface Potion {
+  id: string;
+  slot_index: number;
+}
+
+interface Relic {
+  id: string;
+  floor_added_to_deck: number;
+}
+
+
+interface Player {
+  base_orb_slot_count: number;
+  character_id: string;
+  current_hp: number;
+  deck: [];
+  gold: number;
+  max_energy: number;
+  max_hp: number;
+  net_id: number;
+  odds: object;
+  relic_grab_bag: object;
+  relics: [];
+  potions: [];
+  unlock_state: object;
+  other: object;
+}
+
+interface SaveFile {
+  players: Player[];
+  ascension: number;
+  map_point_history: object;
+  other: object
 }
 
 backButtons.forEach((button) => {
@@ -40,10 +76,89 @@ backButtons.forEach((button) => {
 });
 
 
-async function selectSave(save: SaveFile) {
+async function selectSave(save: SaveInfo) {
   await invoke("load_save", {fileName: save.path});
   saveSelectorPage.hidden = true;
   characterStatsPage.hidden = false;
+  let hp: [number, number] = await invoke("get_health");
+  let gold: number = await invoke("get_gold");
+  let energy: number = await invoke("get_energy");
+  let potions: Potion[] = await invoke("get_potions");
+  let relics: Relic[] = await invoke("get_relics");
+
+
+  let inner = `<header class="editor-header">
+        <nav class="editor-tabs">
+          <button type="button" class="tab-button active">Stats & Inventory</button>
+          <button type="button" class="tab-button">Deck Editor</button>
+        </nav>
+      </header>
+
+      <div class="char-stats-inventory-container">
+        <div class="char-stats-container" char-name="${cleanCharName(save.character)}">
+          <div class="char-headshot">
+            <div class="charcension">
+              <h3 class="stat-card-character"></h3>
+              <div class="ascension" ascension-value="${save.ascension}"></div>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon icon-hp"></span>
+            <span class="stat-compound health-value">
+              <span contenteditable="true" spellcheck="false" class="editable-val">${hp[0]}</span>
+              <span class="slash" contenteditable="false">/</span>
+              <span contenteditable="true" spellcheck="false" class="editable-val">${hp[1]}</span>
+            </span>
+          </div>
+
+          <div class="stat-item">
+            <span class="stat-icon icon-gold"></span>
+            <span class="gold-value" contenteditable="true" spellcheck="false">${gold}</span>
+          </div>
+
+          <div class="stat-item">
+            <span class="stat-icon icon-energy"></span>
+            <span class="stat-compound energy-value">
+              <span contenteditable="true" spellcheck="false" class="editable-val">${energy}</span>
+              <span class="slash" contenteditable="false">/</span>
+              <span contenteditable="true" spellcheck="false" class="editable-val">${energy}</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="inventory-container">
+          <div class="potion-relic">
+            <h2>Potions</h2>
+            <div class="item-grid" id="potions">
+            </div>
+          </div>
+
+          <div class="potion-relic">
+            <h2>Relics</h2>
+            <div class="item-grid" id="relics">
+              <div class="item-slot"><img src="src/assets/relics/burning_blood.webp"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="back-button" id="editor-back"></button>`
+  characterStatsPage.innerHTML = inner;
+  const button =
+     characterStatsPage.querySelector<HTMLButtonElement>('#editor-back')!;
+  button.addEventListener("click", async () => {
+    characterStatsPage.hidden = true;
+    saveSelectorPage.hidden = false;
+  });
+  const relic_box = characterStatsPage.querySelector<HTMLDivElement>('#relics')!;
+  relic_box.replaceChildren();
+  for (const relic of relics) {
+    const relic_html = document.createElement("div");
+    relic_html.classList.add("item-slot")
+    relic_html.innerHTML = `<img src="src/assets/relics/${cleanRelicName(relic.id)}.webp">`
+    relic_box.appendChild(relic_html)
+  }
+
 }
 function cleanCharName(char: string): string {
   char = char.replace("CHARACTER.", "").toLowerCase()
@@ -51,27 +166,39 @@ function cleanCharName(char: string): string {
   return "The " + char;
 }
 
-function createSaveCard(sf: SaveFile): HTMLDivElement {
+function cleanRelicName(relic: string): string {
+  return relic.replace("RELIC.", "").toLowerCase()
+}
+
+function createSaveCard(sf: SaveInfo): HTMLDivElement {
   const card = document.createElement("div");
   card.classList.add("save-card")
   card.setAttribute("char-name", cleanCharName(sf.character));
 
   const inner =
-      `<div class="save-file-image">
-          <div class="charcension">
-            <h3 class="save-card-character"></h3>
-            <div class="ascension" ascension-value="${sf.ascension}"></div>
+      `
+      <div class="save-grid" id="save-grid">
+
+        <div class="save-card" char-name="${cleanCharName(sf.character)}">
+          <div class="save-file-image">
+            <div class="charcension">
+              <h3 class="save-card-character"></h3>
+              <div class="ascension" ascension-value="${sf.ascension}"></div>
+            </div>
           </div>
-        </div>
-        <div class="stat-item">
-          <span class="stat-icon icon-floor"></span>
-          <span class="floor-value" contenteditable="false" spellcheck="false">1</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-icon icon-deck"></span>
-          <span class="deck-value" contenteditable="false" spellcheck="false">10</span>
-        </div>
-        <button type="button" class="file-select">Select</button>`;
+          <div class="save-card-bottom">
+            <div class="floor-deck-stats">
+              <div class="stat-item">
+                <span class="stat-icon icon-floor"></span>
+                <span class="floor-value" contenteditable="false" spellcheck="false">${sf.floor+1}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-icon icon-deck"></span>
+                <span class="deck-value" contenteditable="false" spellcheck="false">${sf.deck_size}</span>
+              </div>
+            </div>
+            <button type="button" class="file-select"></button>
+          </div>`;
   card.innerHTML = inner;
   const button =
       card.querySelector<HTMLButtonElement>(".file-select")!;
@@ -86,7 +213,7 @@ async function loadSaveList() {
   startupPage.hidden = true;
   saveSelectorPage.hidden = false;
 
-  const saves = await invoke<SaveFile[]>('find_runs');
+  const saves = await invoke<SaveInfo[]>('find_runs');
   console.log(saves);
   saveGrid.replaceChildren();
 

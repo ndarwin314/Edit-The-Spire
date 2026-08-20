@@ -17,8 +17,15 @@ struct SaveInfo {
     character: String,
     floor: i32,
     ascension: i32,
+    deck_size: i32,
 }
 
+fn deck_size(save_file: SaveFile) -> usize {
+    let deck = &save_file.players[0].deck;
+    let deck_size = deck.len();
+    // at some point add logic to handle my save format as well
+    deck_size
+}
 #[tauri::command]
 fn find_runs(app: tauri::AppHandle) -> Result<Vec<SaveInfo>, String> {
     let local_data = app
@@ -75,6 +82,7 @@ fn find_runs(app: tauri::AppHandle) -> Result<Vec<SaveInfo>, String> {
                     character: player.character_id.clone(),
                     floor: save_file.map_point_history.len() as i32,
                     ascension: save_file.ascension,
+                    deck_size: deck_size(save_file) as i32
                 });
             }
         }
@@ -107,6 +115,14 @@ fn get_health(state: State<'_, Mutex<AppState>>) -> (i32, i32){
 }
 
 #[tauri::command]
+fn get_energy(state: State<'_, Mutex<AppState>>) -> i32 {
+    let state = state.lock().unwrap();
+    let player = &state.save.players[state.index];
+    player.max_energy
+}
+
+
+#[tauri::command]
 fn get_gold(state: State<'_, Mutex<AppState>>) -> i32 {
     let state = state.lock().unwrap();
     let player = &state.save.players[state.index];
@@ -114,7 +130,7 @@ fn get_gold(state: State<'_, Mutex<AppState>>) -> i32 {
 }
 
 #[tauri::command]
-fn get_artifacts(state: State<'_, Mutex<AppState>>) -> Vec<Relic> {
+fn get_relics(state: State<'_, Mutex<AppState>>) -> Vec<Relic> {
     let state = state.lock().unwrap();
     let player = &state.save.players[state.index];
     player.relics.clone()
@@ -145,7 +161,7 @@ pub fn run() {
         })
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
-        .invoke_handler(tauri::generate_handler![load_save, get_health, get_gold, get_artifacts, get_potions, get_deck, find_runs])
+        .invoke_handler(tauri::generate_handler![load_save, get_health, get_gold, get_relics, get_potions, get_deck, find_runs, get_energy])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
