@@ -3,6 +3,7 @@ import { invoke } from "@tauri-apps/api/core";
 const startupPage = document.querySelector<HTMLElement>('#startup-screen-page')!;
 const saveSelectorPage = document.querySelector<HTMLElement>('#save-selector-page')!;
 const characterStatsPage = document.querySelector<HTMLElement>('#char-stats-inventory-page')!;
+const inventoryPage = document.querySelector<HTMLElement>('#inventory-page')!;
 const deckPage = document.querySelector<HTMLElement>('#deck-page')!;
 const mapPage = document.querySelector<HTMLElement>('#map-page')!;
 const charName = document.querySelector<HTMLElement>('#char-name')!;
@@ -20,12 +21,16 @@ const backButtons = document.querySelectorAll<HTMLButtonElement>(".back-button")
 const tabs = {
   stats: {
     button: document.querySelector<HTMLButtonElement>("#stat-tab")!,
-    page: characterStatsPage,
+    page: inventoryPage,
   },
   deck: {
     button: document.querySelector<HTMLButtonElement>("#deck-tab")!,
     page: deckPage,
   },
+  map : {
+    button: document.querySelector<HTMLButtonElement>('#map-tab')!,
+    page: mapPage
+  }
 };
 
 
@@ -95,10 +100,8 @@ backButtons.forEach((button) => {
 
 
 function showTab(name: keyof typeof tabs) {
-  console.log("fuck")
   for (const [tabName, tab] of Object.entries(tabs)) {
     const active = tabName === name;
-    console.log(tab)
     tab.page.hidden = !active;
     tab.button.classList.toggle("active", active);
   }
@@ -146,9 +149,9 @@ async function selectSave(save: SaveInfo) {
     }
     potion_box.appendChild(potion_html);
   }
-  console.log("test")
   tabs.stats.button.addEventListener("click", () => showTab("stats"));
   tabs.deck.button.addEventListener("click", () => showTab("deck"));
+  tabs.deck.button.addEventListener("click", () => showTab("map"));
 
   const button =
       characterStatsPage.querySelector<HTMLButtonElement>('#editor-back')!;
