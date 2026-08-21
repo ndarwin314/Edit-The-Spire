@@ -130,8 +130,8 @@ body {
 
 .save-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(clamp(180px, 15vw, 240px), 1fr));
-  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(180px, 15vw, 240px), 15vw));
+  justify-content: left;
   gap: clamp(1rem, 2vw, 2.5rem);
   width: 100%;
   max-width: 1400px;
@@ -145,6 +145,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 15vw;
   padding: 0.5rem;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 1rem;
@@ -391,6 +392,26 @@ body {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.add-slot {
+  background-color: transparent;
+  border: 0px;
+  background-image: url(./assets/plus_icon.png);
+  background-position: center;
+  background-size: contain;
+  opacity: 0.8;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+}
+
+.add-slot:hover {
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 /* ------------------------------------ */
