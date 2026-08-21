@@ -102,6 +102,8 @@ backButtons.forEach((button) => {
 function showTab(name: keyof typeof tabs) {
   for (const [tabName, tab] of Object.entries(tabs)) {
     const active = tabName === name;
+    console.log(active)
+    console.log(tabName)
     tab.page.hidden = !active;
     tab.button.classList.toggle("active", active);
   }
@@ -151,7 +153,7 @@ async function selectSave(save: SaveInfo) {
   }
   tabs.stats.button.addEventListener("click", () => showTab("stats"));
   tabs.deck.button.addEventListener("click", () => showTab("deck"));
-  tabs.deck.button.addEventListener("click", () => showTab("map"));
+  tabs.map.button.addEventListener("click", () => showTab("map"));
 
   const button =
       characterStatsPage.querySelector<HTMLButtonElement>('#editor-back')!;
