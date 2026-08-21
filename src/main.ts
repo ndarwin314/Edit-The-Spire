@@ -18,6 +18,16 @@ const potion_box = characterStatsPage.querySelector<HTMLDivElement>('#potions')!
 const startButton = document.querySelector('#btn-start')!;
 const backButtons = document.querySelectorAll<HTMLButtonElement>(".back-button");
 
+const plusRelic = document.createElement("div");
+plusRelic.classList.add("item-slot");
+plusRelic.id = "plus-relic"
+plusRelic.innerHTML = `<img src="src/assets/plus_icon.png">`;
+
+const plusPotion = document.createElement("div");
+plusPotion.classList.add("item-slot");
+plusPotion.id = "plus-potion"
+plusPotion.innerHTML = `<img src="src/assets/plus_icon.png">`;
+
 const tabs = {
   stats: {
     button: document.querySelector<HTMLButtonElement>("#stat-tab")!,
@@ -117,9 +127,6 @@ function input_sanitizer(event: InputEvent) {
   }
 }
 
-function 
-
-
 async function selectSave(save: SaveInfo) {
   await invoke("load_save", {fileName: save.path});
   saveSelectorPage.hidden = true;
@@ -134,10 +141,10 @@ async function selectSave(save: SaveInfo) {
 
   charName.setAttribute("char-name", cleanCharName(save.character));
   ascension.setAttribute("ascension-value", String(save.ascension));
-  currentHP.innerHTML = String(hp[0]);
-  maxHP.innerHTML = String(hp[1]);
-  goldElement.innerHTML = String(gold);
-  energyElement.innerHTML = String(energy)
+  currentHP.innerText = String(hp[0]);
+  maxHP.innerText = String(hp[1]);
+  goldElement.innerText = String(gold);
+  energyElement.innerText = String(energy)
 
   relic_box.replaceChildren();
   for (const relic of relics) {
@@ -146,6 +153,7 @@ async function selectSave(save: SaveInfo) {
     relic_html.innerHTML = `<img src="src/assets/relics/${cleanRelicName(relic.id)}.webp">`;
     relic_box.appendChild(relic_html);
   }
+  relic_box.appendChild(plusRelic)
 
   potion_box.replaceChildren();
   const potionMap = new Map<number, String>();
@@ -164,14 +172,40 @@ async function selectSave(save: SaveInfo) {
     potion_html.innerHTML = `<img src="src/assets/potions/${image}.webp">`;
     potion_box.appendChild(potion_html);
   }
+  potion_box.appendChild(plusPotion);
+
   tabs.stats.button.addEventListener("click", () => showTab("stats"));
   tabs.deck.button.addEventListener("click", () => showTab("deck"));
   tabs.map.button.addEventListener("click", () => showTab("map"));
 
-  maxHP.addEventListener("beforeinput", (event) => input_sanitizer(event))
-  currentHP.addEventListener("beforeinput", (event) => input_sanitizer(event))
-  goldElement.addEventListener("beforeinput", (event) => input_sanitizer(event))
-  energyElement.addEventListener("beforeinput", (event) => input_sanitizer(event))
+  maxHP.addEventListener("beforeinput", (event) => input_sanitizer(event));
+  maxHP.addEventListener("blur", async () => {
+    console.log(parseInt(currentHP.innerText), parseInt(maxHP.innerText));
+    await invoke(
+        "set_health",
+        {health: [parseInt(currentHP.innerText), parseInt(maxHP.innerText)]})
+  });
+  currentHP.addEventListener("beforeinput", (event) => input_sanitizer(event));
+  currentHP.addEventListener("blur", async () => {
+    console.log(parseInt(currentHP.innerText), parseInt(maxHP.innerText));
+    await invoke(
+        "set_health",
+        {health: [parseInt(currentHP.innerText), parseInt(maxHP.innerText)]})
+  });
+  goldElement.addEventListener("beforeinput", (event) => input_sanitizer(event));
+  goldElement.addEventListener("blur", async () => {
+
+    await invoke(
+        "set_gold",
+        {gold: parseInt(goldElement.innerText)})
+  });
+  energyElement.addEventListener("beforeinput", (event) => input_sanitizer(event));
+  energyElement.addEventListener("blur", async () => {
+
+    await invoke(
+        "set_energy",
+        {energy: parseInt(energyElement.innerText)})
+  });
 
 
   const button =

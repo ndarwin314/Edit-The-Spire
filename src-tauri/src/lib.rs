@@ -115,6 +115,7 @@ fn get_health(state: State<'_, Mutex<AppState>>) -> (i32, i32){
     (player.current_hp, player.max_hp)
 }
 
+
 #[tauri::command]
 fn set_health(health: (i32, i32), state: State<'_, Mutex<AppState>>) {
     let mut state = state.lock().unwrap();
@@ -130,12 +131,26 @@ fn get_energy(state: State<'_, Mutex<AppState>>) -> i32 {
     player.max_energy
 }
 
+#[tauri::command]
+fn set_energy(energy: i32, state: State<'_, Mutex<AppState>>) {
+    let mut state = state.lock().unwrap();
+    let index = state.index;
+    state.save.players[index].max_energy = energy;
+}
+
 
 #[tauri::command]
 fn get_gold(state: State<'_, Mutex<AppState>>) -> i32 {
     let state = state.lock().unwrap();
     let player = &state.save.players[state.index];
     player.gold
+}
+
+#[tauri::command]
+fn set_gold(gold: i32, state: State<'_, Mutex<AppState>>) {
+    let mut state = state.lock().unwrap();
+    let index = state.index;
+    state.save.players[index].max_energy = gold;
 }
 
 #[tauri::command]
@@ -169,7 +184,18 @@ pub fn run() {
         })
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
-        .invoke_handler(tauri::generate_handler![load_save, get_health, get_gold, get_relics, get_potions, get_deck, find_runs, get_energy])
+        .invoke_handler(tauri::generate_handler![
+            load_save,
+            get_health,
+            set_health,
+            get_gold,
+            set_gold,
+            get_relics,
+            get_potions,
+            get_deck,
+            find_runs,
+            get_energy,
+            set_energy])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
