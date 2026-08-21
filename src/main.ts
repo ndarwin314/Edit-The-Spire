@@ -1,6 +1,4 @@
 import { invoke } from "@tauri-apps/api/core";
-import { open } from "@tauri-apps/plugin-dialog";
-import {localDataDir, join} from '@tauri-apps/api/path';
 
 const startupPage = document.querySelector<HTMLElement>('#startup-screen-page')!;
 const saveSelectorPage = document.querySelector<HTMLElement>('#save-selector-page')!;
@@ -14,9 +12,22 @@ const ascension = document.querySelector<HTMLElement>('#ascension')!;
 const goldElement = document.querySelector<HTMLElement>('#gold')!;
 const energyElement = document.querySelector<HTMLElement>('#energy')!;
 const relic_box = characterStatsPage.querySelector<HTMLDivElement>('#relics')!;
+const potion_box = characterStatsPage.querySelector<HTMLDivElement>('#potions')!;
 
 const startButton = document.querySelector('#btn-start')!;
 const backButtons = document.querySelectorAll<HTMLButtonElement>(".back-button");
+
+const tabs = {
+  stats: {
+    button: document.querySelector<HTMLButtonElement>("#stat-tab")!,
+    page: characterStatsPage,
+  },
+  deck: {
+    button: document.querySelector<HTMLButtonElement>("#deck-tab")!,
+    page: deckPage,
+  },
+};
+
 
 
 const saveGrid = document.querySelector<HTMLDivElement>("#save-grid")!;
@@ -83,6 +94,18 @@ backButtons.forEach((button) => {
 });
 
 
+function showTab(name: keyof typeof tabs) {
+  console.log("fuck")
+  for (const [tabName, tab] of Object.entries(tabs)) {
+    const active = tabName === name;
+    console.log(tab)
+    tab.page.hidden = !active;
+    tab.button.classList.toggle("active", active);
+  }
+}
+
+
+
 async function selectSave(save: SaveInfo) {
   await invoke("load_save", {fileName: save.path});
   saveSelectorPage.hidden = true;
@@ -90,7 +113,9 @@ async function selectSave(save: SaveInfo) {
   let hp: [number, number] = await invoke("get_health");
   let gold: number = await invoke("get_gold");
   let energy: number = await invoke("get_energy");
-  let potions: Potion[] = await invoke("get_potions");
+  let temp: [number, Potion[]] = await invoke("get_potions");
+  let max_potions = temp[0];
+  let potions = temp[1];
   let relics: Relic[] = await invoke("get_relics");
 
   charName.setAttribute("char-name", cleanCharName(save.character));
@@ -107,6 +132,23 @@ async function selectSave(save: SaveInfo) {
     relic_html.innerHTML = `<img src="src/assets/relics/${cleanRelicName(relic.id)}.webp">`;
     relic_box.appendChild(relic_html);
   }
+
+  potion_box.replaceChildren();
+  const potionMap = new Map<number, String>();
+  for (const potion of potions) {
+    potionMap.set(potion.slot_index, cleanPotionName(potion.id));
+  }
+  for (let i = 0; i < max_potions; i++) {
+    const potion_html = document.createElement("div");
+    potion_html.classList.add("item-slot");
+    if (potionMap.has(i)) {
+      potion_html.innerHTML = `<img src="src/assets/relics/${potionMap.get(i)}.webp">`;
+    }
+    potion_box.appendChild(potion_html);
+  }
+  console.log("test")
+  tabs.stats.button.addEventListener("click", () => showTab("stats"));
+  tabs.deck.button.addEventListener("click", () => showTab("deck"));
 
   const button =
       characterStatsPage.querySelector<HTMLButtonElement>('#editor-back')!;
@@ -125,6 +167,11 @@ function cleanCharName(char: string): string {
 function cleanRelicName(relic: string): string {
   return relic.replace("RELIC.", "").toLowerCase()
 }
+
+function cleanPotionName(relic: string): string {
+  return relic.replace("POTION.", "").toLowerCase()
+}
+
 
 function createSaveCard(sf: SaveInfo): HTMLDivElement {
   const card = document.createElement("div");
@@ -181,52 +228,6 @@ async function loadSaveList() {
 
 startButton.addEventListener("click", loadSaveList)
 
-const tabs = {
-  stats: {
-    button: document.querySelector<HTMLButtonElement>("#stat-tab")!,
-    page: characterStatsPage,
-  },
-  deck: {
-    button: document.querySelector<HTMLButtonElement>("#deck-tab")!,
-    page: deckPage,
-  },
-};
-
-const local = await localDataDir();
-const users = await join(local, "SlayTheSpire2", "steam");
-
-function showTab(name: keyof typeof tabs) {
-  for (const [tabName, tab] of Object.entries(tabs)) {
-    const active = tabName === name;
-
-    tab.page.hidden = !active;
-    tab.button.classList.toggle("active", active);
-  }
-}
-
-tabs.stats.button.addEventListener("click", () => showTab("stats"));
-tabs.deck.button.addEventListener("click", () => showTab("deck"));
-
-
-async function selectFile(){
-  console.log('Button clicked');
-  const file = await open({
-    multiple: false,
-    directory: false,
-    defaultPath: users,
-    filters: [
-      {
-        name: 'Save Files',
-        extensions: ['save'],
-      },
-    ],
-  });
-
-  if (file) {
-    await invoke('load_save', {fileName: file})
-
-  }
-}
 
 
 
