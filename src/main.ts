@@ -109,6 +109,15 @@ function showTab(name: keyof typeof tabs) {
   }
 }
 
+function input_sanitizer(event: InputEvent) {
+  if (event.inputType.startsWith("insert")) {
+    if (event.data && !/^\d+$/.test(event.data)) {
+      event.preventDefault();
+    }
+  }
+}
+
+function 
 
 
 async function selectSave(save: SaveInfo) {
@@ -146,14 +155,24 @@ async function selectSave(save: SaveInfo) {
   for (let i = 0; i < max_potions; i++) {
     const potion_html = document.createElement("div");
     potion_html.classList.add("item-slot");
+    let image;
     if (potionMap.has(i)) {
-      potion_html.innerHTML = `<img src="src/assets/relics/${potionMap.get(i)}.webp">`;
+      image = potionMap.get(i);
+    } else {
+      image = "potion_placeholder";
     }
+    potion_html.innerHTML = `<img src="src/assets/potions/${image}.webp">`;
     potion_box.appendChild(potion_html);
   }
   tabs.stats.button.addEventListener("click", () => showTab("stats"));
   tabs.deck.button.addEventListener("click", () => showTab("deck"));
   tabs.map.button.addEventListener("click", () => showTab("map"));
+
+  maxHP.addEventListener("beforeinput", (event) => input_sanitizer(event))
+  currentHP.addEventListener("beforeinput", (event) => input_sanitizer(event))
+  goldElement.addEventListener("beforeinput", (event) => input_sanitizer(event))
+  energyElement.addEventListener("beforeinput", (event) => input_sanitizer(event))
+
 
   const button =
       characterStatsPage.querySelector<HTMLButtonElement>('#editor-back')!;

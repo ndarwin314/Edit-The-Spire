@@ -26,6 +26,7 @@ fn deck_size(save_file: SaveFile) -> usize {
     // at some point add logic to handle my save format as well
     deck_size
 }
+
 #[tauri::command]
 fn find_runs(app: tauri::AppHandle) -> Result<Vec<SaveInfo>, String> {
     let local_data = app
@@ -112,6 +113,14 @@ fn get_health(state: State<'_, Mutex<AppState>>) -> (i32, i32){
     let state = state.lock().unwrap();
     let player = &state.save.players[state.index];
     (player.current_hp, player.max_hp)
+}
+
+#[tauri::command]
+fn set_health(health: (i32, i32), state: State<'_, Mutex<AppState>>) {
+    let mut state = state.lock().unwrap();
+    let index = state.index;
+    state.save.players[index].current_hp = health.0;
+    state.save.players[index].max_hp = health.1;
 }
 
 #[tauri::command]
