@@ -1,6 +1,4 @@
-/* ------------------------------------ */
-/* Global Reset & Responsive Scalers    */
-/* ------------------------------------ */
+/* General */
 :root {
   font-size: clamp(14px, 1vw + 0.5rem, 18px);
   box-sizing: border-box;
@@ -16,7 +14,7 @@ body {
   margin: 0;
   padding: 0;
 
-  background-image: url('./assets/main_background.png');
+  background-image: url('./assets/general/main_background.png');
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;
@@ -28,9 +26,7 @@ body {
   display: none !important;
 }
 
-/* ------------------------------------ */
-/* Page Layout & Background Blur        */
-/* ------------------------------------ */
+/* Background Blur */
 .blurred-bg-page {
   position: relative;
   width: 100vw;
@@ -46,7 +42,7 @@ body {
   content: "";
   position: fixed;
   inset: -20px;
-  background-image: url('./assets/main_background.png');
+  background-image: url('./assets/general/main_background.png');
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;
@@ -59,7 +55,7 @@ body {
 .back-button {
   width: clamp(120px, 12vw, 188px);
   aspect-ratio: 2 / 1;
-  background-image: url('./assets/back_button.png');
+  background-image: url('./assets/general/back_button.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -71,6 +67,24 @@ body {
   left: -2.5rem;
   bottom: 2rem;
   z-index: 100;
+}
+
+/* Scrollbar Styling */
+.save-grid::-webkit-scrollbar,
+.inventory-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.save-grid::-webkit-scrollbar-track,
+.inventory-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.save-grid::-webkit-scrollbar-thumb,
+.inventory-container::-webkit-scrollbar-thumb {
+  background: #DB6514;
+  border-radius: 4px;
 }
 
 /* ------------------------------------ */
@@ -201,11 +215,11 @@ body {
 .save-card[char-name="The Necrobinder"] .save-card-character::before { content: "The Necrobinder"; }
 .save-card[char-name="The Defect"] .save-card-character::before { content: "The Defect"; }
 
-.save-card[char-name="The Ironclad"] .save-file-image { background-image: url('./assets/characters/char_select_ironclad.png'); }
-.save-card[char-name="The Silent"] .save-file-image { background-image: url('./assets/characters/char_select_silent.png'); }
-.save-card[char-name="The Regent"] .save-file-image { background-image: url('./assets/characters/char_select_regent.png'); }
-.save-card[char-name="The Necrobinder"] .save-file-image { background-image: url('./assets/characters/char_select_necrobinder.png'); }
-.save-card[char-name="The Defect"] .save-file-image { background-image: url('./assets/characters/char_select_defect.png'); }
+.save-card[char-name="The Ironclad"] .save-file-image { background-image: url('./assets/character-headshots/char_select_ironclad.png'); }
+.save-card[char-name="The Silent"] .save-file-image { background-image: url('./assets/character-headshots/char_select_silent.png'); }
+.save-card[char-name="The Regent"] .save-file-image { background-image: url('./assets/character-headshots/char_select_regent.png'); }
+.save-card[char-name="The Necrobinder"] .save-file-image { background-image: url('./assets/character-headshots/char_select_necrobinder.png'); }
+.save-card[char-name="The Defect"] .save-file-image { background-image: url('./assets/character-headshots/char_select_defect.png'); }
 
 .ascension[ascension-value="1"]  { background-image: url('./assets/ascensions/ascension_1.png'); }
 .ascension[ascension-value="2"]  { background-image: url('./assets/ascensions/ascension_2.png'); }
@@ -246,14 +260,14 @@ body {
   font-size: clamp(1.1rem, 1.5vw, 1.6rem);
 }
 
-.icon-floor { background-image: url('./assets/top_bar_floor.webp'); }
-.icon-deck { background-image: url('./assets/top_bar_deck.webp'); }
-.icon-hp { background-image: url('./assets/health.webp'); }
-.icon-gold { background-image: url('./assets/gold.webp'); }
-.icon-energy { background-image: url('./assets/energy_ironclad.webp'); }
+.icon-floor { background-image: url('./assets/stat-icons/top_bar_floor.webp'); }
+.icon-deck { background-image: url('./assets/stat-icons/top_bar_deck.webp'); }
+.icon-hp { background-image: url('./assets/stat-icons/health.webp'); }
+.icon-gold { background-image: url('./assets/stat-icons/gold.webp'); }
+.icon-energy { background-image: url('./assets/stat-icons/energy_ironclad.webp'); }
 
 .file-select {
-  background-image: url(./assets/confirm_button.png);
+  background-image: url(./assets/general/confirm_button.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -397,7 +411,7 @@ body {
 .add-slot {
   background-color: transparent;
   border: 0px;
-  background-image: url(./assets/plus_icon.png);
+  background-image: url(./assets/general/plus_icon.png);
   background-position: center;
   background-size: contain;
   opacity: 0.8;
@@ -414,22 +428,61 @@ body {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* ------------------------------------ */
-/* Scrollbar Styling                    */
-/* ------------------------------------ */
-.save-grid::-webkit-scrollbar,
-.inventory-container::-webkit-scrollbar {
-  width: 6px;
+/* Relic Library */
+.overlay-library {
+  background-color: #212D32;
+  border-radius: 19px;
+  width: 50vw;
+  padding: 2rem;
 }
 
-.save-grid::-webkit-scrollbar-track,
-.inventory-container::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
+.panel-title {
+  margin: 0px;
 }
 
-.save-grid::-webkit-scrollbar-thumb,
-.inventory-container::-webkit-scrollbar-thumb {
-  background: #DB6514;
-  border-radius: 4px;
+.panel-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+
+.filter-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.filter-chip {
+  font-family: inherit;
+  color: white;
+  background-color: #2E5456;
+  border: 1px solid #353545;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Specific adjustments for Icon Buttons */
+.filter-chip.icon-chip {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 3px;
+}
+
+.filter-chip.icon-chip img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none; 
+  opacity: 0.6;
+  filter: grayscale(40%);
+  transition: opacity 0.15s ease, filter 0.15s ease;
 }

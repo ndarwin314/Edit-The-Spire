@@ -11,9 +11,9 @@
   <body>
 
     <!-- STARTUP SCREEN --- INCOMPLETE -->
-    <section id="startup-screen-page">
+    <section id="startup-screen-page" hidden>
       <div class="title-container">
-        <img id="title" src="src/assets/title.png" alt="Edit the Spire title text">
+        <img id="title" src="src/assets/general/title.png" alt="Edit the Spire title text">
         <button id="btn-start" class="btn-primary">Continue</button>
       </div>
       <div class="title-spacer">
@@ -50,7 +50,7 @@
     </section>
 
     <!-- CHARACTER, STATS, and INVENTORY SCREEN --- COMPLETE -->
-    <section id="char-stats-inventory-page" class="blurred-bg-page" hidden>
+    <section id="char-stats-inventory-page" class="blurred-bg-page">
       <header class="editor-header">
         <nav class="editor-tabs">
           <button type="button" class="tab-button active" id="stat-tab">Stats & Inventory</button>
@@ -59,7 +59,7 @@
         </nav>
       </header>
 
-      <div class="char-stats-inventory-container" id="inventory-page">
+      <div class="char-stats-inventory-container" id="inventory-page" hidden>
         <div class="char-stats-container" char-name="The Ironclad" id="char-name">
           <div class="char-headshot">
             <div class="charcension">
@@ -75,12 +75,10 @@
               <span contenteditable="true" spellcheck="false" class="editable-val" id="max-hp">80</span>
             </span>
           </div>
-
           <div class="stat-item">
             <span class="stat-icon icon-gold"></span>
             <span class="gold-value" contenteditable="true" spellcheck="false" id="gold">99</span>
           </div>
-
           <div class="stat-item">
             <span class="stat-icon icon-energy"></span>
             <span class="stat-compound energy-value">
@@ -96,17 +94,107 @@
               <div class="item-slot"><img src="src/assets/potions/fire_potion.webp"></div>
               <div class="item-slot"><img src="src/assets/potions/strength_potion.webp"></div>
               <div class="item-slot"><img src="src/assets/potions/potion_placeholder.webp"></div>
-
               <button class="add-slot"></button>
             </div>
           </div>
-
           <div class="potion-relic">
             <h2 >Relics</h2>
             <div class="item-grid" id="relics">
               <div class="item-slot"><img src="src/assets/relics/burning_blood.webp"></div>
               <button class="add-slot"></button>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="overlay-library relic-library">
+        <div class="library-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Potion Library</h2>
+            <button class="close-button">✕</button>
+          </div>
+        <div class="item-grid">
+          </div>
+        </div>
+      </div>
+
+      <div class="overlay-library relic-library" hidden>
+        <div class="library-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Relic Library</h2>
+            <button class="close-button">✕</button>
+          </div>
+          <div class="panel-toolbar">
+            <div class="filter-group search">
+              <span class="filter-label">Search:</span>
+              <div class="filter-row">
+              </div>
+            </div>
+            <div class="filter-group rarity-filter">
+              <span class="filter-label">Rarity:</span>
+              <div class="filter-row">
+                <button class="filter-chip" data-value="starter">Starter</button>
+                <button class="filter-chip" data-value="common">Common</button>
+                <button class="filter-chip" data-value="uncommon">Uncommon</button>
+                <button class="filter-chip" data-value="rare">Rare</button>
+                <button class="filter-chip" data-value="ancient">Ancient</button>
+                <button class="filter-chip" data-value="shop">Shop</button>
+                <button class="filter-chip" data-value="event">Event</button>
+                <button class="filter-chip" data-value="special">Special</button>
+              </div>
+            </div>
+            <div class="filter-group character-filter">
+              <span class="filter-label">Character:</span>
+              <div class="filter-row">
+                <button class="filter-chip icon-chip" data-value="any">Any</button>
+                <button class="filter-chip icon-chip" data-value="ironclad">
+                  <img src="./src/assets/character-icons/character_icon_ironclad.webp"/>
+                </button>
+                <button class="filter-chip icon-chip" data-value="silent">
+                  <img src="./src/assets/character-icons/character_icon_silent.webp"/>
+                </button>
+                <button class="filter-chip icon-chip" data-value="regent">
+                  <img src="./src/assets/character-icons/character_icon_regent.webp"/>
+                </button>
+                <button class="filter-chip icon-chip" data-value="necrobinder">
+                  <img src="./src/assets/character-icons/character_icon_necrobinder.webp"/>
+                </button>
+                <button class="filter-chip icon-chip" data-value="defect">
+                  <img src="./src/assets/character-icons/character_icon_defect.webp"/>
+                </button>
+              </div>
+            </div>
+            <div class="filter-group ancient-filter">
+              <span class="filter-label">Ancients:</span>
+              <div class="filter-row">
+                <button class="filter-chip icon-chip" data-value="neow">
+                  <img src="./src/assets/ancient-icons/neow.webp"/>
+                </button>
+                <button class="filter-chip icon-chip" data-value="orobas">
+                  <img src="./src/assets/ancient-icons/orobas.webp"/>
+                </button>
+                <button class="filter-chip icon-chip" data-value="pael">
+                  <img src="./src/assets/ancient-icons/pael.webp"/>
+                </button>
+                <button class="filter-chip icon-chip" data-value="tezcatara">
+                  <img src="./src/assets/ancient-icons/tezcatara.webp"/>
+                </button>
+                <button class="filter-chip icon-chip" data-value="nonupeipe">
+                  <img src="./src/assets/ancient-icons/nonupeipe.webp"/>
+                </button>
+                <button class="filter-chip icon-chip" data-value="tanx">
+                  <img src="./src/assets/ancient-icons/tanx.webp"/>
+                </button>
+                <button class="filter-chip icon-chip" data-value="vakuu">
+                  <img src="./src/assets/ancient-icons/vakuu.webp"/>
+                </button>
+                <button class="filter-chip icon-chip" data-value="darv">
+                  <img src="./src/assets/ancient-icons/darv.webp"/>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="item-grid">
           </div>
         </div>
       </div>
