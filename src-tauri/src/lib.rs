@@ -27,12 +27,29 @@ fn deck_size(save_file: SaveFile) -> usize {
     deck_size
 }
 
+#[cfg(target_os = "windows")]
+fn windows_stem() {
+
+}
+
+#[cfg(target_os = "linux")]
+fn windows_stem() {
+
+}
+
+
+
 #[tauri::command]
 fn find_runs(app: tauri::AppHandle) -> Result<Vec<SaveInfo>, String> {
-    let local_data = app
-        .path()
-        .local_data_dir().map_err(|e| e.to_string())?;
-    let steam_dir = local_data.join("SlayTheSpire2").join("steam");
+    let temp = app.path();
+    let base_dir;
+    if cfg!(target_os = "windows") {
+        base_dir = temp.config_dir().map_err(|e| e.to_string())?;
+    } else {
+        base_dir = temp.local_data_dir().map_err(|e| e.to_string())?;
+    }
+
+    let steam_dir =base_dir.join("SlayTheSpire2").join("steam");
 
     let mut saves = Vec::<SaveInfo>::new();
 
