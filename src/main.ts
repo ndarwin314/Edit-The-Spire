@@ -237,11 +237,7 @@ function createSaveCard(sf: SaveInfo): HTMLDivElement {
   card.setAttribute("char-name", cleanCharName(sf.character));
 
   const inner =
-      `
-      <div class="save-grid" id="save-grid">
-
-        <div class="save-card" char-name="${cleanCharName(sf.character)}">
-          <div class="save-file-image">
+      `<div class="save-file-image">
             <div class="charcension">
               <h3 class="save-card-character"></h3>
               <div class="ascension" ascension-value="${sf.ascension}"></div>
@@ -258,8 +254,7 @@ function createSaveCard(sf: SaveInfo): HTMLDivElement {
                 <span class="deck-value" contenteditable="false" spellcheck="false">${sf.deck_size}</span>
               </div>
             </div>
-            <button type="button" class="file-select"></button>
-          </div>`;
+            <button type="button" class="file-select"></button>`;
   card.innerHTML = inner;
   const button =
       card.querySelector<HTMLButtonElement>(".file-select")!;
