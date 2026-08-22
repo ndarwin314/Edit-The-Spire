@@ -11,12 +11,12 @@
   <body>
 
     <!-- STARTUP SCREEN --- INCOMPLETE -->
-    <section id="startup-screen-page" hidden>
+    <section id="startup-screen-page">
       <div class="title-container">
         <img id="title" src="src/assets/general/title.png" alt="Edit the Spire title text">
         <button id="btn-start" class="btn-primary">Continue</button>
       </div>
-      <div class="title-spacer">
+      <div class="title-spacer"> </div>
     </section>
 
     <!-- SAVE SELECTOR SCREEN --- COMPLETE -->
@@ -50,7 +50,7 @@
     </section>
 
     <!-- CHARACTER, STATS, and INVENTORY SCREEN --- COMPLETE -->
-    <section id="char-stats-inventory-page" class="blurred-bg-page">
+    <section id="char-stats-inventory-page" class="blurred-bg-page" hidden>
       <header class="editor-header">
         <nav class="editor-tabs">
           <button type="button" class="tab-button active" id="stat-tab">Stats & Inventory</button>
@@ -107,7 +107,7 @@
         </div>
       </div>
 
-      <div class="overlay-library relic-library">
+      <div class="overlay-library relic-library" id="potion-library" hidden>
         <div class="library-panel">
           <div class="panel-header">
             <h2 class="panel-title">Potion Library</h2>
@@ -118,7 +118,7 @@
         </div>
       </div>
 
-      <div class="overlay-library relic-library" hidden>
+      <div class="overlay-library relic-library" id="relic-library" hidden>
         <div class="library-panel">
           <div class="panel-header">
             <h2 class="panel-title">Relic Library</h2>

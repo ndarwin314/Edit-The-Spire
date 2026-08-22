@@ -7,13 +7,17 @@ const inventoryPage = document.querySelector<HTMLElement>('#inventory-page')!;
 const deckPage = document.querySelector<HTMLElement>('#deck-page')!;
 const mapPage = document.querySelector<HTMLElement>('#map-page')!;
 const charName = document.querySelector<HTMLElement>('#char-name')!;
+
 const currentHP = document.querySelector<HTMLElement>('#current-hp')!;
 const maxHP = document.querySelector<HTMLElement>('#max-hp')!;
 const ascension = document.querySelector<HTMLElement>('#ascension')!;
 const goldElement = document.querySelector<HTMLElement>('#gold')!;
 const energyElement = document.querySelector<HTMLElement>('#energy')!;
+
 const relic_box = characterStatsPage.querySelector<HTMLDivElement>('#relics')!;
 const potion_box = characterStatsPage.querySelector<HTMLDivElement>('#potions')!;
+const relicLibrary = document.querySelector<HTMLElement>('#relic-library')!;
+const potionLibrary = document.querySelector<HTMLElement>('#potion-library')!;
 
 const startButton = document.querySelector('#btn-start')!;
 const backButtons = document.querySelectorAll<HTMLButtonElement>(".back-button");
@@ -21,12 +25,14 @@ const backButtons = document.querySelectorAll<HTMLButtonElement>(".back-button")
 const plusRelic = document.createElement("div");
 plusRelic.classList.add("item-slot");
 plusRelic.id = "plus-relic"
-plusRelic.innerHTML = `<img src="src/assets/plus_icon.png">`;
+plusRelic.innerHTML = `<img src="src/assets/general/plus_icon.png">`;
+plusRelic.addEventListener("click", (() => {relicLibrary.hidden=false;}))
 
 const plusPotion = document.createElement("div");
 plusPotion.classList.add("item-slot");
 plusPotion.id = "plus-potion"
-plusPotion.innerHTML = `<img src="src/assets/plus_icon.png">`;
+plusPotion.innerHTML = `<img src="src/assets/general/plus_icon.png">`;
+plusPotion.addEventListener("click", (() => {potionLibrary.hidden=false;}))
 
 const tabs = {
   stats: {
@@ -131,6 +137,7 @@ async function selectSave(save: SaveInfo) {
   await invoke("load_save", {fileName: save.path});
   saveSelectorPage.hidden = true;
   characterStatsPage.hidden = false;
+  inventoryPage.hidden = false;
   let hp: [number, number] = await invoke("get_health");
   let gold: number = await invoke("get_gold");
   let energy: number = await invoke("get_energy");
@@ -152,6 +159,7 @@ async function selectSave(save: SaveInfo) {
     relic_html.classList.add("item-slot");
     relic_html.innerHTML = `<img src="src/assets/relics/${cleanRelicName(relic.id)}.webp">`;
     relic_box.appendChild(relic_html);
+    relic_html.addEventListener("click", (() => {relicLibrary.hidden=false;}))
   }
   relic_box.appendChild(plusRelic)
 
@@ -170,6 +178,7 @@ async function selectSave(save: SaveInfo) {
       image = "potion_placeholder";
     }
     potion_html.innerHTML = `<img src="src/assets/potions/${image}.webp">`;
+    potion_html.addEventListener("click", (() => {potionLibrary.hidden=false;}))
     potion_box.appendChild(potion_html);
   }
   potion_box.appendChild(plusPotion);

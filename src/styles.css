@@ -339,19 +339,19 @@ body {
   -webkit-text-stroke: 1px rgba(0, 0, 0, 0.6);
 }
 
-.char-stats-container[char-name="The Ironclad"] .char-headshot { background-image: url('./assets/characters/char_select_ironclad.png'); }
+.char-stats-container[char-name="The Ironclad"] .char-headshot { background-image: url('./assets/character-headshots/char_select_ironclad.png'); }
 .char-stats-container[char-name="The Ironclad"] .stat-card-character::before { content: "The Ironclad"; }
 
-.char-stats-container[char-name="The Silent"] .char-headshot { background-image: url('./assets/characters/char_select_silent.png'); }
+.char-stats-container[char-name="The Silent"] .char-headshot { background-image: url('./assets/character-headshots/char_select_silent.png'); }
 .char-stats-container[char-name="The Silent"] .stat-card-character::before { content: "The Silent"; }
 
-.char-stats-container[char-name="The Defect"] .char-headshot { background-image: url('./assets/characters/char_select_defect.png'); }
+.char-stats-container[char-name="The Defect"] .char-headshot { background-image: url('./assets/character-headshots/char_select_defect.png'); }
 .char-stats-container[char-name="The Defect"] .stat-card-character::before { content: "The Defect"; }
 
-.char-stats-container[char-name="The Regent"] .char-headshot { background-image: url('./assets/characters/char_select_regent.png'); }
+.char-stats-container[char-name="The Regent"] .char-headshot { background-image: url('./assets/character-headshots/char_select_regent.png'); }
 .char-stats-container[char-name="The Regent"] .stat-card-character::before { content: "The Regent"; }
 
-.char-stats-container[char-name="The Necrobinder"] .char-headshot { background-image: url('./assets/characters/char_select_necrobinder.png'); }
+.char-stats-container[char-name="The Necrobinder"] .char-headshot { background-image: url('./assets/character-headshots/char_select_necrobinder.png'); }
 .char-stats-container[char-name="The Necrobinder"] .stat-card-character::before { content: "The Necrobinder"; }
 
 .health-value { color: #D84A48; font-size: clamp(1.5rem, 2.2vw, 2.4rem); }
