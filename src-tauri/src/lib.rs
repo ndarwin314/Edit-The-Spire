@@ -27,17 +27,6 @@ fn deck_size(save_file: SaveFile) -> usize {
     deck_size
 }
 
-#[cfg(target_os = "windows")]
-fn windows_stem() {
-
-}
-
-#[cfg(target_os = "linux")]
-fn windows_stem() {
-
-}
-
-
 
 #[tauri::command]
 fn find_runs(app: tauri::AppHandle) -> Result<Vec<SaveInfo>, String> {
