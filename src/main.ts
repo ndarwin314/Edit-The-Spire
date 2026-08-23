@@ -25,14 +25,31 @@ const backButtons = document.querySelectorAll<HTMLButtonElement>(".back-button")
 const plusRelic = document.createElement("div");
 plusRelic.classList.add("item-slot");
 plusRelic.id = "plus-relic"
-plusRelic.innerHTML = `<img src="src/assets/general/plus_icon.png">`;
+plusRelic.innerHTML = `<img src="/src/assets/general/plus_icon.png">`;
 plusRelic.addEventListener("click", (() => {relicLibrary.hidden=false;}))
 
 const plusPotion = document.createElement("div");
 plusPotion.classList.add("item-slot");
 plusPotion.id = "plus-potion"
-plusPotion.innerHTML = `<img src="src/assets/general/plus_icon.png">`;
+plusPotion.innerHTML = `<img src="/src/assets/general/plus_icon.png">`;
 plusPotion.addEventListener("click", (() => {potionLibrary.hidden=false;}))
+
+const images = import.meta.glob(
+    "/src/assets/**/*.webp",
+    {
+      eager: true,
+      query: "?url",
+      import: "default"
+    }
+);
+
+function getRelicImage(relic: string) {
+  return images[`/src/assets/Relics/${relic}.webp`];
+}
+
+function getPotionImage(potion: string) {
+  return images[`/src/assets/Potions/${potion}.webp`];
+}
 
 const tabs = {
   stats: {
@@ -48,6 +65,10 @@ const tabs = {
     page: mapPage
   }
 };
+// maybe make this a loop or something
+tabs.stats.button.addEventListener("click", () => showTab("stats"));
+tabs.deck.button.addEventListener("click", () => showTab("deck"));
+tabs.map.button.addEventListener("click", () => showTab("map"));
 
 
 
@@ -73,30 +94,33 @@ interface Relic {
   floor_added_to_deck: number;
 }
 
+maxHP.addEventListener("beforeinput", (event) => input_sanitizer(event));
+maxHP.addEventListener("blur", async () => {
+  await invoke(
+      "set_health",
+      {health: [parseInt(currentHP.innerText), parseInt(maxHP.innerText)]})
+});
+currentHP.addEventListener("beforeinput", (event) => input_sanitizer(event));
+currentHP.addEventListener("blur", async () => {
+  await invoke(
+      "set_health",
+      {health: [parseInt(currentHP.innerText), parseInt(maxHP.innerText)]})
+});
+goldElement.addEventListener("beforeinput", (event) => input_sanitizer(event));
+goldElement.addEventListener("blur", async () => {
 
-interface Player {
-  base_orb_slot_count: number;
-  character_id: string;
-  current_hp: number;
-  deck: [];
-  gold: number;
-  max_energy: number;
-  max_hp: number;
-  net_id: number;
-  odds: object;
-  relic_grab_bag: object;
-  relics: [];
-  potions: [];
-  unlock_state: object;
-  other: object;
-}
+  await invoke(
+      "set_gold",
+      {gold: parseInt(goldElement.innerText)})
+});
+energyElement.addEventListener("beforeinput", (event) => input_sanitizer(event));
+energyElement.addEventListener("blur", async () => {
 
-interface SaveFile {
-  players: Player[];
-  ascension: number;
-  map_point_history: object;
-  other: object
-}
+  await invoke(
+      "set_energy",
+      {energy: parseInt(energyElement.innerText)})
+});
+
 
 backButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -118,8 +142,6 @@ backButtons.forEach((button) => {
 function showTab(name: keyof typeof tabs) {
   for (const [tabName, tab] of Object.entries(tabs)) {
     const active = tabName === name;
-    console.log(active)
-    console.log(tabName)
     tab.page.hidden = !active;
     tab.button.classList.toggle("active", active);
   }
@@ -131,6 +153,41 @@ function input_sanitizer(event: InputEvent) {
       event.preventDefault();
     }
   }
+}
+
+function populateRelics(relics: Relic[]) {
+  relic_box.replaceChildren();
+  for (const relic of relics) {
+    const relic_html = document.createElement("div");
+    relic_html.classList.add("item-slot");
+    relic_html.innerHTML = `<img src=${getRelicImage(cleanRelicName(relic.id))}>`;
+    relic_box.appendChild(relic_html);
+    relic_html.addEventListener("click", (() => {relicLibrary.hidden=false;}))
+  }
+  relic_box.appendChild(plusRelic)
+}
+
+function populatePotions(potions: Potion[], max_potions: number) {
+
+  potion_box.replaceChildren();
+  const potionMap = new Map<number, String>();
+  for (const potion of potions) {
+    potionMap.set(potion.slot_index, cleanPotionName(potion.id));
+  }
+  for (let i = 0; i < max_potions; i++) {
+    const potion_html = document.createElement("div");
+    potion_html.classList.add("item-slot");
+    let image;
+    if (potionMap.has(i)) {
+      image = potionMap.get(i);
+    } else {
+      image = "potion_placeholder";
+    }
+    potion_html.innerHTML = `<img src="${getPotionImage(image)}">`;
+    potion_html.addEventListener("click", (() => {potionLibrary.hidden=false;}))
+    potion_box.appendChild(potion_html);
+  }
+  potion_box.appendChild(plusPotion);
 }
 
 async function selectSave(save: SaveInfo) {
@@ -153,69 +210,8 @@ async function selectSave(save: SaveInfo) {
   goldElement.innerText = String(gold);
   energyElement.innerText = String(energy)
 
-  relic_box.replaceChildren();
-  for (const relic of relics) {
-    const relic_html = document.createElement("div");
-    relic_html.classList.add("item-slot");
-    relic_html.innerHTML = `<img src="src/assets/relics/${cleanRelicName(relic.id)}.webp">`;
-    relic_box.appendChild(relic_html);
-    relic_html.addEventListener("click", (() => {relicLibrary.hidden=false;}))
-  }
-  relic_box.appendChild(plusRelic)
-
-  potion_box.replaceChildren();
-  const potionMap = new Map<number, String>();
-  for (const potion of potions) {
-    potionMap.set(potion.slot_index, cleanPotionName(potion.id));
-  }
-  for (let i = 0; i < max_potions; i++) {
-    const potion_html = document.createElement("div");
-    potion_html.classList.add("item-slot");
-    let image;
-    if (potionMap.has(i)) {
-      image = potionMap.get(i);
-    } else {
-      image = "potion_placeholder";
-    }
-    potion_html.innerHTML = `<img src="src/assets/potions/${image}.webp">`;
-    potion_html.addEventListener("click", (() => {potionLibrary.hidden=false;}))
-    potion_box.appendChild(potion_html);
-  }
-  potion_box.appendChild(plusPotion);
-
-  tabs.stats.button.addEventListener("click", () => showTab("stats"));
-  tabs.deck.button.addEventListener("click", () => showTab("deck"));
-  tabs.map.button.addEventListener("click", () => showTab("map"));
-
-  maxHP.addEventListener("beforeinput", (event) => input_sanitizer(event));
-  maxHP.addEventListener("blur", async () => {
-    console.log(parseInt(currentHP.innerText), parseInt(maxHP.innerText));
-    await invoke(
-        "set_health",
-        {health: [parseInt(currentHP.innerText), parseInt(maxHP.innerText)]})
-  });
-  currentHP.addEventListener("beforeinput", (event) => input_sanitizer(event));
-  currentHP.addEventListener("blur", async () => {
-    console.log(parseInt(currentHP.innerText), parseInt(maxHP.innerText));
-    await invoke(
-        "set_health",
-        {health: [parseInt(currentHP.innerText), parseInt(maxHP.innerText)]})
-  });
-  goldElement.addEventListener("beforeinput", (event) => input_sanitizer(event));
-  goldElement.addEventListener("blur", async () => {
-
-    await invoke(
-        "set_gold",
-        {gold: parseInt(goldElement.innerText)})
-  });
-  energyElement.addEventListener("beforeinput", (event) => input_sanitizer(event));
-  energyElement.addEventListener("blur", async () => {
-
-    await invoke(
-        "set_energy",
-        {energy: parseInt(energyElement.innerText)})
-  });
-
+  populateRelics(relics)
+  populatePotions(potions, max_potions)
 
   const button =
       characterStatsPage.querySelector<HTMLButtonElement>('#editor-back')!;
@@ -279,7 +275,6 @@ async function loadSaveList() {
   saveSelectorPage.hidden = false;
 
   const saves = await invoke<SaveInfo[]>('find_runs');
-  console.log(saves);
   saveGrid.replaceChildren();
 
   for (const save of saves) {
