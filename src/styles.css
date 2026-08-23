@@ -430,14 +430,29 @@ body {
 
 /* Relic Library */
 .overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.library-panel {
   background-color: #212D32;
   border: 5px solid #354A4F;
-  border-radius: 19px;
   width: 50vw;
+  overflow-y: auto;
+  border-radius: 19px;
   padding: 2rem;
 
   position: absolute;
   top: 7.5rem;
+}
+
+.overlay.active {
+  display: flex;
 }
 
 .panel-header {
@@ -446,6 +461,7 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
 
 .panel-title {
   margin-top: 1rem;
@@ -513,7 +529,7 @@ body {
   border: 2px solid #DB6514;
 }
 
-.filter-chip:active {
+.filter-chip.active {
   background-color: #3b3014;
   border-color: #ffd700;
 }

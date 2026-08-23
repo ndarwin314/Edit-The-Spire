@@ -19,20 +19,72 @@ const potion_box = characterStatsPage.querySelector<HTMLDivElement>('#potions')!
 const relicLibrary = document.querySelector<HTMLElement>('#relic-library')!;
 const potionLibrary = document.querySelector<HTMLElement>('#potion-library')!;
 
+const relicFilters= relicLibrary.querySelectorAll('.filter-chip')!;
+const relicRarityFilters= relicLibrary.querySelector("#rarity-filters")?.querySelectorAll('.filter-chip')!;
+const relicCharacterFilters = relicLibrary.querySelector("#character-filters")?.querySelectorAll('.filter-chip')!;
+const relicAncientFilters = relicLibrary.querySelector("#ancient-filters")?.querySelectorAll('.filter-chip')!;
+
+relicRarityFilters.forEach(button => {
+  button.addEventListener("click", () => {
+    const active = String(button.classList.toggle("active"));
+    button.setAttribute("aria-pressed", active);
+  })
+});
+
+relicAncientFilters.forEach(button => {
+  button.addEventListener("click", () => {
+    const active = String(button.classList.toggle("active"));
+    button.setAttribute("aria-pressed", active);
+  })
+});
+
+relicCharacterFilters.forEach(button => {
+  button.addEventListener("click", () => {
+    if (button.getAttribute("data-value")==="any") {
+      relicCharacterFilters.forEach(b => {
+        if (b.getAttribute("data-value")!="any") {
+          b.classList.remove("active");
+          b.setAttribute("aria-pressed", String(false));
+        }
+      })
+      const active = String(button.classList.toggle("active"));
+      button.setAttribute("aria-pressed", active);
+    } else {
+      const active = String(button.classList.toggle("active"));
+      button.setAttribute("aria-pressed", active);
+      if (active) {
+        relicCharacterFilters.forEach(b => {
+          if (b.getAttribute("data-value")==="any") {
+            b.classList.remove("active");
+            b.setAttribute("aria-pressed", String(false));
+          }
+        })
+      }
+    }
+  })
+});
+
+
+const relicClose = relicLibrary.querySelector<HTMLButtonElement>(".close-button")!;
+const potionClose = potionLibrary.querySelector<HTMLButtonElement>(".close-button")!;
+relicClose.addEventListener('click', () => {relicLibrary.classList.remove("active");});
+potionClose.addEventListener('click', () => {potionLibrary.classList.remove("active");});
+
 const startButton = document.querySelector('#btn-start')!;
 const backButtons = document.querySelectorAll<HTMLButtonElement>(".back-button");
+
 
 const plusRelic = document.createElement("div");
 plusRelic.classList.add("item-slot");
 plusRelic.id = "plus-relic"
 plusRelic.innerHTML = `<img src="/src/assets/general/plus_icon.png">`;
-plusRelic.addEventListener("click", (() => {relicLibrary.hidden=false;}))
+plusRelic.addEventListener("click", (() => {relicLibrary.classList.add("active")}))
 
 const plusPotion = document.createElement("div");
 plusPotion.classList.add("item-slot");
 plusPotion.id = "plus-potion"
 plusPotion.innerHTML = `<img src="/src/assets/general/plus_icon.png">`;
-plusPotion.addEventListener("click", (() => {potionLibrary.hidden=false;}))
+plusPotion.addEventListener("click", (() => {potionLibrary.classList.remove("active");}))
 
 const images = import.meta.glob(
     "/src/assets/**/*.webp",
@@ -162,7 +214,7 @@ function populateRelics(relics: Relic[]) {
     relic_html.classList.add("item-slot");
     relic_html.innerHTML = `<img src=${getRelicImage(cleanRelicName(relic.id))}>`;
     relic_box.appendChild(relic_html);
-    relic_html.addEventListener("click", (() => {relicLibrary.hidden=false;}))
+    relic_html.addEventListener("click", (() => {relicLibrary.classList.add("active");}))
   }
   relic_box.appendChild(plusRelic)
 }
@@ -184,10 +236,22 @@ function populatePotions(potions: Potion[], max_potions: number) {
       image = "potion_placeholder";
     }
     potion_html.innerHTML = `<img src="${getPotionImage(image)}">`;
-    potion_html.addEventListener("click", (() => {potionLibrary.hidden=false;}))
+    potion_html.addEventListener("click", (() => {potionLibrary.classList.remove("active");}))
     potion_box.appendChild(potion_html);
   }
   potion_box.appendChild(plusPotion);
+}
+
+function resetRelicLibrary(character: string) {
+  relicFilters.forEach(button => {
+    if (button.getAttribute("data-value")===character) {
+      button.classList.add("active");
+      button.setAttribute("aria-pressed", String(true));
+    } else {
+      button.classList.remove("active");
+      button.setAttribute("aria-pressed", String(false));
+    }
+  })
 }
 
 async function selectSave(save: SaveInfo) {
@@ -212,6 +276,8 @@ async function selectSave(save: SaveInfo) {
 
   populateRelics(relics)
   populatePotions(potions, max_potions)
+  resetRelicLibrary(save.character.replace("CHARACTER.", "").toLowerCase());
+
 
   const button =
       characterStatsPage.querySelector<HTMLButtonElement>('#editor-back')!;
@@ -221,11 +287,13 @@ async function selectSave(save: SaveInfo) {
   });
 
 }
+
 function cleanCharName(char: string): string {
-  char = char.replace("CHARACTER.", "").toLowerCase()
+  char = char.replace("CHARACTER.", "").toLowerCase();
   char = char.charAt(0).toUpperCase() + char.slice(1);
   return "The " + char;
 }
+
 
 function cleanRelicName(relic: string): string {
   return relic.replace("RELIC.", "").toLowerCase()
