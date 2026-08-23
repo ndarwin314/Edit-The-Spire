@@ -429,21 +429,54 @@ body {
 }
 
 /* Relic Library */
-.overlay-library {
+.overlay {
   background-color: #212D32;
+  border: 5px solid #354A4F;
   border-radius: 19px;
   width: 50vw;
   padding: 2rem;
+
+  position: absolute;
+  top: 7.5rem;
+}
+
+.panel-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .panel-title {
-  margin: 0px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.close-button {
+  font-family: inherit;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 2px solid #353545;
+  aspect-ratio: 1 / 1;
+  width: 2rem;
+  border-radius: 10px;
 }
 
 .panel-toolbar {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
+  gap: 0.5rem 2rem;
+}
+
+.filter-label {
+  margin-bottom: 0.25rem;
+}
+
+.filter-row.search-bar {
+  background-color: rgba(0, 0, 0, 0.6);
+  height: 2rem;
+  width: 12rem;
 }
 
 .filter-group {
@@ -457,10 +490,16 @@ body {
   flex-direction: row;
 }
 
+.filter-row.rarity-filter {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .filter-chip {
   font-family: inherit;
+  font-size: 1rem;
   color: white;
-  background-color: #2E5456;
+  background-color: rgba(0, 0, 0, 0.4);
   border: 1px solid #353545;
   border-radius: 6px;
   cursor: pointer;
@@ -468,6 +507,19 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.filter-chip:hover {
+  border: 2px solid #DB6514;
+}
+
+.filter-chip:active {
+  background-color: #3b3014;
+  border-color: #ffd700;
+}
+
+.filter-row.rarity-filter .filter-chip {
+  padding: 7px;
 }
 
 /* Specific adjustments for Icon Buttons */
