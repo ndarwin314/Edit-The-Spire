@@ -973,7 +973,7 @@ export const relics: RelicDefinition[] = [
         ancient: "pael",
     },
     {
-        id: "pae_s_claw",
+        id: "paels_claw",
         name: "Pael's Claw",
         rarity: "ancient",
         ancient: "pael",
@@ -1644,7 +1644,7 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "the_chosen_cheese",
+        id: "chosen_cheese",
         name: "The Chosen Cheese",
         rarity: "event",
     },
@@ -1664,7 +1664,7 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "wongo_s_mystery_ticket",
+        id: "wongos_mystery_ticket",
         name: "Wongo's Mystery Ticket",
         rarity: "event",
     },

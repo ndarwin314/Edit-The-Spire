@@ -35,11 +35,15 @@ export function cleanCharName(char: string): string {
 
 
 export function cleanRelicName(relic: string): string {
-    return relic.replace("RELIC.", "").toLowerCase()
+    const name= relic.replace("RELIC.", "").toLowerCase();
+    if (name==="the_chosen_cheese") {
+        return "chosen_cheese";
+    }
+    return name;
 }
 
 export function cleanPotionName(relic: string): string {
-    return relic.replace("POTION.", "").toLowerCase()
+    return relic.replace("POTION.", "").toLowerCase();
 }
 
 export function input_sanitizer(event: InputEvent) {

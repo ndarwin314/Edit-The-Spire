@@ -58,6 +58,10 @@ export class RelicFilters {
 
     private createRelic(relic: RelicDefinition): HTMLElement {
         const image = document.createElement("img");
+        const test = getRelicImage(relic.id);
+        if (test===undefined) {
+            console.log(relic)
+        }
         image.src = getRelicImage(relic.id);
         image.hidden = true;
         return image
