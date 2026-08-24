@@ -9,16 +9,29 @@ export type RelicRarity =
     | "special";
 
 export type RelicCharacter =
+    | "any"
     | "ironclad"
     | "silent"
     | "regent"
     | "necrobinder"
     | "defect";
 
+export type RelicAncient =
+    | "none"
+    | "neow"
+    | "tezcatara"
+    | "pael"
+    | "nonupeipe"
+    | "tanx"
+    | "vakuu"
+    | "darv"
+    | "orobas";
+
 export interface RelicDefinition {
     id: string;
     name: string;
     rarity: RelicRarity;
+    ancient?: RelicAncient;
     character?: RelicCharacter;
 }
 
@@ -449,7 +462,7 @@ export const relics: RelicDefinition[] = [
         character: "defect",
     },
     {
-        id: "artof_war",
+        id: "art_of_war",
         name: "Art of War",
         rarity: "rare",
     },
@@ -717,511 +730,613 @@ export const relics: RelicDefinition[] = [
         id: "arcane_scroll",
         name: "Arcane Scroll",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "booming_conch",
         name: "Booming Conch",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "cursed_pearl",
         name: "Cursed Pearl",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "dowsing_rod",
         name: "Dowsing Rod",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "fishing_rod",
         name: "Fishing Rod",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "golden_pearl",
         name: "Golden Pearl",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "hefty_tablet",
         name: "Hefty Tablet",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "kaleidoscope",
         name: "Kaleidoscope",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "large_capsule",
         name: "Large Capsule",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "lava_rock",
         name: "Lava Rock",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "lead_paperweight",
         name: "Lead Paperweight",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "leafy_poultice",
         name: "Leafy Poultice",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "lost_coffer",
         name: "Lost Coffer",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "massive_scroll",
         name: "Massive Scroll",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "neows_bones",
         name: "Neow's Bones",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "neows_sacrifice",
         name: "Neow's Sacrifice",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "neows_talisman",
         name: "Neow's Talisman",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "neows_torment",
         name: "Neow's Torment",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "new_leaf",
         name: "New Leaf",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "nutritious_oyster",
         name: "Nutritious Oyster",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "phial_holster",
         name: "Phial Holster",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "pomander",
         name: "Pomander",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "precarious_shears",
         name: "Precarious Shears",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "precise_scissors",
         name: "Precise Scissors",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "scroll_boxes",
         name: "Scroll Boxes",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "silken_tress",
         name: "Silken Tress",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "silver_crucible",
         name: "Silver Crucible",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "small_capsule",
         name: "Small Capsule",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "stone_humidifier",
         name: "Stone Humidifier",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "winged_boots",
         name: "Winged Boots",
         rarity: "ancient",
+        ancient: "neow",
     },
     {
         id: "alchemical_coffer",
         name: "Alchemical Coffer",
         rarity: "ancient",
+        ancient: "orobas",
     },
     {
         id: "archaic_tooth",
         name: "Archaic Tooth",
         rarity: "ancient",
+        ancient: "orobas",
     },
     {
         id: "driftwood",
         name: "Driftwood",
         rarity: "ancient",
+        ancient: "orobas",
     },
     {
         id: "electric_shrymp",
         name: "Electric Shrymp",
         rarity: "ancient",
+        ancient: "orobas",
     },
     {
         id: "glass_eye",
         name: "Glass Eye",
         rarity: "ancient",
+        ancient: "orobas",
     },
     {
         id: "prismatic_gem",
         name: "Prismatic Gem",
         rarity: "ancient",
+        ancient: "orobas",
     },
     {
         id: "radiant_pearl",
         name: "Radiant Pearl",
         rarity: "ancient",
+        ancient: "orobas",
     },
     {
         id: "sand_castle",
         name: "Sand Castle",
         rarity: "ancient",
+        ancient: "orobas",
     },
     {
         id: "sea_glass",
         name: "Sea Glass",
         rarity: "ancient",
+        ancient: "orobas",
     },
     {
         id: "touch_of_orobas",
         name: "Touch of Orobas",
         rarity: "ancient",
+        ancient: "orobas",
     },
     {
         id: "paels_blood",
         name: "Pael's Blood",
         rarity: "ancient",
+        ancient: "pael",
     },
     {
-        id: "paels_claw",
+        id: "pae_s_claw",
         name: "Pael's Claw",
         rarity: "ancient",
+        ancient: "pael",
     },
     {
         id: "paels_eye",
         name: "Pael's Eye",
         rarity: "ancient",
+        ancient: "pael",
     },
     {
         id: "paels_flesh",
         name: "Pael's Flesh",
         rarity: "ancient",
+        ancient: "pael",
     },
     {
         id: "paels_growth",
         name: "Pael's Growth",
         rarity: "ancient",
+        ancient: "pael",
     },
     {
         id: "paels_horn",
         name: "Pael's Horn",
         rarity: "ancient",
+        ancient: "pael",
     },
     {
         id: "paels_legion",
         name: "Pael's Legion",
         rarity: "ancient",
+        ancient: "pael",
     },
     {
         id: "paels_tears",
         name: "Pael's Tears",
         rarity: "ancient",
+        ancient: "pael",
     },
     {
         id: "paels_tooth",
         name: "Pael's Tooth",
         rarity: "ancient",
+        ancient: "pael",
     },
     {
         id: "paels_wing",
         name: "Pael's Wing",
         rarity: "ancient",
+        ancient: "pael",
     },
     {
         id: "biiig_hug",
         name: "Biiig Hug",
         rarity: "ancient",
+        ancient: "tezcatara",
     },
     {
         id: "golden_compass",
         name: "Golden Compass",
         rarity: "ancient",
+        ancient: "tezcatara",
     },
     {
         id: "nutritious_soup",
         name: "Nutritious Soup",
         rarity: "ancient",
+        ancient: "tezcatara",
     },
     {
         id: "pumpkin_candle",
         name: "Pumpkin Candle",
         rarity: "ancient",
+        ancient: "tezcatara",
     },
     {
         id: "seal_of_gold",
         name: "Seal of Gold",
         rarity: "ancient",
+        ancient: "tezcatara",
     },
     {
         id: "storybook",
         name: "Storybook",
         rarity: "ancient",
+        ancient: "tezcatara",
     },
     {
         id: "toasty_mittens",
         name: "Toasty Mittens",
         rarity: "ancient",
+        ancient: "tezcatara",
     },
     {
         id: "toy_box",
         name: "Toy Box",
         rarity: "ancient",
+        ancient: "tezcatara",
     },
     {
         id: "very_hot_cocoa",
         name: "Very Hot Cocoa",
         rarity: "ancient",
+        ancient: "tezcatara",
     },
     {
         id: "yummy_cookie",
         name: "Yummy Cookie",
         rarity: "ancient",
+        ancient: "tezcatara",
     },
     {
         id: "beautiful_bracelet",
         name: "Beautiful Bracelet",
         rarity: "ancient",
+        ancient: "nonupeipe",
     },
     {
         id: "blessed_antler",
         name: "Blessed Antler",
         rarity: "ancient",
+        ancient: "nonupeipe",
     },
     {
         id: "brilliant_scarf",
         name: "Brilliant Scarf",
         rarity: "ancient",
+        ancient: "nonupeipe",
     },
     {
         id: "delicate_frond",
         name: "Delicate Frond",
         rarity: "ancient",
+        ancient: "nonupeipe",
     },
     {
         id: "diamond_diadem",
         name: "Diamond Diadem",
         rarity: "ancient",
+        ancient: "nonupeipe",
     },
     {
         id: "fur_coat",
         name: "Fur Coat",
         rarity: "ancient",
+        ancient: "nonupeipe",
     },
     {
         id: "glitter",
         name: "Glitter",
         rarity: "ancient",
+        ancient: "nonupeipe",
     },
     {
         id: "jewelry_box",
         name: "Jewelry Box",
         rarity: "ancient",
+        ancient: "nonupeipe",
     },
     {
         id: "looming_fruit",
         name: "Looming Fruit",
         rarity: "ancient",
+        ancient: "nonupeipe",
     },
     {
         id: "signet_ring",
         name: "Signet Ring",
         rarity: "ancient",
+        ancient: "nonupeipe",
     },
     {
         id: "claws",
         name: "Claws",
         rarity: "ancient",
+        ancient: "tanx",
     },
     {
         id: "crossbow",
         name: "Crossbow",
         rarity: "ancient",
+        ancient: "tanx",
     },
     {
         id: "iron_club",
         name: "Iron Club",
         rarity: "ancient",
+        ancient: "tanx",
     },
     {
         id: "meat_cleaver",
         name: "Meat Cleaver",
         rarity: "ancient",
+        ancient: "tanx",
     },
     {
         id: "sai",
         name: "Sai",
         rarity: "ancient",
+        ancient: "tanx",
     },
     {
         id: "spiked_gauntlets",
         name: "Spiked Gauntlets",
         rarity: "ancient",
+        ancient: "tanx",
     },
     {
         id: "tanxs_whistle",
         name: "Tanx's Whistle",
         rarity: "ancient",
+        ancient: "tanx",
     },
     {
         id: "throwing_axe",
         name: "Throwing Axe",
         rarity: "ancient",
+        ancient: "tanx",
     },
     {
         id: "tri_boomerang",
         name: "Tri-Boomerang",
         rarity: "ancient",
+        ancient: "tanx",
     },
     {
         id: "war_hammer",
         name: "War Hammer",
         rarity: "ancient",
+        ancient: "tanx",
     },
     {
         id: "blood_soaked_rose",
         name: "Blood-Soaked Rose",
         rarity: "ancient",
+        ancient: "vakuu",
     },
     {
         id: "choices_paradox",
         name: "Choices Paradox",
         rarity: "ancient",
+        ancient: "vakuu",
     },
     {
         id: "distinguished_cape",
         name: "Distinguished Cape",
         rarity: "ancient",
+        ancient: "vakuu",
     },
     {
         id: "fiddle",
         name: "Fiddle",
         rarity: "ancient",
+        ancient: "vakuu",
     },
     {
         id: "jeweled_mask",
         name: "Jeweled Mask",
         rarity: "ancient",
+        ancient: "vakuu",
     },
     {
         id: "lords_parasol",
         name: "Lord's Parasol",
         rarity: "ancient",
+        ancient: "vakuu",
     },
     {
         id: "music_box",
         name: "Music Box",
         rarity: "ancient",
+        ancient: "vakuu",
     },
     {
         id: "preserved_fog",
         name: "Preserved Fog",
         rarity: "ancient",
+        ancient: "vakuu",
     },
     {
         id: "sere_talon",
         name: "Sere Talon",
         rarity: "ancient",
+        ancient: "vakuu",
     },
     {
         id: "whispering_earring",
         name: "Whispering Earring",
         rarity: "ancient",
+        ancient: "vakuu",
     },
     {
         id: "astrolabe",
         name: "Astrolabe",
         rarity: "ancient",
+        ancient: "darv",
     },
     {
         id: "black_star",
         name: "Black Star",
         rarity: "ancient",
+        ancient: "darv",
     },
     {
         id: "calling_bell",
         name: "Calling Bell",
         rarity: "ancient",
+        ancient: "darv",
     },
     {
         id: "dusty_tome",
         name: "Dusty Tome",
         rarity: "ancient",
+        ancient: "darv",
     },
     {
         id: "ectoplasm",
         name: "Ectoplasm",
         rarity: "ancient",
+        ancient: "darv",
     },
     {
         id: "empty_cage",
         name: "Empty Cage",
         rarity: "ancient",
+        ancient: "darv",
     },
     {
         id: "pandoras_box",
         name: "Pandora's Box",
         rarity: "ancient",
+        ancient: "darv",
     },
     {
         id: "philosophers_stone",
         name: "Philosopher's Stone",
         rarity: "ancient",
+        ancient: "darv",
     },
     {
         id: "runic_pyramid",
         name: "Runic Pyramid",
         rarity: "ancient",
+        ancient: "darv",
     },
     {
         id: "snecko_eye",
         name: "Snecko Eye",
         rarity: "ancient",
+        ancient: "darv",
     },
     {
         id: "sozu",
         name: "Sozu",
         rarity: "ancient",
+        ancient: "darv",
     },
     {
         id: "velvet_choker",
         name: "Velvet Choker",
         rarity: "ancient",
+        ancient: "darv",
     },
     {
         id: "belt_buckle",
@@ -1379,7 +1494,7 @@ export const relics: RelicDefinition[] = [
         character: "defect",
     },
     {
-        id: "fake_anchor",
+        id: "anchor",
         name: "Anchor???",
         rarity: "event",
     },
@@ -1394,7 +1509,7 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "fake_blood_vial",
+        id: "blood_vial",
         name: "Blood Vial???",
         rarity: "event",
     },
@@ -1449,7 +1564,7 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "fake_happy_flower",
+        id: "happy_flower???",
         name: "Happy Flower???",
         rarity: "event",
     },
@@ -1459,7 +1574,7 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "fake_lees_waffle",
+        id: "lees_waffle???",
         name: "Lee's Waffle???",
         rarity: "event",
     },
@@ -1469,7 +1584,7 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "fake_mango",
+        id: "mango???",
         name: "Mango???",
         rarity: "event",
     },
@@ -1484,7 +1599,7 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "fake_orichalcum",
+        id: "orichalcum???",
         name: "Orichalcum???",
         rarity: "event",
     },
@@ -1499,12 +1614,12 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "fake_snecko_eye",
+        id: "snecko_eye???",
         name: "Snecko Eye???",
         rarity: "event",
     },
     {
-        id: "fake_strike_dummy",
+        id: "strike_dummy",
         name: "Strike Dummy???",
         rarity: "event",
     },
@@ -1534,12 +1649,12 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "fake_the_merchants_rug",
+        id: "the_merchants_rug???",
         name: "The Merchant's Rug???",
         rarity: "event",
     },
     {
-        id: "fake_venerable_tea_set",
+        id: "venerable_tea_set???",
         name: "Venerable Tea Set???",
         rarity: "event",
     },
@@ -1549,7 +1664,7 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "wongos_mystery_ticket",
+        id: "wongo_s_mystery_ticket",
         name: "Wongo's Mystery Ticket",
         rarity: "event",
     },

@@ -1,5 +1,11 @@
-import {relics, RelicDefinition} from "./relic-list.ts";
-import {getRelicImage} from "../../utils/utils.ts";
+import {relics, RelicDefinition, RelicCharacter, RelicRarity, RelicAncient} from "./relic-list.ts";
+import {getRelicImage, getElement} from "../../utils/utils.ts";
+
+export interface RelicFilterState {
+    rarities: Set<RelicRarity>
+    characters: RelicCharacter
+    ancients: RelicAncient
+}
 
 export class RelicFilters {
     private readonly allFilters: NodeListOf<HTMLButtonElement>;
@@ -7,9 +13,20 @@ export class RelicFilters {
     private readonly characterFilters: NodeListOf<HTMLButtonElement>;
     private readonly ancientFilters: NodeListOf<HTMLButtonElement>;
     private readonly library: HTMLElement;
+    private readonly relicGrid: HTMLDivElement;
+    private readonly state: RelicFilterState;
+    private readonly rarityFilterContainer =
+        getElement<HTMLElement>("#rarity-filters");
 
     constructor(library: HTMLElement) {
         this.library = library;
+        this.relicGrid = <HTMLDivElement>this.library.querySelector(".item-grid");
+
+        this.state = {
+            rarities: new Set(),
+            characters: "any",
+            ancients: "none"
+        }
 
         this.allFilters = library.querySelectorAll<HTMLButtonElement>(".filter-chip");
 
@@ -27,16 +44,15 @@ export class RelicFilters {
     }
 
     init() {
-        this.setupSimpleFilters(this.rarityFilters);
-        this.setupSimpleFilters(this.ancientFilters);
+        this.setupRarityFilters();
+        this.setupAncientFilters();
         this.setupCharacterFilters();
         this.initializeRelicList()
     }
 
     private initializeRelicList() {
-        const relic_grid = this.library.querySelector(".item-grid");
         for (const relic of relics) {
-            relic_grid?.appendChild(this.createRelic(relic))
+            this.relicGrid.appendChild(this.createRelic(relic))
         }
     }
 
@@ -47,12 +63,60 @@ export class RelicFilters {
         return image
     }
 
-    private setupSimpleFilters(
-        filters: NodeListOf<HTMLButtonElement>
-    ) {
-        filters.forEach(button => {
+    private getRarityButton(rarity: RelicRarity) {
+        return this.rarityFilterContainer.querySelector<HTMLButtonElement>(
+            `[data-value="${rarity}"]`
+        );
+    }
+
+    private matchesRarity(relic: RelicDefinition) {
+        if (this.state.rarities.size === 0) {
+            return true;
+        }
+
+        return this.state.rarities.has(relic.rarity);
+    }
+
+    private matchesCharacter(relic: RelicDefinition) {
+        return this.state.characters==="any" || this.state.characters===relic.character;
+    }
+
+    private matchesAncient(relic: RelicDefinition) {
+        return this.state.ancients==="none" || this.state.ancients===relic.ancient;
+    }
+
+    private matchesFilters(relic: RelicDefinition) {
+        return this.matchesAncient(relic) && this.matchesCharacter(relic) && this.matchesRarity(relic);
+    }
+
+    private onChange() {
+        let i = 0;
+        for (const element of this.relicGrid.children) {
+            let relic = relics[i];
+            (<HTMLElement>element).hidden = !this.matchesFilters(relic);
+            i++;
+        }
+    }
+
+    private setupRarityFilters() {
+        this.rarityFilters.forEach(button => {
             button.addEventListener("click", () => {
-                this.toggle(button);
+                const rarity = button.dataset.value as RelicRarity;
+
+                if (rarity==="ancient" && this.state.ancients!=="none") {
+                    this.forceOn(button);
+                } else {
+                    this.toggle(button);
+                }
+
+
+                if (button.classList.contains("active")) {
+                    this.state.rarities.add(rarity);
+                } else {
+                    this.state.rarities.delete(rarity);
+                }
+
+                this.onChange();
             });
         });
     }
@@ -60,19 +124,54 @@ export class RelicFilters {
     private setupCharacterFilters() {
         this.characterFilters.forEach(button => {
             button.addEventListener("click", () => {
-                const value = button.dataset.value;
+                const value = button.dataset.value as RelicCharacter;
 
-                if (value === "any") {
-                    this.selectAnyCharacter();
-                } else {
-                    this.toggle(button);
+                this.toggle(button);
 
-                    if (button.classList.contains("active")) {
-                        this.disableAnyCharacter();
+                if (button.classList.contains("active")) {
+                    this.disableOtherElements(this.characterFilters, value);
+                    this.state.characters = value;
+                    if (value !== "any") {
+                        this.disableAllAncients();
+                        this.forceOff(this.getRarityButton("ancient")!);
                     }
+                } else {
+                    this.selectAnyCharacter();
+                    this.state.characters = "any";
                 }
+                this.onChange();
             });
         });
+    }
+
+    private setupAncientFilters() {
+        this.ancientFilters.forEach(button => {
+            button.addEventListener("click", () => {
+                const value = button.dataset.value as RelicAncient;
+
+                this.toggle(button);
+                const ancientRarity = this.getRarityButton("ancient")!;
+
+                if (button.classList.contains("active")) {
+                    this.disableOtherElements(this.ancientFilters, value);
+                    this.state.ancients = value;
+                    this.selectAnyCharacter();
+                    this.forceOn(ancientRarity);
+
+                } else {
+                    this.state.ancients = "none";
+                    this.forceOff(ancientRarity);
+                }
+            this.onChange();
+            });
+        });
+    }
+
+    private disableAllAncients() {
+        this.ancientFilters.forEach(button => {
+            this.forceOff(button);
+        });
+        this.state.ancients = "none";
     }
 
     private selectAnyCharacter() {
@@ -82,18 +181,16 @@ export class RelicFilters {
             button.classList.toggle("active", isAny);
             button.setAttribute("aria-pressed", String(isAny));
         });
+        this.state.characters = "any";
     }
 
-    private disableAnyCharacter() {
-        const anyButton = Array.from(this.characterFilters)
-            .find(button => button.dataset.value === "any");
-
-        if (!anyButton) {
-            return;
-        }
-
-        anyButton.classList.remove("active");
-        anyButton.setAttribute("aria-pressed", "false");
+    private disableOtherElements(filter: NodeListOf<HTMLButtonElement>, name: RelicAncient | RelicCharacter | RelicRarity) {
+        filter.forEach(button => {
+            const value = button.dataset.value;
+            if (value !== name) {
+                this.forceOff(button)
+            }
+        })
     }
 
     private toggle(button: HTMLButtonElement) {
@@ -103,6 +200,16 @@ export class RelicFilters {
             "aria-pressed",
             String(active)
         );
+    }
+
+    private forceOn(button: HTMLButtonElement) {
+        button.classList.add("active");
+        button.setAttribute("aria-pressed", String(true));
+    }
+
+    private forceOff(button: HTMLButtonElement) {
+        button.classList.remove("active");
+        button.setAttribute("aria-pressed", String(false));
     }
 
     setCharacter(character: string) {
@@ -115,6 +222,7 @@ export class RelicFilters {
                 String(active)
             );
         });
+        this.onChange();
     }
 
     reset() {
