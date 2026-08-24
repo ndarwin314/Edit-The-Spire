@@ -14,7 +14,7 @@ export class RelicFilters {
     private readonly ancientFilters: NodeListOf<HTMLButtonElement>;
     private readonly library: HTMLElement;
     private readonly relicGrid: HTMLDivElement;
-    private readonly state: RelicFilterState;
+    private state: RelicFilterState;
     private readonly rarityFilterContainer =
         getElement<HTMLElement>("#rarity-filters");
 
@@ -90,6 +90,7 @@ export class RelicFilters {
     }
 
     private onChange() {
+        console.log(this.state);
         let i = 0;
         for (const element of this.relicGrid.children) {
             let relic = relics[i];
@@ -156,7 +157,9 @@ export class RelicFilters {
                     this.disableOtherElements(this.ancientFilters, value);
                     this.state.ancients = value;
                     this.selectAnyCharacter();
+                    this.disableAllRarity()
                     this.forceOn(ancientRarity);
+                    this.state.rarities.add("ancient")
 
                 } else {
                     this.state.ancients = "none";
@@ -172,6 +175,7 @@ export class RelicFilters {
             this.forceOff(button);
         });
         this.state.ancients = "none";
+        this.state.rarities.delete("ancient");
     }
 
     private selectAnyCharacter() {
@@ -184,6 +188,10 @@ export class RelicFilters {
         this.state.characters = "any";
     }
 
+    private disableAllRarity() {
+        this.rarityFilters.forEach(button => {this.forceOff(button);})
+        this.state.rarities.clear();
+    }
     private disableOtherElements(filter: NodeListOf<HTMLButtonElement>, name: RelicAncient | RelicCharacter | RelicRarity) {
         filter.forEach(button => {
             const value = button.dataset.value;
@@ -216,19 +224,22 @@ export class RelicFilters {
         this.characterFilters.forEach(button => {
             const active = button.dataset.value === character;
 
-            button.classList.toggle("active", active);
-            button.setAttribute(
-                "aria-pressed",
-                String(active)
-            );
+            if (active) {
+                this.toggle(button);
+                this.state.characters =  character as RelicCharacter;
+            }
         });
         this.onChange();
     }
 
     reset() {
         this.allFilters.forEach(button => {
-            button.classList.remove("active");
-            button.setAttribute("aria-pressed", "false");
+            this.forceOff(button);
         });
+        this.state = {
+            rarities: new Set(),
+            characters: "any",
+            ancients: "none"
+        }
     }
 }
