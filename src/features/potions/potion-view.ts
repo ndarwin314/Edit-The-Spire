@@ -13,9 +13,7 @@ export class PotionView {
         for (const potion of potions) {
             potionMap.set(potion.slot_index, cleanPotionName(potion.id));
         }
-        console.log(max_potions);
         for (let i = 0; i < max_potions; i++) {
-            console.log(i);
             this.container.appendChild(this.createPotionElement(i, potionMap));
         }
         const potionClose = this.library.querySelector<HTMLButtonElement>(".close-button")!;

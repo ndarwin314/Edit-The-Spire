@@ -45,7 +45,6 @@ export class CharacterView {
         this.maxHP = getElement("#max-hp");
         this.gold = getElement("#gold");
         this.energy = getElement("#energy");
-        console.log(this.page);
 
         this.inputs = new CharacterInputs(
             this.currentHP,
@@ -54,7 +53,7 @@ export class CharacterView {
             this.energy)
 
         this.relicView = new RelicView(relic_box, relicLibrary);
-        this.relicFilters = new RelicFilters();
+        this.relicFilters = new RelicFilters(relicLibrary);
         this.potionView = new PotionView(potion_box, potionLibrary);
     }
 
@@ -111,7 +110,6 @@ export class CharacterView {
         state: CharacterState,
     ) {
         this.charName.setAttribute("char-name", cleanCharName(save.character));
-        console.log(this.ascension);
 
         this.ascension.setAttribute(
             "ascension-value",

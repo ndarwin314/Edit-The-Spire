@@ -1,13 +1,15 @@
-import { getElement } from "../../utils/utils.ts";
+import {relics, RelicDefinition} from "./relic-list.ts";
+import {getRelicImage} from "../../utils/utils.ts";
 
 export class RelicFilters {
     private readonly allFilters: NodeListOf<HTMLButtonElement>;
     private readonly rarityFilters: NodeListOf<HTMLButtonElement>;
     private readonly characterFilters: NodeListOf<HTMLButtonElement>;
     private readonly ancientFilters: NodeListOf<HTMLButtonElement>;
+    private readonly library: HTMLElement;
 
-    constructor() {
-        const library = getElement<HTMLElement>("#relic-library");
+    constructor(library: HTMLElement) {
+        this.library = library;
 
         this.allFilters = library.querySelectorAll<HTMLButtonElement>(".filter-chip");
 
@@ -28,6 +30,21 @@ export class RelicFilters {
         this.setupSimpleFilters(this.rarityFilters);
         this.setupSimpleFilters(this.ancientFilters);
         this.setupCharacterFilters();
+        this.initializeRelicList()
+    }
+
+    private initializeRelicList() {
+        const relic_grid = this.library.querySelector(".item-grid");
+        for (const relic of relics) {
+            relic_grid?.appendChild(this.createRelic(relic))
+        }
+    }
+
+    private createRelic(relic: RelicDefinition): HTMLElement {
+        const image = document.createElement("img");
+        image.src = getRelicImage(relic.id);
+        image.hidden = true;
+        return image
     }
 
     private setupSimpleFilters(
