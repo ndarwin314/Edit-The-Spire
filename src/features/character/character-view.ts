@@ -3,7 +3,6 @@ import { player } from "../../services/tauri";
 import { getElement, cleanCharName} from "../../utils/utils";
 
 import { RelicView } from "../relics/relic-view";
-import { RelicFilters } from "../relics/relic-filters";
 import { PotionView } from "../potions/potion-view";
 
 import {CharacterInputs} from "./character-inputs.ts";
@@ -18,7 +17,7 @@ interface CharacterState {
 }
 
 export class CharacterView {
-    private readonly page: HTMLElement;
+    //private readonly page: HTMLElement;
 
     private readonly charName: HTMLElement;
     private readonly ascension: HTMLElement;
@@ -28,7 +27,6 @@ export class CharacterView {
     private readonly energy: HTMLElement;
 
     private readonly relicView: RelicView;
-    private readonly relicFilters: RelicFilters;
     private readonly potionView: PotionView;
     private readonly inputs: CharacterInputs
 
@@ -37,7 +35,7 @@ export class CharacterView {
         const relicLibrary = getElement<HTMLElement>("#relic-library");
         const relic_box = getElement<HTMLElement>('#relics');
         const potion_box = getElement<HTMLElement>('#potions');
-        this.page = getElement("#char-stats-inventory-page");
+        //this.page = getElement("#char-stats-inventory-page");
 
         this.charName = getElement("#char-name");
         this.ascension = getElement("#ascension");
@@ -53,12 +51,11 @@ export class CharacterView {
             this.energy)
 
         this.relicView = new RelicView(relic_box, relicLibrary);
-        this.relicFilters = new RelicFilters(relicLibrary);
         this.potionView = new PotionView(potion_box, potionLibrary);
     }
 
     init() {
-        this.relicFilters.init();
+        this.relicView.init();
         this.inputs.init()
     }
 
@@ -71,9 +68,9 @@ export class CharacterView {
             state.maxPotions,
         );
         
-        this.relicFilters.reset();
+        this.relicView.relicFilters.reset();
 
-        this.relicFilters.setCharacter(
+        this.relicView.relicFilters.setCharacter(
             save.character
                 .replace("CHARACTER.", "")
                 .toLowerCase()

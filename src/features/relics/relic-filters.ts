@@ -5,6 +5,7 @@ export interface RelicFilterState {
     rarities: Set<RelicRarity>
     characters: RelicCharacter
     ancients: RelicAncient
+    selectedRelic?: string
 }
 
 export class RelicFilters {
@@ -12,14 +13,15 @@ export class RelicFilters {
     private readonly rarityFilters: NodeListOf<HTMLButtonElement>;
     private readonly characterFilters: NodeListOf<HTMLButtonElement>;
     private readonly ancientFilters: NodeListOf<HTMLButtonElement>;
-    private readonly library: HTMLElement;
     private readonly relicGrid: HTMLDivElement;
     private state: RelicFilterState;
     private readonly rarityFilterContainer =
         getElement<HTMLElement>("#rarity-filters");
 
-    constructor(library: HTMLElement) {
-        this.library = library;
+    constructor(
+        private readonly callback: (relicID: string) => void,
+        private readonly library: HTMLElement
+        ) {
         this.relicGrid = <HTMLDivElement>this.library.querySelector(".item-grid");
 
         this.state = {
@@ -50,6 +52,7 @@ export class RelicFilters {
         this.initializeRelicList()
     }
 
+
     private initializeRelicList() {
         for (const relic of relics) {
             this.relicGrid.appendChild(this.createRelic(relic))
@@ -69,6 +72,11 @@ export class RelicFilters {
         image.src = getRelicImage(relic.id);
         element.appendChild(image)
         element.hidden = true;
+        element.addEventListener("click", () => {
+            this.state.selectedRelic = relic.id;
+            this.library.classList.remove("active");
+            this.callback(relic.id);
+        });
         return element;
     }
 

@@ -1,5 +1,5 @@
 const images = import.meta.glob(
-    "/src/assets/**/*.webp",
+    "/src/assets/**/*.*",
     {
         eager: true,
         query: "?url",
@@ -60,4 +60,8 @@ export function getRelicImage(relic: string) {
 
 export function getPotionImage(potion: string) {
     return images[`/src/assets/Potions/${potion}.webp`];
+}
+
+export function getPlusIcon() {
+    return images['/src/assets/general/plus_icon.png']
 }
