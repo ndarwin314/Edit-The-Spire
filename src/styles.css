@@ -73,14 +73,16 @@ body {
 .save-grid::-webkit-scrollbar,
 .inventory-container::-webkit-scrollbar,
 .library-panel .item-grid::-webkit-scrollbar,
-.panel-toolbar::-webkit-scrollbar {
+.panel-toolbar::-webkit-scrollbar,
+.card-grid::-webkit-scrollbar {
   width: 6px;
 }
 
 .save-grid::-webkit-scrollbar-track,
 .inventory-container::-webkit-scrollbar-track,
 .library-panel .item-grid::-webkit-scrollbar-track,
-.panel-toolbar::-webkit-scrollbar-track {
+.panel-toolbar::-webkit-scrollbar-track,
+.card-grid::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
 }
@@ -88,7 +90,8 @@ body {
 .save-grid::-webkit-scrollbar-thumb,
 .inventory-container::-webkit-scrollbar-thumb,
 .library-panel .item-grid::-webkit-scrollbar-thumb,
-.panel-toolbar::-webkit-scrollbar-thumb {
+.panel-toolbar::-webkit-scrollbar-thumb,
+.card-grid::-webkit-scrollbar-thumb {
   background: #DB6514;
   border-radius: 8px;
 }
@@ -287,6 +290,11 @@ body {
 /* ------------------------------------ */
 /* Character, Stats & Inventory Screen  */
 /* ------------------------------------ */
+#char-stats-inventory-page.blurred-bg-page {
+  height: 100vh;
+  overflow: hidden;
+}
+
 .editor-tabs {
   display: flex;
   gap: 1rem;
@@ -303,10 +311,16 @@ body {
   font-size: clamp(1rem, 1.2vw, 1.25rem);
   font-weight: 600;
   cursor: pointer;
+
+  border: 4px solid transparent;
+}
+
+.tab-button:hover {
+  border: 4px solid #DB6514;
 }
 
 .tab-button.active {
-  border: 4px solid #DB6514;
+  border: 4px solid #ffd700;
 }
 
 .char-stats-inventory-container {
@@ -599,4 +613,66 @@ body {
   overflow-y: auto;
   margin: 2.5rem;
   padding-right: 1rem;
+}
+
+/* ------------------------------------ */
+/*             Deck Screen              */
+/* ------------------------------------ */
+#deck-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  width: 100%;
+  min-height: 0;
+  height: calc(100vh - 120px);
+  margin: 0 auto;
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+.sort-bar {
+  width: 75%;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.4);
+  margin-bottom: 2rem;
+}
+
+.card-grid {
+  width: 75%;
+  flex: 1;
+  min-height: 0;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  margin-bottom: 0;
+  
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(130px, 15vw, 170px), 1fr));
+  grid-auto-rows: max-content;
+  gap: clamp(1rem, 2vw, 2rem);
+  justify-items: center;
+  
+  overflow-y: auto;
+}
+
+.card-entry {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+#deck-page .deck-value {
+  position: absolute;
+  color: rgba(120, 120, 120);
+  bottom: 1.5rem;
+  right: 2rem;
+}
+
+@media (min-width: 1200px) {
+  .card-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
