@@ -1494,7 +1494,7 @@ export const relics: RelicDefinition[] = [
         character: "defect",
     },
     {
-        id: "anchor",
+        id: "fake_anchor",
         name: "Anchor???",
         rarity: "event",
     },
@@ -1509,7 +1509,7 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "blood_vial",
+        id: "fake_blood_vial",
         name: "Blood Vial???",
         rarity: "event",
     },
@@ -1564,7 +1564,7 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "happy_flower???",
+        id: "fake_happy_flower",
         name: "Happy Flower???",
         rarity: "event",
     },
@@ -1574,7 +1574,7 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "lees_waffle???",
+        id: "fake_lees_waffle",
         name: "Lee's Waffle???",
         rarity: "event",
     },
@@ -1584,7 +1584,7 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "mango???",
+        id: "fake_mango",
         name: "Mango???",
         rarity: "event",
     },
@@ -1599,7 +1599,7 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "orichalcum???",
+        id: "fake_orichalcum",
         name: "Orichalcum???",
         rarity: "event",
     },
@@ -1614,12 +1614,12 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "snecko_eye???",
+        id: "fake_snecko_eye",
         name: "Snecko Eye???",
         rarity: "event",
     },
     {
-        id: "strike_dummy",
+        id: "fake_strike_dummy",
         name: "Strike Dummy???",
         rarity: "event",
     },
@@ -1649,12 +1649,12 @@ export const relics: RelicDefinition[] = [
         rarity: "event",
     },
     {
-        id: "the_merchants_rug???",
+        id: "fake_merchants_rug",
         name: "The Merchant's Rug???",
         rarity: "event",
     },
     {
-        id: "venerable_tea_set???",
+        id: "fake_venerable_tea_set",
         name: "Venerable Tea Set???",
         rarity: "event",
     },

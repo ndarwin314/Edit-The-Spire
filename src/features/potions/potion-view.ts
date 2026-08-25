@@ -47,7 +47,7 @@ export class PotionView {
         const image = document.createElement("img");
         image.src = "/src/assets/general/plus_icon.png";
         plusPotion.appendChild(image);
-        plusPotion.addEventListener("click", (() => {this.container.classList.add("active");}));
+        plusPotion.addEventListener("click", (() => {this.library.classList.add("active");}));
         return plusPotion;
     }
 }

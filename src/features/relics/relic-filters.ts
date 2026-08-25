@@ -57,14 +57,19 @@ export class RelicFilters {
     }
 
     private createRelic(relic: RelicDefinition): HTMLElement {
+        const element = document.createElement("div");
+
+        element.classList.add("item-slot");
+
         const image = document.createElement("img");
         const test = getRelicImage(relic.id);
         if (test===undefined) {
             console.log(relic)
         }
         image.src = getRelicImage(relic.id);
-        image.hidden = true;
-        return image
+        element.appendChild(image)
+        element.hidden = true;
+        return element;
     }
 
     private getRarityButton(rarity: RelicRarity) {
@@ -94,7 +99,6 @@ export class RelicFilters {
     }
 
     private onChange() {
-        console.log(this.state);
         let i = 0;
         for (const element of this.relicGrid.children) {
             let relic = relics[i];

@@ -41,11 +41,11 @@ export class RelicView {
     private createAddButton() {
         const plusRelic = document.createElement("div");
         plusRelic.classList.add("item-slot");
-        plusRelic.id = "plus-relic"
+        plusRelic.id = "plus-relic";
         const image = document.createElement("img");
         image.src = "/src/assets/general/plus_icon.png";
         plusRelic.appendChild(image);
-        plusRelic.addEventListener("click", (() => {this.container.classList.add("active")}))
+        plusRelic.addEventListener("click", (() => {this.library.classList.add("active")}))
         return plusRelic;
     }
 }
