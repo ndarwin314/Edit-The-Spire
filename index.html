@@ -113,7 +113,44 @@
             <h2 class="panel-title">Potion Library</h2>
             <button class="close-button">✕</button>
           </div>
-        <div class="item-grid">
+          <div class="panel-main">
+            <div class="panel-toolbar">
+              <div class="filter-group search-bar">
+                <span class="filter-label">Search:</span>
+                <div class="filter-row search-bar"></div>
+              </div>
+              <div class="filter-group rarity-filter">
+                <span class="filter-label">Rarity:</span>
+                <div class="filter-row rarity-filter" id="rarity-filters">
+                  <button class="filter-chip" data-value="common" aria-pressed="false">Common</button>
+                  <button class="filter-chip" data-value="uncommon" aria-pressed="false">Uncommon</button>
+                  <button class="filter-chip" data-value="rare" aria-pressed="false">Rare</button>
+                  <button class="filter-chip" data-value="special" aria-pressed="false">Special</button>
+                </div>
+              </div>
+              <div class="filter-group character-filter">
+                <span class="filter-label">Character:</span>
+                <div class="filter-row" id="character-filters">
+                  <button class="filter-chip icon-chip" data-value="any" aria-pressed="false">Any</button>
+                  <button class="filter-chip icon-chip" data-value="ironclad" aria-pressed="false">
+                    <img src="./src/assets/character-icons/character_icon_ironclad.webp"/>
+                  </button>
+                  <button class="filter-chip icon-chip" data-value="silent" aria-pressed="false">
+                    <img src="./src/assets/character-icons/character_icon_silent.webp"/>
+                  </button>
+                  <button class="filter-chip icon-chip" data-value="regent" aria-pressed="false">
+                    <img src="./src/assets/character-icons/character_icon_regent.webp"/>
+                  </button>
+                  <button class="filter-chip icon-chip" data-value="necrobinder" aria-pressed="false">
+                    <img src="./src/assets/character-icons/character_icon_necrobinder.webp"/>
+                  </button>
+                  <button class="filter-chip icon-chip" data-value="defect" aria-pressed="false">
+                    <img src="./src/assets/character-icons/character_icon_defect.webp"/>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="item-grid"></div>
           </div>
         </div>
       </div>
