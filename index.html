@@ -124,76 +124,77 @@
             <h2 class="panel-title">Relic Library</h2>
             <button class="close-button">✕</button>
           </div>
-          <div class="panel-toolbar">
-            <div class="filter-group search-bar">
-              <span class="filter-label">Search:</span>
-              <div class="filter-row search-bar"></div>
-            </div>
-            <div class="filter-group rarity-filter">
-              <span class="filter-label">Rarity:</span>
-              <div class="filter-row rarity-filter" id="rarity-filters">
-                <button class="filter-chip" data-value="starter" aria-pressed="false">Starter</button>
-                <button class="filter-chip" data-value="common" aria-pressed="false">Common</button>
-                <button class="filter-chip" data-value="uncommon" aria-pressed="false">Uncommon</button>
-                <button class="filter-chip" data-value="rare" aria-pressed="false">Rare</button>
-                <button class="filter-chip" data-value="ancient" aria-pressed="false">Ancient</button>
-                <button class="filter-chip" data-value="shop" aria-pressed="false">Shop</button>
-                <button class="filter-chip" data-value="event" aria-pressed="false">Event</button>
-                <button class="filter-chip" data-value="special" aria-pressed="false">Special</button>
+          <div class="panel-main">
+            <div class="panel-toolbar">
+              <div class="filter-group search-bar">
+                <span class="filter-label">Search:</span>
+                <div class="filter-row search-bar"></div>
+              </div>
+              <div class="filter-group rarity-filter">
+                <span class="filter-label">Rarity:</span>
+                <div class="filter-row rarity-filter" id="rarity-filters">
+                  <button class="filter-chip" data-value="starter" aria-pressed="false">Starter</button>
+                  <button class="filter-chip" data-value="common" aria-pressed="false">Common</button>
+                  <button class="filter-chip" data-value="uncommon" aria-pressed="false">Uncommon</button>
+                  <button class="filter-chip" data-value="rare" aria-pressed="false">Rare</button>
+                  <button class="filter-chip" data-value="ancient" aria-pressed="false">Ancient</button>
+                  <button class="filter-chip" data-value="shop" aria-pressed="false">Shop</button>
+                  <button class="filter-chip" data-value="event" aria-pressed="false">Event</button>
+                  <button class="filter-chip" data-value="special" aria-pressed="false">Special</button>
+                </div>
+              </div>
+              <div class="filter-group character-filter">
+                <span class="filter-label">Character:</span>
+                <div class="filter-row" id="character-filters">
+                  <button class="filter-chip icon-chip" data-value="any" aria-pressed="false">Any</button>
+                  <button class="filter-chip icon-chip" data-value="ironclad" aria-pressed="false">
+                    <img src="./src/assets/character-icons/character_icon_ironclad.webp"/>
+                  </button>
+                  <button class="filter-chip icon-chip" data-value="silent" aria-pressed="false">
+                    <img src="./src/assets/character-icons/character_icon_silent.webp"/>
+                  </button>
+                  <button class="filter-chip icon-chip" data-value="regent" aria-pressed="false">
+                    <img src="./src/assets/character-icons/character_icon_regent.webp"/>
+                  </button>
+                  <button class="filter-chip icon-chip" data-value="necrobinder" aria-pressed="false">
+                    <img src="./src/assets/character-icons/character_icon_necrobinder.webp"/>
+                  </button>
+                  <button class="filter-chip icon-chip" data-value="defect" aria-pressed="false">
+                    <img src="./src/assets/character-icons/character_icon_defect.webp"/>
+                  </button>
+                </div>
+              </div>
+              <div class="filter-group ancient-filter">
+                <span class="filter-label">Ancients:</span>
+                <div class="filter-row" id="ancient-filters">
+                  <button class="filter-chip icon-chip" data-value="neow" aria-pressed="false">
+                    <img src="./src/assets/ancient-icons/neow.webp"/>
+                  </button>
+                  <button class="filter-chip icon-chip" data-value="orobas" aria-pressed="false">
+                    <img src="./src/assets/ancient-icons/orobas.webp"/>
+                  </button>
+                  <button class="filter-chip icon-chip" data-value="pael" aria-pressed="false">
+                    <img src="./src/assets/ancient-icons/pael.webp"/>
+                  </button>
+                  <button class="filter-chip icon-chip" data-value="tezcatara" aria-pressed="false">
+                    <img src="./src/assets/ancient-icons/tezcatara.webp"/>
+                  </button>
+                  <button class="filter-chip icon-chip" data-value="nonupeipe" aria-pressed="false">
+                    <img src="./src/assets/ancient-icons/nonupeipe.webp"/>
+                  </button>
+                  <button class="filter-chip icon-chip" data-value="tanx" aria-pressed="false">
+                    <img src="./src/assets/ancient-icons/tanx.webp"/>
+                  </button>
+                  <button class="filter-chip icon-chip" data-value="vakuu" aria-pressed="false">
+                    <img src="./src/assets/ancient-icons/vakuu.webp"/>
+                  </button>
+                  <button class="filter-chip icon-chip" data-value="darv" aria-pressed="false">
+                    <img src="./src/assets/ancient-icons/darv.webp"/>
+                  </button>
+                </div>
               </div>
             </div>
-            <div class="filter-group character-filter">
-              <span class="filter-label">Character:</span>
-              <div class="filter-row" id="character-filters">
-                <button class="filter-chip icon-chip" data-value="any" aria-pressed="false">Any</button>
-                <button class="filter-chip icon-chip" data-value="ironclad" aria-pressed="false">
-                  <img src="./src/assets/character-icons/character_icon_ironclad.webp"/>
-                </button>
-                <button class="filter-chip icon-chip" data-value="silent" aria-pressed="false">
-                  <img src="./src/assets/character-icons/character_icon_silent.webp"/>
-                </button>
-                <button class="filter-chip icon-chip" data-value="regent" aria-pressed="false">
-                  <img src="./src/assets/character-icons/character_icon_regent.webp"/>
-                </button>
-                <button class="filter-chip icon-chip" data-value="necrobinder" aria-pressed="false">
-                  <img src="./src/assets/character-icons/character_icon_necrobinder.webp"/>
-                </button>
-                <button class="filter-chip icon-chip" data-value="defect" aria-pressed="false">
-                  <img src="./src/assets/character-icons/character_icon_defect.webp"/>
-                </button>
-              </div>
-            </div>
-            <div class="filter-group ancient-filter">
-              <span class="filter-label">Ancients:</span>
-              <div class="filter-row" id="ancient-filters">
-                <button class="filter-chip icon-chip" data-value="neow" aria-pressed="false">
-                  <img src="./src/assets/ancient-icons/neow.webp"/>
-                </button>
-                <button class="filter-chip icon-chip" data-value="orobas" aria-pressed="false">
-                  <img src="./src/assets/ancient-icons/orobas.webp"/>
-                </button>
-                <button class="filter-chip icon-chip" data-value="pael" aria-pressed="false">
-                  <img src="./src/assets/ancient-icons/pael.webp"/>
-                </button>
-                <button class="filter-chip icon-chip" data-value="tezcatara" aria-pressed="false">
-                  <img src="./src/assets/ancient-icons/tezcatara.webp"/>
-                </button>
-                <button class="filter-chip icon-chip" data-value="nonupeipe" aria-pressed="false">
-                  <img src="./src/assets/ancient-icons/nonupeipe.webp"/>
-                </button>
-                <button class="filter-chip icon-chip" data-value="tanx" aria-pressed="false">
-                  <img src="./src/assets/ancient-icons/tanx.webp"/>
-                </button>
-                <button class="filter-chip icon-chip" data-value="vakuu" aria-pressed="false">
-                  <img src="./src/assets/ancient-icons/vakuu.webp"/>
-                </button>
-                <button class="filter-chip icon-chip" data-value="darv" aria-pressed="false">
-                  <img src="./src/assets/ancient-icons/darv.webp"/>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="item-grid">
+            <div class="item-grid"></div>
           </div>
         </div>
       </div>
