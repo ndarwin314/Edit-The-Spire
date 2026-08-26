@@ -156,7 +156,7 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(clamp(180px, 15vw, 240px), 15vw));
   justify-content: left;
   gap: clamp(1rem, 2vw, 2.5rem);
-  width: 100%;
+  width: 85%;
   max-width: 1400px;
   max-height: calc(100vh - 160px);
   padding: 1rem;
@@ -628,40 +628,87 @@ body {
   height: calc(100vh - 120px);
   margin: 0 auto;
   padding-bottom: 0;
-  overflow: hidden;
 }
 
 .sort-bar {
   width: 75%;
-  height: 40px;
-  background-color: rgba(0, 0, 0, 0.4);
-  margin-bottom: 2rem;
+  height: 50px;
+  background-color: #212D32;
+  border: 3px solid #354A4F;
+  border-radius: 10px;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
 }
+
+.sort-chip {
+  background-color: #2E5456;
+  border-radius: 10px;
+  width: 15%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.15rem 0.75rem;
+  transition: background-color 200ms ease-out;
+}
+
+.sort-chip:hover {
+  background-color: #48696B;
+  transition: background-color 50ms ease-in;
+}
+
+.sort-label {
+  margin: 0;
+}
+
+.sort-icon {
+  display: inline-block;
+  width: clamp(20px, 2vw, 28px);
+  height: clamp(20px, 2vw, 28px);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  flex-shrink: 0;
+}
+
+.sort-icon[sort-order="descending"]  { background-image: url('./assets/general/sort_descending.png'); }
+.sort-icon[sort-order="ascending"]  { background-image: url('./assets/general/sort_ascending.png'); }
 
 .card-grid {
   width: 75%;
   flex: 1;
   min-height: 0;
-  padding: 1.5rem 1.5rem 0 1.5rem;
   margin-bottom: 0;
+  padding: 2rem;
   
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(clamp(130px, 15vw, 170px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, clamp(130px, 15vw, 170px)), 1fr));
   grid-auto-rows: max-content;
-  gap: clamp(1rem, 2vw, 2rem);
   justify-items: center;
   
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .card-entry {
-  background-color: rgba(0, 0, 0, 0.5);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
   width: 100%;
   aspect-ratio: 5 / 7;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.card-entry:hover .card-image {
+  transform: scale(1.15);
 }
 
 #deck-page .deck-value {
@@ -673,6 +720,6 @@ body {
 
 @media (min-width: 1200px) {
   .card-grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
