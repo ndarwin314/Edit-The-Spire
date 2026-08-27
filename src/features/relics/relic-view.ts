@@ -75,7 +75,6 @@ export class RelicView {
             };
         }
 
-        console.log(relicView.state);
         relicView.state.selected_relic = -1;
     }
 

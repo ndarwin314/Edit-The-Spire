@@ -56,6 +56,7 @@ export class CharacterView {
 
     init() {
         this.relicView.init();
+        this.potionView.init()
         this.inputs.init()
     }
 
@@ -69,7 +70,9 @@ export class CharacterView {
         );
         
         this.relicView.relicFilters.reset();
+        this.potionView.potionFilters.reset();
 
+        this.potionView.potionFilters.setCharacter("any")
         this.relicView.relicFilters.setCharacter(
             save.character
                 .replace("CHARACTER.", "")

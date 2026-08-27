@@ -1,116 +1,106 @@
-import {relics, RelicDefinition, RelicCharacter, RelicRarity, RelicAncient} from "./relic-list.ts";
-import {getRelicImage, getElement} from "../../utils/utils.ts";
 
-export interface RelicFilterState {
-    rarities: Set<RelicRarity>
-    characters: RelicCharacter
-    ancients: RelicAncient
-    selectedRelic?: string
+import {getPotionImage, getElement} from "../../utils/utils.ts";
+import {PotionCharacter, PotionRarity, PotionDefinition, potions} from "./potion-list.ts";
+
+export interface PotionFilterState {
+    rarities: Set<PotionRarity>
+    characters: PotionCharacter
+    selectedPotion?: string
 }
 
-export class RelicFilters {
+export class PotionFilters {
     private readonly allFilters: NodeListOf<HTMLButtonElement>;
     private readonly rarityFilters: NodeListOf<HTMLButtonElement>;
     private readonly characterFilters: NodeListOf<HTMLButtonElement>;
-    private readonly ancientFilters: NodeListOf<HTMLButtonElement>;
-    private readonly relicGrid: HTMLDivElement;
-    private state: RelicFilterState;
+    private readonly potionGrid: HTMLDivElement;
+    private state: PotionFilterState;
     private readonly rarityFilterContainer =
-        getElement<HTMLElement>("#rarity-filters");
+        getElement<HTMLElement>("#rarity-filters-potion");
 
     constructor(
-        private readonly callback: (relicID: string) => void,
+        private readonly callback: (potionID: string) => void,
         private readonly library: HTMLElement
-        ) {
-        this.relicGrid = <HTMLDivElement>this.library.querySelector(".item-grid");
+    ) {
+        this.potionGrid = <HTMLDivElement>this.library.querySelector(".item-grid");
 
         this.state = {
             rarities: new Set(),
             characters: "any",
-            ancients: "none"
         }
 
         this.allFilters = library.querySelectorAll<HTMLButtonElement>(".filter-chip");
 
         this.rarityFilters = library
-            .querySelector("#rarity-filters")!
+            .querySelector("#rarity-filters-potion")!
             .querySelectorAll<HTMLButtonElement>(".filter-chip");
 
         this.characterFilters = library
-            .querySelector("#character-filters")!
+            .querySelector("#character-filters-potion")!
             .querySelectorAll<HTMLButtonElement>(".filter-chip");
 
-        this.ancientFilters = library
-            .querySelector("#ancient-filters")!
-            .querySelectorAll<HTMLButtonElement>(".filter-chip");
     }
 
     init() {
         this.setupRarityFilters();
-        this.setupAncientFilters();
         this.setupCharacterFilters();
-        this.initializeRelicList()
+        this.initializePotionList();
     }
 
 
-    private initializeRelicList() {
-        for (const relic of relics) {
-            this.relicGrid.appendChild(this.createRelic(relic))
+    private initializePotionList() {
+        for (const potion of potions) {
+            this.potionGrid.appendChild(this.createPotion(potion))
         }
     }
 
-    private createRelic(relic: RelicDefinition): HTMLElement {
+    private createPotion(potion: PotionDefinition): HTMLElement {
         const element = document.createElement("div");
 
         element.classList.add("item-slot");
 
         const image = document.createElement("img");
-        const test = getRelicImage(relic.id);
+        const test = getPotionImage(potion.id);
         if (test===undefined) {
-            console.log(relic);
+            console.log(potion)
         }
-        image.src = getRelicImage(relic.id);
+        image.src = getPotionImage(potion.id);
         element.appendChild(image)
         element.hidden = true;
         element.addEventListener("click", () => {
-            this.state.selectedRelic = relic.id;
+            this.state.selectedPotion = potion.id;
             this.library.classList.remove("active");
-            this.callback(relic.id);
+            this.callback(potion.id);
         });
         return element;
     }
 
-    private getRarityButton(rarity: RelicRarity) {
+    private getRarityButton(rarity: PotionRarity) {
         return this.rarityFilterContainer.querySelector<HTMLButtonElement>(
             `[data-value="${rarity}"]`
         );
     }
 
-    private matchesRarity(relic: RelicDefinition) {
+    private matchesRarity(potion: PotionDefinition) {
         if (this.state.rarities.size === 0) {
             return true;
         }
 
-        return this.state.rarities.has(relic.rarity);
+        return this.state.rarities.has(potion.rarity);
     }
 
-    private matchesCharacter(relic: RelicDefinition) {
-        return this.state.characters==="any" || this.state.characters===relic.character;
+    private matchesCharacter(potion: PotionDefinition) {
+        return this.state.characters==="any" || this.state.characters===potion.character;
     }
 
-    private matchesAncient(relic: RelicDefinition) {
-        return this.state.ancients==="none" || this.state.ancients===relic.ancient;
-    }
-
-    private matchesFilters(relic: RelicDefinition) {
-        return this.matchesAncient(relic) && this.matchesCharacter(relic) && this.matchesRarity(relic);
+    private matchesFilters(potion: PotionDefinition) {
+        return this.matchesCharacter(potion) && this.matchesRarity(potion);
     }
 
     private onChange() {
         let i = 0;
-        for (const element of this.relicGrid.children) {
-            let relic = relics[i];
-            (<HTMLElement>element).hidden = !this.matchesFilters(relic);
+        for (const element of this.potionGrid.children) {
+            let potion = potions[i];
+            (<HTMLElement>element).hidden = !this.matchesFilters(potion);
             i++;
         }
     }
@@ -118,14 +108,9 @@ export class RelicFilters {
     private setupRarityFilters() {
         this.rarityFilters.forEach(button => {
             button.addEventListener("click", () => {
-                const rarity = button.dataset.value as RelicRarity;
+                const rarity = button.dataset.value as PotionRarity;
 
-                if (rarity==="ancient" && this.state.ancients!=="none") {
-                    this.forceOn(button);
-                } else {
-                    this.toggle(button);
-                }
-
+                this.toggle(button);
 
                 if (button.classList.contains("active")) {
                     this.state.rarities.add(rarity);
@@ -141,17 +126,13 @@ export class RelicFilters {
     private setupCharacterFilters() {
         this.characterFilters.forEach(button => {
             button.addEventListener("click", () => {
-                const value = button.dataset.value as RelicCharacter;
+                const value = button.dataset.value as PotionCharacter;
 
                 this.toggle(button);
 
                 if (button.classList.contains("active")) {
                     this.disableOtherElements(this.characterFilters, value);
                     this.state.characters = value;
-                    if (value !== "any") {
-                        this.disableAllAncients();
-                        this.forceOff(this.getRarityButton("ancient")!);
-                    }
                 } else {
                     this.selectAnyCharacter();
                     this.state.characters = "any";
@@ -159,40 +140,6 @@ export class RelicFilters {
                 this.onChange();
             });
         });
-    }
-
-    private setupAncientFilters() {
-        this.ancientFilters.forEach(button => {
-            button.addEventListener("click", () => {
-                const value = button.dataset.value as RelicAncient;
-
-                this.toggle(button);
-                const ancientRarity = this.getRarityButton("ancient")!;
-
-                if (button.classList.contains("active")) {
-                    this.disableOtherElements(this.ancientFilters, value);
-                    this.state.ancients = value;
-                    this.selectAnyCharacter();
-                    this.disableAllRarity()
-                    this.forceOn(ancientRarity);
-                    this.state.rarities.add("ancient")
-
-                } else {
-                    this.state.ancients = "none";
-                    this.forceOff(ancientRarity);
-                    this.state.rarities.delete("ancient")
-                }
-            this.onChange();
-            });
-        });
-    }
-
-    private disableAllAncients() {
-        this.ancientFilters.forEach(button => {
-            this.forceOff(button);
-        });
-        this.state.ancients = "none";
-        this.state.rarities.delete("ancient");
     }
 
     private selectAnyCharacter() {
@@ -209,7 +156,7 @@ export class RelicFilters {
         this.rarityFilters.forEach(button => {this.forceOff(button);})
         this.state.rarities.clear();
     }
-    private disableOtherElements(filter: NodeListOf<HTMLButtonElement>, name: RelicAncient | RelicCharacter | RelicRarity) {
+    private disableOtherElements(filter: NodeListOf<HTMLButtonElement>, name: PotionCharacter | PotionRarity) {
         filter.forEach(button => {
             const value = button.dataset.value;
             if (value !== name) {
@@ -243,7 +190,7 @@ export class RelicFilters {
 
             if (active) {
                 this.toggle(button);
-                this.state.characters =  character as RelicCharacter;
+                this.state.characters =  character as PotionCharacter;
             }
         });
         this.onChange();
@@ -256,7 +203,6 @@ export class RelicFilters {
         this.state = {
             rarities: new Set(),
             characters: "any",
-            ancients: "none"
         }
     }
 }
