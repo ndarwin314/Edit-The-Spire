@@ -96,6 +96,20 @@ body {
   border-radius: 8px;
 }
 
+/* Overlay Styles*/
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.overlay.active {
+  display: flex;
+}
+
 /* ------------------------------------ */
 /* Startup Screen                       */
 /* ------------------------------------ */
@@ -120,6 +134,7 @@ body {
 
 #btn-start {
   background-color: rgba(0, 0, 0, 0.4);
+  border: 2px solid transparent;
   color: white;
   border: 0;
   border-radius: 0.6rem;
@@ -285,6 +300,13 @@ body {
 
   width: 60%;
   height: 50%;
+
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.file-select:hover {
+  transform: scale(1.1);
 }
 
 /* ------------------------------------ */
@@ -448,17 +470,7 @@ body {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Relic Library */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
+/* Relic/Potion Library */
 .library-panel {
   background-color: #212D32;
   border: 5px solid #354A4F;
@@ -472,10 +484,6 @@ body {
   padding: 1rem 2rem 3rem 2rem;
   display: flex;
   flex-direction: column;
-}
-
-.overlay.active {
-  display: flex;
 }
 
 .panel-header {
@@ -747,6 +755,74 @@ body {
 .enchantment-badge[enchantment="swift"]  { background-image: url(./assets/enchantment-badges/swift.webp); }
 .enchantment-badge[enchantment="tezcataras ember"]  { background-image: url(./assets/enchantment-badges/tezcataras_ember.webp); }
 .enchantment-badge[enchantment="vigorous"]  { background-image: url(./assets/enchantment-badges/vigorous.webp); }
+
+.card-editor-panel {
+  background-color: #212D32;
+  border: 5px solid #354A4F;
+  border-radius: 19px;
+  position: absolute;
+  inset: 0;
+  place-self: center;
+  margin: auto;
+  width: 35vw;
+  height: 45vh;
+  padding: 1rem 2rem 1rem 2rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.card-editor-panel .card-image {
+  width: clamp(140px, 15vw, 280px);
+}
+
+.card-editor-button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 40vh;
+  gap: 3%;
+}
+
+.card-editor-button {
+  display: flex;
+  align-items: center;
+  width: 75%;
+  padding: 5%;
+  background-color: #2E5456;
+  border: 3px solid #48696B;
+  border-radius: 10px;
+  gap: 5%;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.card-editor-label {
+  font-family: Kreon;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.card-editor-icon {
+  display: inline-block;
+  width: clamp(20px, 2vw, 28px);
+  height: clamp(20px, 2vw, 28px);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  flex-shrink: 0;
+}
+
+.card-editor-button:hover {
+  background-color: #48696B;
+  transform: scale(1.05);
+}
+
+#add-copy .card-editor-icon {background-image: url(./assets/general/copy_card_icon.png);}
+#upgrade .card-editor-icon {background-image: url(./assets/general/upgrade_card_icon.png);}
+#enchant .card-editor-icon {background-image: url(./assets/general/enchant_card_icon.png);}
+#remove .card-editor-icon {background-image: url(./assets/general/card_remove.webp);}
 
 #deck-page .deck-value {
   position: absolute;
