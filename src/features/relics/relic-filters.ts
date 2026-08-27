@@ -67,7 +67,7 @@ export class RelicFilters {
         const image = document.createElement("img");
         const test = getRelicImage(relic.id);
         if (test===undefined) {
-            console.log(relic)
+            console.log(relic);
         }
         image.src = getRelicImage(relic.id);
         element.appendChild(image)
@@ -180,6 +180,7 @@ export class RelicFilters {
                 } else {
                     this.state.ancients = "none";
                     this.forceOff(ancientRarity);
+                    this.state.rarities.delete("ancient")
                 }
             this.onChange();
             });

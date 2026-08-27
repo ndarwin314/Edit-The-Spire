@@ -58,10 +58,9 @@ export class PotionView {
         potionContainer.replaceChildren();
         potionContainer.appendChild(potionView.createPotionImage(potionID));
 
-
         if (index==children.length-1) {
-            potionView.container.appendChild(potionView.createAddPotion(index+1));
-            potionView.state.potions.push(potionID);
+            potionView.state.potions.push("plus_icon");
+            potionView.container.appendChild(potionView.createPotionElement(index+1));
         } else {
             potionView.state.potions[index] = potionID;
         }
@@ -84,10 +83,6 @@ export class PotionView {
         });
         element.appendChild(image);
         return element
-    }
-
-    private createAddPotion(index: number) {
-        return this.createPotionElement(index);
     }
 
     private createPotionImage(potionID: string) {
