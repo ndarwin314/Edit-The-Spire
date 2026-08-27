@@ -698,18 +698,55 @@ body {
   width: 100%;
   aspect-ratio: 5 / 7;
   cursor: pointer;
+  position: relative;
+  display: inline-block;
+  transition: transform 0.2s ease;
 }
 
 .card-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: transform 0.2s ease;
 }
 
-.card-entry:hover .card-image {
+.card-entry:hover {
   transform: scale(1.15);
 }
+
+.enchantment-badge {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 23%;
+  height: 30%;
+  position: absolute;
+  z-index: 1;
+  top: 18.5%;
+  left: 3%;
+}
+
+.enchantment-badge[enchantment="adroit"]  { background-image: url(./assets/enchantment-badges/adroit.webp); }
+.enchantment-badge[enchantment="clone"]  { background-image: url(./assets/enchantment-badges/clone.webp); }
+.enchantment-badge[enchantment="corrupted"]  { background-image: url(./assets/enchantment-badges/corrupted.webp); }
+.enchantment-badge[enchantment="glam"]  { background-image: url(./assets/enchantment-badges/glam.webp); }
+.enchantment-badge[enchantment="goopy"]  { background-image: url(./assets/enchantment-badges/goopy.webp); }
+.enchantment-badge[enchantment="imbued"]  { background-image: url(./assets/enchantment-badges/imbued.webp); }
+.enchantment-badge[enchantment="inky"]  { background-image: url(./assets/enchantment-badges/inky.webp); }
+.enchantment-badge[enchantment="instinct"]  { background-image: url(./assets/enchantment-badges/instinct.webp); }
+.enchantment-badge[enchantment="momentum"]  { background-image: url(./assets/enchantment-badges/momentum.webp); }
+.enchantment-badge[enchantment="nimble"]  { background-image: url(./assets/enchantment-badges/nimble.webp); }
+.enchantment-badge[enchantment="perfect fit"]  { background-image: url(./assets/enchantment-badges/perfect_fit.webp); }
+.enchantment-badge[enchantment="royally approved"]  { background-image: url(./assets/enchantment-badges/royally_approved.webp); }
+.enchantment-badge[enchantment="sharp"]  { background-image: url(./assets/enchantment-badges/sharp.webp); }
+.enchantment-badge[enchantment="slither"]  { background-image: url(./assets/enchantment-badges/slither.webp); }
+.enchantment-badge[enchantment="slumbering essence"]  { background-image: url(./assets/enchantment-badges/slumbering_essence.webp); }
+.enchantment-badge[enchantment="souls power"]  { background-image: url(./assets/enchantment-badges/souls_power.webp); }
+.enchantment-badge[enchantment="sown"]  { background-image: url(./assets/enchantment-badges/sown.webp); }
+.enchantment-badge[enchantment="spiral"]  { background-image: url(./assets/enchantment-badges/spiral.webp); }
+.enchantment-badge[enchantment="steady"]  { background-image: url(./assets/enchantment-badges/steady.webp); }
+.enchantment-badge[enchantment="swift"]  { background-image: url(./assets/enchantment-badges/swift.webp); }
+.enchantment-badge[enchantment="tezcataras ember"]  { background-image: url(./assets/enchantment-badges/tezcataras_ember.webp); }
+.enchantment-badge[enchantment="vigorous"]  { background-image: url(./assets/enchantment-badges/vigorous.webp); }
 
 #deck-page .deck-value {
   position: absolute;
