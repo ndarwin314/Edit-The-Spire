@@ -1,9 +1,10 @@
-import {cleanCardName, getCardImage, getElement, overlayOnClick} from "../../utils/utils.ts";
+import {cleanCardName, cleanCharName, getCardImage, getElement, overlayOnClick} from "../../utils/utils.ts";
 import {Card, type SaveInfo} from "../../app/types.ts";
 import {player} from "../../services/tauri.ts";
 
 interface DeckState {
-    cards: Card[]
+    cards: Card[],
+    index: number
 }
 
 export class DeckView {
@@ -18,7 +19,8 @@ export class DeckView {
         this.deckSearch = this.deckPage.querySelector(".sort-bar")!;
         this.cardEditor = getElement("#card-editor");
         this.state = {
-            cards: []
+            cards: [],
+            index: -1
         };
     }
 
@@ -27,6 +29,42 @@ export class DeckView {
         this.cardEditor.addEventListener("click", event =>
             overlayOnClick(event, () => this.cardEditor.classList.remove("active"))
         );
+
+        const upgradeCard = this.cardEditor.querySelector<HTMLButtonElement>("#upgrade")!;
+        upgradeCard.addEventListener("click", () => this.upgradeHelper());
+
+        const removeCard = this.cardEditor.querySelector<HTMLButtonElement>("#remove")!;
+        removeCard.addEventListener("click", () => this.removeHelper());
+    }
+
+    private upgradeHelper() {
+        const newCard = this.currentCard();
+        if (newCard.current_upgrade_level==1) {
+            newCard.current_upgrade_level=0;
+        } else {
+            newCard.current_upgrade_level=1;
+        }
+        this.updateGrid(newCard, this.state.index);
+        this.updatePreview();
+    }
+
+    private removeHelper() {
+        const newCard = this.currentCard();
+        this.state.cards.splice(this.state.index, 1);
+        this.cardEditor.classList.remove("active");
+        this.renderDeck();
+    }
+
+    private currentCard() {
+        //console.log(this.state);
+        return this.state.cards[this.state.index];
+    }
+
+    private updateGrid(card: Card, index: number) {
+        const entry = this.cardGrid.children[index];
+        const image = entry.querySelector<HTMLImageElement>(".card-image")!;
+        image.src = this.getCardImage(card);
+        entry.setAttribute("card-name", cleanCardName(card.id));
     }
 
 
@@ -36,13 +74,15 @@ export class DeckView {
     }
 
     private renderDeck() {
-        this.cardGrid.replaceChildren()
+        this.cardGrid.replaceChildren();
+        let i= 0;
         for (const card of this.state.cards) {
-            this.cardGrid.appendChild(this.createCard(card));
+            this.cardGrid.appendChild(this.createCard(card, i));
+            i++;
         }
     }
 
-    private createCard(card: Card) {
+    private createCard(card: Card, index: number) {
         const element = document.createElement("div");
 
         const cardName = cleanCardName(card.id);
@@ -50,9 +90,9 @@ export class DeckView {
         element.setAttribute("card-name", cardName);
 
         const image = document.createElement("img");
-        image.src = getCardImage(cardName, card.current_upgrade_level);
+        image.src = this.getCardImage(card);
         image.classList.add("card-image");
-        image.addEventListener("click", () => {this.cardEditor.classList.add("active");});
+        image.addEventListener("click", () => this.clickCard(index));
         element.appendChild(image);
 
         const enchantment = document.createElement("div");
@@ -60,6 +100,25 @@ export class DeckView {
         enchantment.setAttribute("enchantment", card.enchantment==undefined ? "none": card.enchantment.id);
 
         return element;
+    }
+
+    private clickCard(index: number) {
+        this.cardEditor.classList.add("active");
+        this.state.index = index;
+        this.updatePreview();
+    }
+
+    private updatePreview() {
+        const index = this.state.index;
+        const image = this.cardEditor.querySelector<HTMLImageElement>("#preview-card")!;
+        const card = this.state.cards[index];
+        image.src = this.getCardImage(card);
+    }
+
+    private getCardImage(card: Card) {
+        const cardName = cleanCardName(card.id);
+        const upgraded = !(card.current_upgrade_level===undefined || card.current_upgrade_level==0);
+        return getCardImage(cardName, upgraded);
     }
 
 }

@@ -66,8 +66,7 @@ export function getPotionImage(potion: string) {
     return images[`/src/assets/Potions/${potion}.webp`];
 }
 
-export function getCardImage(card: string, current_upgrade_level?: number) {
-    let upgraded = current_upgrade_level != undefined;
+export function getCardImage(card: string, upgraded: boolean) {
     return images[`/src/assets/card-renders/${card}${upgraded? "_upgraded": ""}.webp`];
 }
 
