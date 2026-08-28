@@ -5,17 +5,21 @@ import { CharacterView } from "../features/character/character-view";
 
 import { saves } from "../services/tauri";
 import type { SaveInfo } from "./types";
+import {DeckView} from "../features/deck/deck-view.ts";
 
 export class App {
     private readonly characterView: CharacterView;
+    private readonly deckView: DeckView;
 
     constructor() {
         this.characterView = new CharacterView();
+        this.deckView = new DeckView()
     }
 
     init() {
         initNavigation();
         this.characterView.init();
+        this.deckView.init();
 
         this.setupSaveSelection();
 
@@ -41,5 +45,6 @@ export class App {
 
         showPage("character");
         await this.characterView.load(save);
+        await this.deckView.load(save);
     }
 }

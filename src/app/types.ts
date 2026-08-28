@@ -17,3 +17,15 @@ export interface Relic {
     id: string;
     floor_added_to_deck: number;
 }
+
+export interface Card {
+    id: string;
+    floor_added_to_deck: number;
+    current_upgrade_level: number;
+    enchantment?: Enchantment;
+}
+
+export interface Enchantment {
+    id: string;
+    amount: number;
+}

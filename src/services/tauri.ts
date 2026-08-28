@@ -1,5 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
-import type { Potion, Relic, SaveInfo } from "../app/types";
+import type {Card, Potion, Relic, SaveInfo} from "../app/types";
 
 export const saves = {
     async find(): Promise<SaveInfo[]> {
@@ -47,4 +47,9 @@ export const player = {
     async getRelics(): Promise<Relic[]> {
         return invoke("get_relics");
     },
+
+    async getDeck(): Promise<Card[]> {
+        return invoke("get_deck");
+    }
+
 };

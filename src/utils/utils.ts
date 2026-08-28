@@ -42,8 +42,12 @@ export function cleanRelicName(relic: string): string {
     return name;
 }
 
-export function cleanPotionName(relic: string): string {
-    return relic.replace("POTION.", "").toLowerCase();
+export function cleanPotionName(potion: string): string {
+    return potion.replace("POTION.", "").toLowerCase();
+}
+
+export function cleanCardName(card: string): string {
+    return card.replace("CARD.", "").toLowerCase();
 }
 
 export function input_sanitizer(event: InputEvent) {
@@ -60,6 +64,10 @@ export function getRelicImage(relic: string) {
 
 export function getPotionImage(potion: string) {
     return images[`/src/assets/Potions/${potion}.webp`];
+}
+
+export function getCardImage(card: string, upgraded: boolean) {
+    return images[`/src/assets/card-renders/${card}${upgraded? "_upgraded": ""}.webp`];
 }
 
 export function getPlusIcon() {
