@@ -1,4 +1,4 @@
-import {cleanCardName, getCardImage, getElement} from "../../utils/utils.ts";
+import {cleanCardName, getCardImage, getElement, overlayOnClick} from "../../utils/utils.ts";
 import {Card, type SaveInfo} from "../../app/types.ts";
 import {player} from "../../services/tauri.ts";
 
@@ -22,16 +22,24 @@ export class DeckView {
         };
     }
 
-    init() {
 
+    init() {
+        this.cardEditor.addEventListener("click", event =>
+            overlayOnClick(event, () => this.cardEditor.classList.remove("active"))
+        );
     }
+
 
     async load(save: SaveInfo) {
         this.state.cards = await player.getDeck();
+        this.renderDeck()
     }
 
     private renderDeck() {
-
+        this.cardGrid.replaceChildren()
+        for (const card of this.state.cards) {
+            this.cardGrid.appendChild(this.createCard(card));
+        }
     }
 
     private createCard(card: Card) {
@@ -42,7 +50,8 @@ export class DeckView {
         element.setAttribute("card-name", cardName);
 
         const image = document.createElement("img");
-        image.src = getCardImage(cardName, card.current_upgrade_level!=0);
+        image.src = getCardImage(cardName, card.current_upgrade_level);
+        image.classList.add("card-image");
         image.addEventListener("click", () => {this.cardEditor.classList.add("active");});
         element.appendChild(image);
 

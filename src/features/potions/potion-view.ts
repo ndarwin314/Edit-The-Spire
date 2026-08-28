@@ -1,5 +1,5 @@
 import type {Potion} from "../../app/types";
-import {cleanPotionName, getPlusIcon, getPotionImage} from "../../utils/utils.ts";
+import {cleanPotionName, getPlusIcon, getPotionImage, overlayOnClick} from "../../utils/utils.ts";
 import {PotionFilters} from "./potion-filters.ts";
 
 export interface PotionViewState {
@@ -40,13 +40,15 @@ export class PotionView {
 
     init() {
         this.potionFilters.init();
+        const fun: () => void = () => {
+            this.library.classList.remove("active");
+            this.state.selected_potion = -1;
+        };
         const potionClose = this
             .library
             .querySelector<HTMLButtonElement>(".close-button")!;
-        potionClose.addEventListener('click', () => {
-            this.library.classList.remove("active");
-            this.state.selected_potion = -1;
-        });
+        potionClose.addEventListener('click', fun);
+        this.library.addEventListener("click", event => overlayOnClick(event, fun));
     }
 
     static replacePotion(potionView: PotionView, potionID: string) {

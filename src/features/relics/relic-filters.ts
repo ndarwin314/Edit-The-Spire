@@ -49,7 +49,8 @@ export class RelicFilters {
         this.setupRarityFilters();
         this.setupAncientFilters();
         this.setupCharacterFilters();
-        this.initializeRelicList()
+        this.initializeRelicList();
+
     }
 
 
@@ -58,6 +59,7 @@ export class RelicFilters {
             this.relicGrid.appendChild(this.createRelic(relic))
         }
     }
+
 
     private createRelic(relic: RelicDefinition): HTMLElement {
         const element = document.createElement("div");

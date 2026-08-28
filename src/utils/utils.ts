@@ -66,10 +66,17 @@ export function getPotionImage(potion: string) {
     return images[`/src/assets/Potions/${potion}.webp`];
 }
 
-export function getCardImage(card: string, upgraded: boolean) {
+export function getCardImage(card: string, current_upgrade_level?: number) {
+    let upgraded = current_upgrade_level != undefined;
     return images[`/src/assets/card-renders/${card}${upgraded? "_upgraded": ""}.webp`];
 }
 
 export function getPlusIcon() {
     return images['/src/assets/general/plus_icon.png']
+}
+
+export function overlayOnClick(event: Event, fun: () => void) {
+    if (event.target===event.currentTarget) {
+        fun();
+    }
 }

@@ -1,5 +1,5 @@
 import type {Relic} from "../../app/types";
-import {cleanRelicName, getPlusIcon, getRelicImage} from "../../utils/utils.ts";
+import {cleanRelicName, getPlusIcon, getRelicImage, overlayOnClick} from "../../utils/utils.ts";
 import {RelicFilters} from "./relic-filters.ts";
 
 export interface RelicViewState {
@@ -24,14 +24,16 @@ export class RelicView {
     }
 
     init() {
+        const fun: () => void = () => {
+            this.library.classList.remove("active");
+            this.state.selected_relic = -1;
+        };
         this.relicFilters.init();
         const relicClose = this
             .library
             .querySelector<HTMLButtonElement>(".close-button")!;
-        relicClose.addEventListener('click', () => {
-            this.library.classList.remove("active");
-            this.state.selected_relic = -1;
-        });
+        relicClose.addEventListener('click', fun);
+        this.library.addEventListener("click", event => overlayOnClick(event, fun));
 
     }
 
