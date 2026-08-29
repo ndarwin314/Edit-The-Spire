@@ -239,70 +239,33 @@
 
         <!-- DECK TAB -->
       <div id="deck-page" hidden>
-        <div class="sort-bar">
-          <div class="sort-chip">
-            <span class="sort-label">Obtained</span>
-            <span class="sort-icon" sort-order="descending"></span>
-          </div>
-          <div class="sort-chip">
-            <span class="sort-label">Card Type</span>
-            <span class="sort-icon" sort-order="descending"></span>
-          </div>
-          <div class="sort-chip">
-            <span class="sort-label">Cost</span>
-            <span class="sort-icon" sort-order="descending"></span>
-          </div>
-          <div class="sort-chip">
-            <span class="sort-label">A-Z</span>
-            <span class="sort-icon" sort-order="descending"></span>
-          </div>
-        </div>
-        <div class="card-grid" id="deck-grid">
-          <div class="card-entry" card-name="strike_ironclad">
-            <img class="card-image" src="./src/assets/card-renders/strike_ironclad.webp">
-            <div class="enchantment-badge" enchantment="adroit"></div>
-          </div>
-          <div class="card-entry" card-name="strike_ironclad">
-            <img class="card-image" src="./src/assets/card-renders/strike_ironclad.webp">
-            <div class="enchantment-badge" enchantment="glam"></div>
-          </div>
-          <div class="card-entry" card-name="strike_ironclad">
-            <img class="card-image" src="./src/assets/card-renders/strike_ironclad.webp">
-            <div class="enchantment-badge" enchantment="momentum"></div>
-          </div>
-          <div class="card-entry" card-name="strike_ironclad">
-            <img class="card-image" src="./src/assets/card-renders/strike_ironclad.webp">
-            <div class="enchantment-badge" enchantment="none"></div>
-          </div>
-          <div class="card-entry" card-name="strike_ironclad">
-            <img class="card-image" src="./src/assets/card-renders/strike_ironclad.webp">
-            <div class="enchantment-badge" enchantment="none"></div>
-          </div>
-          <div class="card-entry" card-name="defend_ironclad">
-            <img class="card-image" src="./src/assets/card-renders/defend_ironclad.webp">
-            <div class="enchantment-badge" enchantment="none"></div>
-          </div>
-          <div class="card-entry" card-name="defend_ironclad">
-            <img class="card-image" src="./src/assets/card-renders/defend_ironclad.webp">
-            <div class="enchantment-badge" enchantment="none"></div>
-          </div>
-          <div class="card-entry" card-name="defend_ironclad">
-            <img class="card-image" src="./src/assets/card-renders/defend_ironclad.webp">
-            <div class="enchantment-badge" enchantment="none"></div>
-          </div>
-          <div class="card-entry" card-name="defend_ironclad">
-            <img class="card-image" src="./src/assets/card-renders/defend_ironclad.webp">
-            <div class="enchantment-badge" enchantment="none"></div>
-          </div>
-          <div class="card-entry" card-name="bash">
-            <img class="card-image" src="./src/assets/card-renders/bash.webp">
-            <div class="enchantment-badge" enchantment="none"></div>
+        <div class="top-bar-wrap">
+          <button type="button" class="top-bar-buttons reset" id="reset-button">Reset Deck</button>
+          <button type="button" class="top-bar-buttons card-library" id="card-library-button">Card Library</button>
+          <div class="sort-bar">
+            <div class="sort-chip">
+              <span class="sort-label">Obtained</span>
+              <span class="sort-icon" sort-order="descending"></span>
+            </div>
+            <div class="sort-chip">
+              <span class="sort-label">Type</span>
+              <span class="sort-icon" sort-order="descending"></span>
+            </div>
+            <div class="sort-chip">
+              <span class="sort-label">Cost</span>
+              <span class="sort-icon" sort-order="descending"></span>
+            </div>
+            <div class="sort-chip">
+              <span class="sort-label">A-Z</span>
+              <span class="sort-icon" sort-order="descending"></span>
+            </div>
           </div>
         </div>
+        <div class="card-grid" id="deck-grid"></div>
         <span class="deck-value" contenteditable="false" spellcheck="false">18 cards</span>
-
         <div class="overlay card-editor" id="card-editor">
           <div class="card-editor-panel">
+            <button class="close-button card-editor">✕</button>
             <img class="card-image" id="preview-card" src="./src/assets/card-renders/bash.webp">
             <div class="card-editor-button-group">
               <button type="button" class="card-editor-button" id="add-copy">
@@ -326,8 +289,77 @@
         </div>
       </div>
 
+        <!-- CARD LIBRARY -->
+      <div id="card-library" hidden>
+        <div class="card-filter-panel">
+          <div class="card-filter-group search-bar">
+                <span class="card-filter-label">Search:</span>
+                <div class="card-filter-row search-bar"></div>
+              </div>
+          <div class="card-filter-group source-filter">
+            <span class="card-filter-label">Source:</span>
+            <div class="card-filter-row" id="source-filters">
+              <button class="card-filter-chip icon-chip" data-value="ironclad" aria-pressed="false">
+                <img src="./src/assets/character-icons/character_icon_ironclad.webp"/>
+              </button>
+              <button class="card-filter-chip icon-chip" data-value="silent" aria-pressed="false">
+                <img src="./src/assets/character-icons/character_icon_silent.webp"/>
+              </button>
+              <button class="card-filter-chip icon-chip" data-value="regent" aria-pressed="false">
+                <img src="./src/assets/character-icons/character_icon_regent.webp"/>
+              </button>
+              <button class="card-filter-chip icon-chip" data-value="necrobinder" aria-pressed="false">
+                <img src="./src/assets/character-icons/character_icon_necrobinder.webp"/>
+              </button>
+              <button class="card-filter-chip icon-chip" data-value="defect" aria-pressed="false">
+                <img src="./src/assets/character-icons/character_icon_defect.webp"/>
+              </button>
+              <button class="card-filter-chip icon-chip" data-value="colorless" aria-pressed="false">
+                <img src="./src/assets/general/energy_colorless.webp"/>
+              </button>
+            </div>
+          </div>
+          <div class="card-filter-group rarity-filter">
+            <span class="card-filter-label">Rarity:</span>
+            <div class="card-filter-row rarity-filter" id="card-rarity-filters">
+              <button class="card-filter-chip" data-value="basic" aria-pressed="false">Basic</button>
+              <button class="card-filter-chip" data-value="common" aria-pressed="false">Common</button>
+              <button class="card-filter-chip" data-value="uncommon" aria-pressed="false">Uncommon</button>
+              <button class="card-filter-chip" data-value="rare" aria-pressed="false">Rare</button>
+              <button class="card-filter-chip" data-value="ancient" aria-pressed="false">Ancient</button>
+              <button class="card-filter-chip" data-value="event" aria-pressed="false">Event</button>
+              <button class="card-filter-chip" data-value="token" aria-pressed="false">Token</button>
+            </div>
+          </div>
+          <div class="card-filter-group type">
+            <span class="card-filter-label">Type:</span>
+            <div class="card-filter-row type-filter" id="card-type-filters">
+              <button class="card-filter-chip" data-value="attack" aria-pressed="false">Attack</button>
+              <button class="card-filter-chip" data-value="skil" aria-pressed="false">Skill</button>
+              <button class="card-filter-chip" data-value="power" aria-pressed="false">Power</button>
+              <button class="card-filter-chip" data-value="status" aria-pressed="false">Status</button>
+              <button class="card-filter-chip" data-value="curse" aria-pressed="false">Curse</button>
+              <button class="card-filter-chip" data-value="quest" aria-pressed="false">Quest</button>
+            </div>
+          </div>
+          <div class="card-filter-group cost">
+            <span class="card-filter-label">Cost:</span>
+            <div class="card-filter-row cost-filter" id="card-cost-filters">
+              <button class="card-filter-chip" data-value="X" aria-pressed="false">X</button>
+              <button class="card-filter-chip" data-value="0" aria-pressed="false">0</button>
+              <button class="card-filter-chip" data-value="1" aria-pressed="false">1</button>
+              <button class="card-filter-chip" data-value="2" aria-pressed="false">2</button>
+              <button class="card-filter-chip" data-value="3+" aria-pressed="false">3</button>
+              <button class="card-filter-chip" data-value="unplayable" aria-pressed="false">Unplayable</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-grid" id="library-grid"></div>
+      </div>
+
         <!-- MAP TAB -->
       <div id="map-page" hidden>
+        
       </div>
 
       <button type="button" class="back-button"></button>

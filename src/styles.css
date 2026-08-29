@@ -63,9 +63,9 @@ body {
   border: none;
   cursor: pointer;
 
-  position: fixed;
-  left: -2.5rem;
-  bottom: 2rem;
+  position: absolute;
+  left: -2.5%;
+  bottom: 20%;
   z-index: 100;
 }
 
@@ -349,6 +349,7 @@ body {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  margin-top: 2%;
   gap: clamp(1rem, 3vw, 2.5rem);
   width: 90vw;
   max-width: 1200px;
@@ -503,6 +504,10 @@ body {
   border-radius: 10px;
 }
 
+.close-button:hover {
+  background-color: #353545;
+}
+
 .panel-main {
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.4);
@@ -638,13 +643,49 @@ body {
   padding-bottom: 0;
 }
 
-.sort-bar {
+.top-bar-wrap {
   width: 75%;
   height: 50px;
+  z-index: 1;
+  position: relative;
+}
+
+.top-bar-buttons {
+  position: absolute;
+  height: 100%;
+  width: 9%;
+  background-color:#2E5456;
+  border: 3px solid #48696B;
+  font-family: inherit;
+  color: white;
+  font-size: 0.8rem;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.top-bar-buttons.reset {
+  top: 0;
+  left: 0;
+  border-radius: 10px 0 0 10px;
+}
+
+.top-bar-buttons.card-library {
+  top: 0;
+  right: 0;
+  border-radius: 0 10px 10px 0;
+}
+
+.top-bar-buttons:hover {
+  border: 3px solid #DB6514;
+  background-color:#48696B;
+}
+
+.sort-bar {
+  width: 100%;
+  height: 100%;
   background-color: #212D32;
   border: 3px solid #354A4F;
   border-radius: 10px;
-  margin-top: 2rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -670,6 +711,8 @@ body {
 }
 
 .sort-label {
+  font-family: inherit;
+  font-size: 0.9rem;
   margin: 0;
 }
 
@@ -687,7 +730,7 @@ body {
 .sort-icon[sort-order="ascending"]  { background-image: url('./assets/general/sort_ascending.png'); }
 
 .card-grid {
-  width: 75%;
+  width: 80%;
   flex: 1;
   min-height: 0;
   margin-bottom: 0;
@@ -771,6 +814,13 @@ body {
   flex-direction: row;
 }
 
+.close-button.card-editor {
+  position: absolute;
+  top: 5%;
+  right: 3%;
+  cursor: pointer;
+}
+
 .card-editor-panel .card-image {
   width: clamp(140px, 15vw, 280px);
 }
@@ -835,4 +885,108 @@ body {
   .card-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
+}
+
+/* CARD LIBRARY*/
+#card-library { /*CHANGE TO "#card-library". THIS IS FOR STAGING PURPOSES*/
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+.card-filter-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(0.5rem, 0.5vh, 1.25rem);
+  background-color: #2E5456;
+  border-radius: 19px;
+  padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+  width: clamp(12rem, 20%, 17rem);
+  height: 100%;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.card-filter-label {
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.card-filter-row.search-bar {
+  background-color: rgba(0, 0, 0, 0.6);
+  height: 1.5rem;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.card-filter-group {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: 100%;
+}
+
+.card-filter-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.card-filter-row.rarity-filter,
+.card-filter-row.type-filter,
+.card-filter-row.cost-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+
+}
+
+.card-filter-chip {
+  font-family: inherit;
+  font-size: 0.7rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid #353545;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-filter-chip:hover,
+.card-filter-row.rarity-filter .card-filter-chip:hover {
+  border: 2px solid #DB6514;
+}
+
+.card-filter-chip.active {
+  background-color: #3b3014;
+  border-color: #ffd700;
+}
+
+.card-filter-row.rarity-filter .card-filter-chip,
+.card-filter-row.type-filter .card-filter-chip,
+.card-filter-row.cost-filter .card-filter-chip {
+  border: 2px solid transparent;
+  padding: 0.45rem;
+}
+
+/* Specific adjustments for Icon Buttons */
+.card-filter-chip.icon-chip {
+  width: 2rem;
+  height: 2rem;
+  padding: 2px;
+}
+
+.card-filter-chip.icon-chip img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none; 
+  opacity: 0.6;
+  filter: grayscale(40%);
+  transition: opacity 0.15s ease, filter 0.15s ease;
 }
