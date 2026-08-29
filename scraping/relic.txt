@@ -1,0 +1,38 @@
+export type RelicRarity =
+    | "starter"
+    | "common"
+    | "uncommon"
+    | "rare"
+    | "ancient"
+    | "shop"
+    | "event"
+    | "special";
+
+export type RelicCharacter =
+    | "any"
+    | "ironclad"
+    | "silent"
+    | "regent"
+    | "necrobinder"
+    | "defect";
+
+export type RelicAncient =
+    | "none"
+    | "neow"
+    | "tezcatara"
+    | "pael"
+    | "nonupeipe"
+    | "tanx"
+    | "vakuu"
+    | "darv"
+    | "orobas";
+
+export interface RelicDefinition {
+    id: string;
+    name: string;
+    rarity: RelicRarity;
+    ancient?: RelicAncient;
+    character?: RelicCharacter;
+}
+
+export const relics: RelicDefinition[] = [

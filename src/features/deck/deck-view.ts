@@ -1,4 +1,4 @@
-import {cleanCardName, cleanCharName, getCardImage, getElement, overlayOnClick} from "../../utils/utils.ts";
+import {cleanCardName, getCardImage, getElement, overlayOnClick} from "../../utils/utils.ts";
 import {Card, type SaveInfo} from "../../app/types.ts";
 import {player} from "../../services/tauri.ts";
 
@@ -56,7 +56,6 @@ export class DeckView {
     }
 
     private currentCard() {
-        //console.log(this.state);
         return this.state.cards[this.state.index];
     }
 

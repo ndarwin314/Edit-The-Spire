@@ -1,0 +1,43 @@
+export type CardRarity =
+    | "Basic"
+    | "Common"
+    | "Uncommon"
+    | "Rare"
+    | "Ancient"
+    | "Event"
+    | "Token"
+    | "Curse"
+    | "Status"
+    | "Quest"
+
+export type CardType =
+    | "Attack"
+    | "Skill"
+    | "Power"
+    | "Status"
+    | "Curse"
+    | "Quest"
+
+export type CardColor =
+    | "ironclad"
+    | "silent"
+    | "regent"
+    | "necrobinder"
+    | "defect"
+    | "colorless"
+
+export interface CardDefinition {
+    id: string;
+    name: string;
+    cost: number;
+    is_x_cost: boolean;
+    star_cost: number;
+    is_x_star_cost: boolean;
+    type: CardType;
+    rarity: CardRarity;
+    color: CardColor;
+    keywords: string[] | null;
+    tags: string[] | null;
+}
+
+export const cards: CardDefinition[] = [
