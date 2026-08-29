@@ -1,0 +1,24 @@
+
+export type PotionRarity =
+    | "starter"
+    | "common"
+    | "uncommon"
+    | "rare"
+    | "special";
+
+export type PotionCharacter =
+    | "any"
+    | "ironclad"
+    | "silent"
+    | "regent"
+    | "necrobinder"
+    | "defect";
+
+export interface PotionDefinition {
+    id: string;
+    name: string;
+    rarity: PotionRarity;
+    character?: PotionCharacter;
+}
+
+export const potions: PotionDefinition[] = [
