@@ -1,4 +1,4 @@
-import {cleanCardName, getCardImage, getElement, overlayOnClick} from "../../utils/utils.ts";
+import {cleanCardName, cleanEnchantmentName, getCardImage, getElement, overlayOnClick} from "../../utils/utils.ts";
 import {Card, type SaveInfo} from "../../app/types.ts";
 import {player} from "../../services/tauri.ts";
 
@@ -96,7 +96,22 @@ export class DeckView {
 
         const enchantment = document.createElement("div");
         enchantment.classList.add("enchantment-badge");
-        enchantment.setAttribute("enchantment", card.enchantment==undefined ? "none": card.enchantment.id);
+        
+        if (card.enchantment) {
+        const enchantmentName = cleanEnchantmentName(card.enchantment.id);
+        enchantment.setAttribute("enchantment", enchantmentName);
+
+            if (card.enchantment.amount !== undefined) {
+                const badgeValue = document.createElement("span");
+                badgeValue.classList.add("badge-value");
+                badgeValue.textContent = card.enchantment.amount.toString();
+                enchantment.appendChild(badgeValue);
+            }
+        } else {
+            enchantment.setAttribute("enchantment", "none");
+        }
+
+        element.appendChild(enchantment);
 
         return element;
     }

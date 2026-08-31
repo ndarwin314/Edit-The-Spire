@@ -778,11 +778,18 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   width: 23%;
-  height: 30%;
+  height: auto;
+  aspect-ratio: 1.25;
   position: absolute;
   z-index: 1;
-  top: 18.5%;
-  left: 3%;
+  top: 31%;
+  left: 7%;
+}
+
+.badge-value {
+  position: absolute;
+  top: 47.5%;
+  right: 22.5%;
 }
 
 .enchantment-badge[enchantment="adroit"]  { background-image: url(./assets/enchantment-badges/adroit.webp); }
@@ -848,7 +855,7 @@ body {
   display: flex;
   align-items: center;
   width: 75%;
-  padding: 5%;
+  padding: 3% 5%;
   background-color: #2E5456;
   border: 3px solid #48696B;
   border-radius: 10px;
@@ -865,8 +872,8 @@ body {
 
 .card-editor-icon {
   display: inline-block;
-  width: clamp(20px, 2vw, 28px);
-  height: clamp(20px, 2vw, 28px);
+  width: clamp(20px, 3vw, 50px);
+  height: clamp(20px, 3vw, 50px);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -882,6 +889,82 @@ body {
 #upgrade .card-editor-icon {background-image: url(./assets/general/upgrade_card_icon.png);}
 #enchant .card-editor-icon {background-image: url(./assets/general/enchant_card_icon.png);}
 #remove .card-editor-icon {background-image: url(./assets/general/card_remove.webp);}
+
+.enchant-selector-panel {
+  width: 40vw;
+  height: fit-content;
+  background-color: #2E5456;
+  border: 3px solid #48696B;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  inset: 0;
+  place-self: center;
+  margin: auto;
+  padding: 1% 3%;
+  gap: 5%;
+
+  overflow-x: hidden;
+}
+
+.enchant-selector-panel .panel-header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.enchant-grid {
+  
+}
+
+.enchant-amount-editor {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: fit-content;
+  margin-top: 5%;
+  justify-content: center;
+  align-items: center;
+
+  gap: 5%;
+}
+
+.enchant-amount-box {
+  width: 15%;
+  height: 2rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  display:flex;
+  align-items: center;
+  padding: 0.5rem;
+  border: 3px solid transparent;
+  border-radius: 10px;
+}
+
+.confirm-button {
+  background-image: url(./assets/general/confirm_button.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  border: 0px;
+
+  width: 17.5%;
+  aspect-ratio: 2 / 1;
+
+  cursor: pointer;
+  transition: transform 0.1s;
+
+  position: absolute;
+  bottom: 5%;
+  right: -0.5%;
+}
+
+.confirm-button:hover {
+  transform: scale(1.1);
+}
 
 #deck-page .deck-value {
   position: absolute;

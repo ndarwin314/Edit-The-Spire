@@ -50,6 +50,10 @@ export function cleanCardName(card: string): string {
     return card.replace("CARD.", "").toLowerCase();
 }
 
+export function cleanEnchantmentName(enchantment: string): string {
+    return enchantment.replace("ENCHANTMENT.", "").toLowerCase();
+}
+
 export function input_sanitizer(event: InputEvent) {
     if (event.inputType.startsWith("insert")) {
         if (event.data && !/^\d+$/.test(event.data)) {
