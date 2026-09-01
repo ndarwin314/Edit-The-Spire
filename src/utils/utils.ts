@@ -51,7 +51,7 @@ export function cleanCardName(card: string): string {
 }
 
 export function cleanEnchantmentName(enchantment: string): string {
-    return enchantment.replace("ENCHANTMENT.", "").toLowerCase();
+    return enchantment.replace("ENCHANTMENT.", "").replace("_", " ").toLowerCase();
 }
 
 export function input_sanitizer(event: InputEvent) {

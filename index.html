@@ -266,7 +266,12 @@
         <div class="overlay card-editor" id="card-editor">
           <div class="card-editor-panel">
             <button class="close-button card-editor">✕</button>
-            <img class="card-image" id="preview-card" src="./src/assets/card-renders/bash.webp">
+            <div class="card-entry" id="preview-card">
+              <img class="card-image" src="./src/assets/card-renders/bash.webp">
+              <div class="enchantment-badge">
+                <span class="badge-value"></span>
+              </div>
+            </div>
             <div class="card-editor-button-group">
               <button type="button" class="card-editor-button" id="add-copy">
                 <span class="card-editor-label">Add copy</span>
@@ -294,32 +299,34 @@
               <button class="close-button">✕</button>
             </div>
             <div class="enchant-grid">
-              <img class="enchant-grid-item enchant-amount" id="enchant-card-adroit" src="src/assets/enchantment-badges/adroit.webp">
-              <img class="enchant-grid-item" id="enchant-card-clone" src="src/assets/enchantment-badges/clone.webp">
-              <img class="enchant-grid-item" id="enchant-card-corrupted" src="src/assets/enchantment-badges/corrupted.webp">
-              <img class="enchant-grid-item" id="enchant-card-glam" src="src/assets/enchantment-badges/glam.webp">
-              <img class="enchant-grid-item" id="enchant-card-goopy" src="src/assets/enchantment-badges/goopy.webp">
-              <img class="enchant-grid-item" id="enchant-card-imbued" src="src/assets/enchantment-badges/imbued.webp">
-              <img class="enchant-grid-item" id="enchant-card-inky" src="src/assets/enchantment-badges/inky.webp">
-              <img class="enchant-grid-item" id="enchant-card-instinct" src="src/assets/enchantment-badges/instinct.webp">
-              <img class="enchant-grid-item enchant-amount" id="enchant-card-momentum" src="src/assets/enchantment-badges/momentum.webp">
-              <img class="enchant-grid-item enchant-amount" id="enchant-card-nimble" src="src/assets/enchantment-badges/nimble.webp">
-              <img class="enchant-grid-item" id="enchant-card-perfect_fit" src="src/assets/enchantment-badges/perfect_fit.webp">
-              <img class="enchant-grid-item" id="enchant-card-royally_approved" src="src/assets/enchantment-badges/royally_approved.webp">
-              <img class="enchant-grid-item enchant-amount" id="enchant-card-sharp" src="src/assets/enchantment-badges/sharp.webp">
-              <img class="enchant-grid-item" id="enchant-card-slither" src="src/assets/enchantment-badges/slither.webp">
-              <img class="enchant-grid-item enchant-amount" id="enchant-card-slumbering_essence" src="src/assets/enchantment-badges/slumbering_essence.webp">
-              <img class="enchant-grid-item" id="enchant-card-souls_power" src="src/assets/enchantment-badges/souls_power.webp">
-              <img class="enchant-grid-item" id="enchant-card-sown" src="src/assets/enchantment-badges/sown.webp">
-              <img class="enchant-grid-item" id="enchant-card-spiral" src="src/assets/enchantment-badges/spiral.webp">
-              <img class="enchant-grid-item" id="enchant-card-steady" src="src/assets/enchantment-badges/steady.webp">
-              <img class="enchant-grid-item" id="enchant-card-swift" src="src/assets/enchantment-badges/swift.webp">
-              <img class="enchant-grid-item" id="enchant-card-tezcataras_ember" src="src/assets/enchantment-badges/tezcataras_ember.webp">
-              <img class="enchant-grid-item enchant-amount" id="enchant-card-vigorous" src="src/assets/enchantment-badges/vigorous.webp">
+              <img class="enchant-grid-item enchant-amount" data-value="adroit" src="src/assets/enchantment-badges/adroit.webp">
+              <img class="enchant-grid-item" data-value="clone" src="src/assets/enchantment-badges/clone.webp">
+              <img class="enchant-grid-item" data-value="corrupted" src="src/assets/enchantment-badges/corrupted.webp">
+              <img class="enchant-grid-item" data-value="glam" src="src/assets/enchantment-badges/glam.webp">
+              <img class="enchant-grid-item" data-value="goopy" src="src/assets/enchantment-badges/goopy.webp">
+              <img class="enchant-grid-item" data-value="imbued" src="src/assets/enchantment-badges/imbued.webp">
+              <img class="enchant-grid-item" data-value="inky" src="src/assets/enchantment-badges/inky.webp">
+              <img class="enchant-grid-item" data-value="instinct" src="src/assets/enchantment-badges/instinct.webp">
+              <img class="enchant-grid-item enchant-amount" data-value="momentum" src="src/assets/enchantment-badges/momentum.webp">
+              <img class="enchant-grid-item enchant-amount" data-value="nimble" src="src/assets/enchantment-badges/nimble.webp">
+              <img class="enchant-grid-item" data-value="perfect_fit" src="src/assets/enchantment-badges/perfect_fit.webp">
+              <img class="enchant-grid-item" data-value="royally_approved" src="src/assets/enchantment-badges/royally_approved.webp">
+              <img class="enchant-grid-item enchant-amount" data-value="sharp" src="src/assets/enchantment-badges/sharp.webp">
+              <img class="enchant-grid-item" data-value="slither" src="src/assets/enchantment-badges/slither.webp">
+              <!--
+                <img class="enchant-grid-item enchant-amount" data-value="slumbering_essence" src="src/assets/enchantment-badges/slumbering_essence.webp">
+              -->
+              <img class="enchant-grid-item" data-value="souls_power" src="src/assets/enchantment-badges/souls_power.webp">
+              <img class="enchant-grid-item" data-value="sown" src="src/assets/enchantment-badges/sown.webp">
+              <img class="enchant-grid-item" data-value="spiral" src="src/assets/enchantment-badges/spiral.webp">
+              <img class="enchant-grid-item" data-value="steady" src="src/assets/enchantment-badges/steady.webp">
+              <img class="enchant-grid-item enchant-amount" data-value="swift" src="src/assets/enchantment-badges/swift.webp">
+              <img class="enchant-grid-item" data-value="tezcataras_ember" src="src/assets/enchantment-badges/tezcataras_ember.webp">
+              <img class="enchant-grid-item enchant-amount" data-value="vigorous" src="src/assets/enchantment-badges/vigorous.webp">
             </div>
               <div class="enchant-amount-editor">
-                <img class="enchant-grid-item enchant-amount" id="enchant-card-nimble" src="src/assets/enchantment-badges/nimble.webp">
-                <div class="enchant-amount-box">
+                <img class="enchant-grid-item enchant-amount" id="chosen-enchantment" src="src/assets/enchantment-badges/nimble.webp" hidden>
+                <div class="enchant-amount-box" hidden>
                   <span contenteditable="true" spellcheck="false" class="editable-val" id="enchant-amount">2</span>
                 </div>
               </div>

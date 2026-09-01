@@ -1,10 +1,12 @@
 import { Card } from "../../app/types.ts";
-import { cleanCardName, getCardImage, getElement } from "../../utils/utils.ts";
+import {cleanCardName, getCardImage, getElement, overlayOnClick} from "../../utils/utils.ts";
+import {EnchantmentEditor} from "./enchantment-editor.ts";
+import {DeckView} from "./deck-view.ts";
 
 export class CardEditor {
     private readonly element: HTMLElement;
     private readonly preview: HTMLImageElement;
-    public readonly enchantmentSelector: HTMLElement;
+    private readonly enchantmentEditor: EnchantmentEditor;
 
     private card: Card | null = null;
 
@@ -16,15 +18,16 @@ export class CardEditor {
     {
         this.element = getElement("#card-editor");
         this.preview = this.element.querySelector<HTMLImageElement>("#preview-card")!;
-        this.enchantmentSelector = getElement("#enchant-selector");
+
+        this.enchantmentEditor = new EnchantmentEditor(
+            () => this.reveal(),
+            card => this.onEnchant(card)
+        );
     }
 
     init() {
-        this.element.addEventListener("click", event => {
-            if (event.target === this.element) {
-                this.close();
-            }
-        });
+        this.element.addEventListener("click", event =>
+            overlayOnClick(event, () => this.close()));
 
         const closeButton =
             this.element.querySelector<HTMLButtonElement>(".close-button")!;
@@ -34,8 +37,9 @@ export class CardEditor {
         const upgradeButton =
             this.element.querySelector<HTMLButtonElement>("#upgrade")!;
 
-        upgradeButton.addEventListener("click", () =>
-            this.onUpgrade(this.card!)
+        upgradeButton.addEventListener("click", () => {
+                this.onUpgrade(this.card!)
+            }
         );
 
         const removeButton =
@@ -49,24 +53,35 @@ export class CardEditor {
             this.element.querySelector<HTMLButtonElement>("#enchant")!;
 
         enchantButton.addEventListener("click", () =>
-            this.onEnchant(this.card!)
+            {
+                this.enchantmentEditor.open(this.card!);
+                this.suppress();
+            }
         )
+
+        this.enchantmentEditor.init();
+        this.preview.replaceChildren();
     }
+
 
     open(card: Card) {
         this.card = card;
 
-        this.preview.src = this.getCardImage(card);
         this.element.classList.add("active");
+        this.update(card);
     }
 
     update(card: Card) {
-        this.card = card;
-        this.preview.src = this.getCardImage(card);
+        this.preview.replaceChildren();
+        DeckView.renderCard(this.preview, card);
     }
 
     suppress() {
         this.element.classList.remove("active");
+    }
+
+    reveal() {
+        this.element.classList.add("active");
     }
 
     close() {
@@ -74,12 +89,4 @@ export class CardEditor {
         this.element.classList.remove("active");
     }
 
-    private getCardImage(card: Card) {
-        const cardName = cleanCardName(card.id);
-        const upgraded =
-            card.current_upgrade_level !== undefined &&
-            card.current_upgrade_level !== 0;
-
-        return getCardImage(cardName, upgraded);
-    }
 }

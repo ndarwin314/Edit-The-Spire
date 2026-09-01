@@ -61,7 +61,7 @@ export class PotionFilters {
         const image = document.createElement("img");
         const test = getPotionImage(potion.id);
         if (test===undefined) {
-            console.log(potion)
+            //console.log(potion)
         }
         image.src = getPotionImage(potion.id);
         element.appendChild(image)

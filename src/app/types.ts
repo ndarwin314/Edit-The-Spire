@@ -26,6 +26,6 @@ export interface Card {
 }
 
 export interface Enchantment {
-    id: string;
+    id?: string;
     amount: number;
 }

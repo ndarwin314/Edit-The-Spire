@@ -920,6 +920,11 @@ body {
   
 }
 
+
+.enchant-grid-item {
+
+}
+
 .enchant-amount-editor {
   display: flex;
   flex-direction: row;
