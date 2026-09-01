@@ -80,9 +80,15 @@ export class PotionView {
         }
         const image =this.createPotionImage(image_url);
 
-        element.addEventListener("click", () => {
-            this.clickEvent(index);
-        });
+
+        // TODO: Separate out the render code and the code that initializes state
+        // make it so if you click on the plus, it just adds another slot, not opening menu
+
+        let fun = index!=this.state.potions.length-1 ?
+            () => this.clickEvent(index) :
+            () => this.clickEvent(index)
+        ;
+        element.addEventListener("click", fun);
         element.appendChild(image);
         return element
     }

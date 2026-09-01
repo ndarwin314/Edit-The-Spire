@@ -1,63 +1,92 @@
-import {cleanCardName, cleanEnchantmentName, getCardImage, getElement, overlayOnClick} from "../../utils/utils.ts";
-import {Card, type SaveInfo} from "../../app/types.ts";
+import {cleanCardName, cleanEnchantmentName, getCardImage, getElement} from "../../utils/utils.ts";
+import {Card} from "../../app/types.ts";
 import {player} from "../../services/tauri.ts";
+import { CardEditor } from "./card-editor.ts";
+import {CardLibrary} from "./card-library.ts";
 
 interface DeckState {
     cards: Card[],
+    originalCards: Card[],
     index: number
 }
 
 export class DeckView {
     private readonly deckPage: HTMLElement;
-    private readonly deckSearch: HTMLElement
+    private readonly deckSearch: HTMLElement;
+    private readonly cardLibrary: CardLibrary;
     private readonly cardGrid: HTMLElement;
-    private readonly cardEditor: HTMLElement;
+    private readonly cardEditor: CardEditor;
     private readonly state: DeckState;
     constructor() {
         this.cardGrid = getElement("#deck-grid");
         this.deckPage = getElement("#deck-page");
         this.deckSearch = this.deckPage.querySelector(".sort-bar")!;
-        this.cardEditor = getElement("#card-editor");
+
+        this.cardEditor = new CardEditor(
+            card => this.upgradeCallback(card),
+            card => this.removeCallback(card),
+            card => this.enchantmentCallback(card)
+        );
+
+        this.cardLibrary = new CardLibrary();
+
         this.state = {
             cards: [],
+            originalCards: [],
             index: -1
         };
     }
 
 
     init() {
-        this.cardEditor.addEventListener("click", event =>
-            overlayOnClick(event, () => this.cardEditor.classList.remove("active"))
-        );
+        this.cardEditor.init()
 
-        const upgradeCard = this.cardEditor.querySelector<HTMLButtonElement>("#upgrade")!;
-        upgradeCard.addEventListener("click", () => this.upgradeHelper());
+        const resetButton = this.deckPage.querySelector("#reset-button")!;
+        resetButton.addEventListener("click", () => this.resetHelper());
 
-        const removeCard = this.cardEditor.querySelector<HTMLButtonElement>("#remove")!;
-        removeCard.addEventListener("click", () => this.removeHelper());
+        const libButton = getElement("#card-library-button");
+        libButton.addEventListener("click", () => this.cardLibrary.open());
     }
 
-    private upgradeHelper() {
-        const newCard = this.currentCard();
-        if (newCard.current_upgrade_level==1) {
-            newCard.current_upgrade_level=0;
-        } else {
-            newCard.current_upgrade_level=1;
-        }
-        this.updateGrid(newCard, this.state.index);
-        this.updatePreview();
-    }
-
-    private removeHelper() {
-        const newCard = this.currentCard();
-        this.state.cards.splice(this.state.index, 1);
-        this.cardEditor.classList.remove("active");
+    private resetHelper() {
+        this.state.cards = structuredClone(this.state.originalCards);
         this.renderDeck();
     }
 
-    private currentCard() {
-        return this.state.cards[this.state.index];
+    private upgradeCallback(card: Card) {
+        const index = this.state.cards.indexOf(card);
+        if (index === -1) {
+            return;
+        }
+
+        card.current_upgrade_level =
+            card.current_upgrade_level === 1 ? 0 : 1;
+
+        this.updateGrid(card, index);
+        this.cardEditor.update(card);
     }
+
+    private removeCallback(card: Card) {
+        const index = this.state.cards.indexOf(card);
+        if (index === -1) {
+            return;
+        }
+
+        this.state.cards.splice(index, 1);
+
+        this.cardEditor.close();
+        this.renderDeck();
+    }
+
+    private enchantmentCallback(card: Card) {
+        const index = this.state.cards.indexOf(card);
+        if (index === -1) {
+            return;
+        }
+        this.cardEditor.enchantmentSelector.classList.add("active");
+        this.cardEditor.suppress();
+    }
+
 
     private updateGrid(card: Card, index: number) {
         const entry = this.cardGrid.children[index];
@@ -67,8 +96,9 @@ export class DeckView {
     }
 
 
-    async load(save: SaveInfo) {
+    async load() {
         this.state.cards = await player.getDeck();
+        this.state.originalCards = structuredClone(this.state.cards);
         this.renderDeck()
     }
 
@@ -76,12 +106,12 @@ export class DeckView {
         this.cardGrid.replaceChildren();
         let i= 0;
         for (const card of this.state.cards) {
-            this.cardGrid.appendChild(this.createCard(card, i));
+            this.cardGrid.appendChild(this.createCard(card));
             i++;
         }
     }
 
-    private createCard(card: Card, index: number) {
+    private createCard(card: Card) {
         const element = document.createElement("div");
 
         const cardName = cleanCardName(card.id);
@@ -91,7 +121,7 @@ export class DeckView {
         const image = document.createElement("img");
         image.src = this.getCardImage(card);
         image.classList.add("card-image");
-        image.addEventListener("click", () => this.clickCard(index));
+        image.addEventListener("click", () => this.cardEditor.open(card));
         element.appendChild(image);
 
         const enchantment = document.createElement("div");
@@ -110,24 +140,11 @@ export class DeckView {
         } else {
             enchantment.setAttribute("enchantment", "none");
         }
-
         element.appendChild(enchantment);
 
         return element;
     }
 
-    private clickCard(index: number) {
-        this.cardEditor.classList.add("active");
-        this.state.index = index;
-        this.updatePreview();
-    }
-
-    private updatePreview() {
-        const index = this.state.index;
-        const image = this.cardEditor.querySelector<HTMLImageElement>("#preview-card")!;
-        const card = this.state.cards[index];
-        image.src = this.getCardImage(card);
-    }
 
     private getCardImage(card: Card) {
         const cardName = cleanCardName(card.id);

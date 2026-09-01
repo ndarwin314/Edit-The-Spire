@@ -45,6 +45,6 @@ export class App {
 
         showPage("character");
         await this.characterView.load(save);
-        await this.deckView.load(save);
+        await this.deckView.load();
     }
 }
