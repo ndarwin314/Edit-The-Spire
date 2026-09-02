@@ -56,6 +56,7 @@
         <nav class="editor-tabs">
           <button type="button" class="tab-button active" id="stat-tab">Stats & Inventory</button>
           <button type="button" class="tab-button" id="deck-tab">Deck Editor</button>
+          <button type="button" class="tab-button" id="deck-tab">Card Library</button>
           <button type="button" class="tab-button" id="map-tab">Map Editor</button>
         </nav>
       </header>
@@ -104,6 +105,25 @@
               <div class="item-slot"><img src="src/assets/Relics/burning_blood.webp"></div>
               <button class="add-slot"></button>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="overlay save-changes-popup" id="save-changes-popup">
+        <div class="save-changes-panel">
+          <div class="save-changes-header">
+            <h2>Save changes?</h2>
+          </div>
+          <div class="save-options">
+            <div class="discard-changes">
+              <span class="save-button-label">Discard</span>
+            </div>
+            <div class="save-changes">
+              <span class="save-button-label">Save</span>
+            </div>
+          </div>
+          <div class="continue-editing">
+            <span class="save-button-label">Continue editing</span>
           </div>
         </div>
       </div>
@@ -324,13 +344,13 @@
               <img class="enchant-grid-item" data-value="tezcataras_ember" src="src/assets/enchantment-badges/tezcataras_ember.webp">
               <img class="enchant-grid-item enchant-amount" data-value="vigorous" src="src/assets/enchantment-badges/vigorous.webp">
             </div>
-              <div class="enchant-amount-editor">
-                <img class="enchant-grid-item enchant-amount" id="chosen-enchantment" src="src/assets/enchantment-badges/nimble.webp" hidden>
-                <div class="enchant-amount-box" hidden>
-                  <span contenteditable="true" spellcheck="false" class="editable-val" id="enchant-amount">2</span>
-                </div>
+            <div class="enchant-amount-editor">
+              <img class="enchant-grid-item enchant-amount" id="chosen-enchantment" src="src/assets/enchantment-badges/nimble.webp" hidden>
+              <div class="enchant-amount-box" hidden>
+                <span contenteditable="true" spellcheck="false" class="editable-val" id="enchant-amount">2</span>
               </div>
-              <button type="button" class="confirm-button"></button>
+            </div>
+            <button type="button" class="confirm-button"></button>
           </div>
         </div>
       </div>
@@ -339,11 +359,15 @@
       <div id="card-library" hidden>
         <div class="card-filter-panel">
           <div class="card-filter-group search-bar">
-                <span class="card-filter-label">Search:</span>
-                <div class="card-filter-row search-bar"></div>
-              </div>
+            <div class="card-filter-header">
+              <span class="card-filter-label">Search:</span>
+            </div>
+            <div class="card-filter-row search-bar"></div>
+          </div>
           <div class="card-filter-group source-filter">
-            <span class="card-filter-label">Source:</span>
+            <div class="card-filter-header">
+              <span class="card-filter-label">Source:</span>
+            </div>
             <div class="card-filter-row" id="source-filters">
               <button class="card-filter-chip icon-chip" data-value="ironclad" aria-pressed="false">
                 <img src="./src/assets/character-icons/character_icon_ironclad.webp"/>
@@ -366,7 +390,9 @@
             </div>
           </div>
           <div class="card-filter-group rarity-filter">
-            <span class="card-filter-label">Rarity:</span>
+            <div class="card-filter-header">
+              <span class="card-filter-label">Rarity:</span>
+            </div>
             <div class="card-filter-row rarity-filter" id="card-rarity-filters">
               <button class="card-filter-chip" data-value="basic" aria-pressed="false">Basic</button>
               <button class="card-filter-chip" data-value="common" aria-pressed="false">Common</button>
@@ -378,7 +404,9 @@
             </div>
           </div>
           <div class="card-filter-group type">
-            <span class="card-filter-label">Type:</span>
+            <div class="card-filter-header">
+              <span class="card-filter-label">Type:</span>
+            </div>
             <div class="card-filter-row type-filter" id="card-type-filters">
               <button class="card-filter-chip" data-value="attack" aria-pressed="false">Attack</button>
               <button class="card-filter-chip" data-value="skil" aria-pressed="false">Skill</button>
@@ -389,16 +417,19 @@
             </div>
           </div>
           <div class="card-filter-group cost">
-            <span class="card-filter-label">Cost:</span>
+            <div class="card-filter-header">
+              <span class="card-filter-label">Cost:</span>
+            </div>
             <div class="card-filter-row cost-filter" id="card-cost-filters">
-              <button class="card-filter-chip" data-value="X" aria-pressed="false">X</button>
               <button class="card-filter-chip" data-value="0" aria-pressed="false">0</button>
               <button class="card-filter-chip" data-value="1" aria-pressed="false">1</button>
               <button class="card-filter-chip" data-value="2" aria-pressed="false">2</button>
               <button class="card-filter-chip" data-value="3+" aria-pressed="false">3</button>
+              <button class="card-filter-chip" data-value="X" aria-pressed="false">X</button>
               <button class="card-filter-chip" data-value="unplayable" aria-pressed="false">Unplayable</button>
             </div>
           </div>
+          <!-- <button type="button" class="back-button"></button> -->
         </div>
         <div class="card-grid" id="library-grid"></div>
       </div>
@@ -408,7 +439,7 @@
         
       </div>
 
-      <button type="button" class="back-button"></button>
+      <button type="button" class="save-button"></button>
     </section>
 
   </body>

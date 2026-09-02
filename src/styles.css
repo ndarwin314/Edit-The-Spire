@@ -51,9 +51,9 @@ body {
   z-index: -1;
 }
 
-/* Back Button */
+/* Back/Save Button */
 .back-button {
-  width: clamp(120px, 12vw, 188px);
+  width: clamp(100px, 12vw, 160px);
   aspect-ratio: 2 / 1;
   background-image: url('./assets/general/back_button.png');
   background-size: contain;
@@ -64,9 +64,131 @@ body {
   cursor: pointer;
 
   position: absolute;
-  left: -2.5%;
+  left: -0.2%;
   bottom: 20%;
   z-index: 100;
+
+  transition: all 0.25s ease;
+}
+
+.save-button {
+  width: clamp(100px, 12vw, 160px);
+  aspect-ratio: 2 / 1;
+  background-image: url('./assets/general/confirm_button.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  position: absolute;
+  right: -0.2%;
+  bottom: 20%;
+  z-index: 100;
+
+  transition: all 0.25s ease;
+}
+
+.back-button:hover,
+.save-button:hover {
+  transform: scale(1.25);
+}
+
+.save-changes-panel {
+  display: flex;
+  flex-direction: column;
+  width: clamp(300px, 20%, 400px);
+  height: fit-content;
+  aspect-ratio: 1 / 1;
+  background-color: #2E5456;
+  border-radius: 19px;
+  border: 3px solid #48696B;
+  align-items: center;
+  justify-content: center;
+  gap: 10%;
+  overflow: hidden;
+}
+
+.save-changes-header h2, .save-button-label {
+  margin: 0;
+}
+
+.save-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  cursor: default;
+}
+
+.save-button-label {
+  font-size: 1.2rem;
+}
+
+.discard-changes .save-button-label {
+  transform: translate(-6%);
+}
+
+.save-changes {
+  background-image: url(assets/general/confirm_button_background.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  width: 50%;
+  aspect-ratio: 2 / 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transform: translate(3%);
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.discard-changes {
+  background-image: url(assets/general/back_button_background.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  width: 50%;
+  aspect-ratio: 2 / 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transform: translate(-3%);
+
+  transition: all 0.25s ease;
+
+  cursor: pointer;
+}
+
+.save-changes:hover, .discard-changes:hover {
+    transform: scale(1.15);
+}
+
+.continue-editing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #212D32;
+  padding: 0.5rem;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+}
+
+.continue-editing:hover {
+  border-top: 3px solid #DB6514;
+  border-bottom: 3px solid #DB6514;
 }
 
 /* Scrollbar Styling */
@@ -184,9 +306,9 @@ body {
   flex-direction: column;
   width: 100%;
   max-width: 15vw;
-  padding: 0.5rem;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 1rem;
+  overflow: hidden;
 }
 
 .save-file-image {
@@ -259,8 +381,10 @@ body {
 .save-card-bottom {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   gap: 1.5rem;
+  padding-left: 0.5rem;
 }
 
 /* Shared Stat Styling */
@@ -297,11 +421,13 @@ body {
   background-color: transparent;
   border: 0px;
 
-  width: 60%;
-  height: 50%;
+  width: 45%;
+  aspect-ratio: 2 / 1;
+
+  transform: translate(2%);
 
   cursor: pointer;
-  transition: transform 0.1s;
+  transition: transform 0.25s;
 }
 
 .file-select:hover {
@@ -920,7 +1046,6 @@ body {
   
 }
 
-
 .enchant-grid-item {
 
 }
@@ -985,37 +1110,31 @@ body {
 }
 
 /* CARD LIBRARY*/
-#card-library { /*CHANGE TO "#card-library". THIS IS FOR STAGING PURPOSES*/
+#card-library {
   height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: row;
   justify-content: left;
 }
+
 .card-filter-panel {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: clamp(0.5rem, 0.5vh, 1.25rem);
-  background-color: #2E5456;
-  border-radius: 19px;
-  padding: 1.5rem 1.5rem 1.5rem 1.5rem;
-  width: clamp(12rem, 20%, 17rem);
-  height: 100%;
+  gap: clamp(0.5rem, 5vh, 3.25rem);
+  background-color: #212D32;
+  border-right: 5px solid #354A4F;
+  padding: 1rem;
+  width: clamp(15rem, 15%, 16rem);
   overflow-y: auto;
+  overflow-x: hidden;
   min-height: 0;
-}
-
-.card-filter-label {
-  font-size: 0.9rem;
-  margin-bottom: 0.25rem;
-}
-
-.card-filter-row.search-bar {
-  background-color: rgba(0, 0, 0, 0.6);
-  height: 1.5rem;
-  width: 100%;
-  border-radius: 10px;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  align-self: center;
 }
 
 .card-filter-group {
@@ -1023,6 +1142,25 @@ body {
   flex-direction: column;
   align-items: left;
   width: 100%;
+  gap: 15%;
+}
+
+.card-filter-header {
+  background-color: #48696B;
+  padding: 1% 5%;
+  border-radius: 10px;
+}
+
+.card-filter-label {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.card-filter-row.search-bar {
+  background-color: rgba(0, 0, 0, 0.6);
+  height: 2.5rem;
+  width: 100%;
+  border-radius: 10px;
 }
 
 .card-filter-row {
@@ -1037,12 +1175,11 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 0.15rem;
-
 }
 
 .card-filter-chip {
   font-family: inherit;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: white;
   background-color: rgba(0, 0, 0, 0.4);
   border: 1px solid #353545;
@@ -1054,7 +1191,9 @@ body {
   justify-content: center;
 }
 
-.card-filter-chip:hover,
+.card-filter-chip:hover, 
+.card-filter-row.type-filter .card-filter-chip:hover,
+.card-filter-row.cost-filter .card-filter-chip:hover,
 .card-filter-row.rarity-filter .card-filter-chip:hover {
   border: 2px solid #DB6514;
 }
@@ -1086,4 +1225,17 @@ body {
   opacity: 0.6;
   filter: grayscale(40%);
   transition: opacity 0.15s ease, filter 0.15s ease;
+}
+
+.card-filter-panel .back-button {
+  width: clamp(140px, 12vw, 188px);
+  aspect-ratio: 2 / 1;
+  background-image: url('./assets/general/back_button.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transform: translate(-35%);
 }
