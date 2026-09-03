@@ -1,7 +1,6 @@
 import { Card } from "../../app/types.ts";
-import {cleanCardName, getCardImage, getElement, overlayOnClick} from "../../utils/utils.ts";
+import {getElement, overlayOnClick, renderCard} from "../../utils/utils.ts";
 import {EnchantmentEditor} from "./enchantment-editor.ts";
-import {DeckView} from "./deck-view.ts";
 
 export class CardEditor {
     private readonly element: HTMLElement;
@@ -73,7 +72,7 @@ export class CardEditor {
 
     update(card: Card) {
         this.preview.replaceChildren();
-        DeckView.renderCard(this.preview, card);
+        renderCard(this.preview, card);
     }
 
     suppress() {

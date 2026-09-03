@@ -43,14 +43,11 @@ export class RelicFilters {
         this.ancientFilters = library
             .querySelector("#ancient-filters")!
             .querySelectorAll<HTMLButtonElement>(".filter-chip");
-    }
 
-    init() {
         this.setupRarityFilters();
         this.setupAncientFilters();
         this.setupCharacterFilters();
         this.initializeRelicList();
-
     }
 
 
@@ -59,7 +56,6 @@ export class RelicFilters {
             this.relicGrid.appendChild(this.createRelic(relic))
         }
     }
-
 
     private createRelic(relic: RelicDefinition): HTMLElement {
         const element = document.createElement("div");

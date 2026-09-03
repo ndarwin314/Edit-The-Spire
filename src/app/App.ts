@@ -13,16 +13,15 @@ export class App {
 
     constructor() {
         this.characterView = new CharacterView();
-        this.deckView = new DeckView()
-    }
+        this.deckView = new DeckView();
 
-    init() {
         initNavigation();
-        this.characterView.init();
-        this.deckView.init();
 
         this.setupSaveSelection();
 
+    }
+
+    init() {
         showPage("startup");
     }
 
@@ -46,5 +45,8 @@ export class App {
         showPage("character");
         await this.characterView.load(save);
         await this.deckView.load();
+
+        this.characterView.render();
+        this.deckView.render();
     }
 }

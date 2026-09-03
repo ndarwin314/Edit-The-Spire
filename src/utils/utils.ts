@@ -1,3 +1,5 @@
+import {Card} from "../app/types.ts";
+
 const images = import.meta.glob(
     "/src/assets/**/*.*",
     {
@@ -82,4 +84,53 @@ export function overlayOnClick(event: Event, fun: () => void) {
     if (event.target===event.currentTarget) {
         fun();
     }
+}
+
+export function renderCard(element: HTMLElement, card: Card) {
+    const cardName = cleanCardName(card.id);
+    element.classList.add("card-entry");
+    element.setAttribute("card-name", cardName);
+
+    const image = makeCardImage(card);
+    const enchantment = makeEnchantmentBadge(card);
+
+    element.appendChild(image);
+    element.appendChild(enchantment);
+}
+
+export function makeEnchantmentBadge(card: Card) {
+    const enchantment = document.createElement("div");
+    enchantment.classList.add("enchantment-badge");
+
+    if (card.enchantment && card.enchantment.id) {
+        const enchantmentName = cleanEnchantmentName(card.enchantment.id);
+        enchantment.setAttribute("enchantment", enchantmentName);
+
+        if (card.enchantment.amount != undefined) {
+            const badgeValue = document.createElement("span");
+            badgeValue.classList.add("badge-value");
+            if (card.enchantment.amount > 0) {
+                badgeValue.textContent = card.enchantment.amount.toString();
+            }
+            enchantment.appendChild(badgeValue);
+        }
+    } else {
+        enchantment.setAttribute("enchantment", "none");
+    }
+    return enchantment;
+}
+
+export function makeCardImage(card: Card) {
+    const image = document.createElement("img");
+    image.src = getCardURL(card);
+    image.classList.add("card-image");
+
+    return image;
+}
+
+
+export function getCardURL(card: Card) {
+    const cardName = cleanCardName(card.id);
+    const upgraded = !(card.current_upgrade_level===undefined || card.current_upgrade_level==0);
+    return getCardImage(cardName, upgraded);
 }

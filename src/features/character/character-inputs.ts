@@ -8,13 +8,11 @@ export class CharacterInputs {
         private readonly gold: HTMLElement,
         private readonly energy: HTMLElement,
     ) {
-    }
-
-    init() {
         this.setupHealth();
         this.setupGold();
         this.setupEnergy();
     }
+
 
     private setupHealth() {
         this.setupNumberInput(this.currentHP, async () => {

@@ -38,9 +38,6 @@ export class PotionFilters {
             .querySelector("#character-filters-potion")!
             .querySelectorAll<HTMLButtonElement>(".filter-chip");
 
-    }
-
-    init() {
         this.setupRarityFilters();
         this.setupCharacterFilters();
         this.initializePotionList();
@@ -74,6 +71,7 @@ export class PotionFilters {
         return element;
     }
 
+    // @ts-ignore
     private getRarityButton(rarity: PotionRarity) {
         return this.rarityFilterContainer.querySelector<HTMLButtonElement>(
             `[data-value="${rarity}"]`
@@ -152,6 +150,7 @@ export class PotionFilters {
         this.state.characters = "any";
     }
 
+    // @ts-ignore
     private disableAllRarity() {
         this.rarityFilters.forEach(button => {this.forceOff(button);})
         this.state.rarities.clear();
@@ -174,6 +173,7 @@ export class PotionFilters {
         );
     }
 
+    // @ts-ignore
     private forceOn(button: HTMLButtonElement) {
         button.classList.add("active");
         button.setAttribute("aria-pressed", String(true));

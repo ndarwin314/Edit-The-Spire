@@ -5,6 +5,7 @@ import {RelicFilters} from "./relic-filters.ts";
 export interface RelicViewState {
     relics: Relic[]
     selected_relic: number
+    character: string
 }
 
 export class RelicView {
@@ -16,33 +17,40 @@ export class RelicView {
     ) {
         this.state = {
             relics: [],
-            selected_relic: -1
+            selected_relic: -1,
+            character: "any"
         }
         this.relicFilters = new RelicFilters(
             (id: string) => RelicView.replaceRelic(this, id),
             this.library);
-    }
 
-    init() {
         const fun: () => void = () => {
             this.library.classList.remove("active");
             this.state.selected_relic = -1;
         };
-        this.relicFilters.init();
+
         const relicClose = this
             .library
             .querySelector<HTMLButtonElement>(".close-button")!;
         relicClose.addEventListener('click', fun);
         this.library.addEventListener("click", event => overlayOnClick(event, fun));
-
     }
 
-    render(relics: Relic[]) {
+    load(relics: Relic[], character: string) {
         this.state.relics = relics;
+        this.state.character = character;
 
+        this.relicFilters.setCharacter(
+            character
+                .replace("CHARACTER.", "")
+                .toLowerCase()
+        );
+    }
+
+    render() {
         this.container.replaceChildren();
-        let i=0;
-        for (const relic of relics) {
+        let i= 0;
+        for (const relic of this.state.relics) {
             this.container.appendChild(
                 this.createRelicElement(relic, i)
             );

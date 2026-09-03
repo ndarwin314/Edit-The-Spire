@@ -14,6 +14,7 @@ interface CharacterState {
     maxPotions: number;
     potions: Potion[];
     relics: Relic[];
+    save_info: SaveInfo;
 }
 
 export class CharacterView {
@@ -28,7 +29,10 @@ export class CharacterView {
 
     private readonly relicView: RelicView;
     private readonly potionView: PotionView;
+    // @ts-ignore
     private readonly inputs: CharacterInputs
+
+    private state!: CharacterState;
 
     constructor() {
         const potionLibrary = getElement<HTMLElement>("#potion-library");
@@ -54,33 +58,25 @@ export class CharacterView {
         this.potionView = new PotionView(potion_box, potionLibrary);
     }
 
-    init() {
-        this.relicView.init();
-        this.potionView.init()
-        this.inputs.init()
-    }
 
     async load(save: SaveInfo) {
-        const state = await this.loadState();
-        this.renderCharacter(save, state);
-        this.relicView.render(state.relics);
-        this.potionView.render(
-            state.potions,
-            state.maxPotions,
-        );
-        
-        this.relicView.relicFilters.reset();
-        this.potionView.potionFilters.reset();
+        this.state = await this.loadState(save);
 
-        this.potionView.potionFilters.setCharacter("any")
-        this.relicView.relicFilters.setCharacter(
-            save.character
-                .replace("CHARACTER.", "")
-                .toLowerCase()
+        this.potionView.load(
+            this.state.potions,
+            this.state.maxPotions,
         );
+        this.relicView.load(this.state.relics, save.character);
+
     }
 
-    private async loadState(): Promise<CharacterState> {
+    render() {
+        this.renderCharacter();
+        this.relicView.render();
+        this.potionView.render();
+    }
+
+    private async loadState(save: SaveInfo): Promise<CharacterState> {
         const [
             health,
             gold,
@@ -102,13 +98,15 @@ export class CharacterView {
             maxPotions: potionData[0],
             potions: potionData[1],
             relics,
+            save_info: save
         };
     }
 
     private renderCharacter(
-        save: SaveInfo,
-        state: CharacterState,
     ) {
+        if (this.state==undefined) return;
+        const save = this.state.save_info;
+        const state = this.state
         this.charName.setAttribute("char-name", cleanCharName(save.character));
 
         this.ascension.setAttribute(
@@ -127,6 +125,7 @@ export class CharacterView {
 
         this.energy.textContent =
             String(state.energy);
+
     }
 
 }

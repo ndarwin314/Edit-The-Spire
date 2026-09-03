@@ -34,6 +34,10 @@ function initTabs() {
             button: getElement<HTMLButtonElement>("#map-tab"),
             page: getElement<HTMLElement>("#map-page"),
         },
+        card: {
+            button: getElement<HTMLButtonElement>("#card-tab"),
+            page: getElement<HTMLElement>("#card-library")
+        }
     };
 
     function showTab(name: keyof typeof tabs) {
