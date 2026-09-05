@@ -1,5 +1,11 @@
-import requests
+from pathlib import Path
 from json import dump, load, dumps
+
+import requests
+
+assets_path = Path('../src/assets')
+potions_path = assets_path / "potions"
+relics_path = assets_path / "relics"
 
 card_attributes = [
         "id",
@@ -15,14 +21,28 @@ card_attributes = [
         "keywords"
     ]
 
+potion_attributes = [
+    "id",
+    "name",
+    "rarity",
+    "pool"
+]
+
+relic_attributes = [
+    "id",
+    "name",
+    "rarity_key",
+    "character"
+]
+
 card_null_attributes = {
             "is_x_cost": False,
             "star_cost": 0,
             "is_x_star_cost": False
         }
 
-def get_helper(name):
-    url = f"https://spire-codex.com/api/{name}"
+def get_helper(endpoint):
+    url = f"https://spire-codex.com/api/{endpoint}"
     json = requests.get(url).json()
     return json
 
@@ -42,6 +62,7 @@ def save_cards():
     with open("card.json", "w") as f:
         dump(filtered, f)
 
+
 def get_attributes(item, attributes):
     return {k: v for k,v in item.items() if k in attributes}
 
@@ -59,14 +80,13 @@ def relic_json(relic):
 def ts_string(value: str) -> str:
     return dumps(value, ensure_ascii=False)
 
-def make_typescript(name):
-    with open(f"{name}.txt", "r") as f:
+def get_lines(path):
+    with open(path, "r") as f:
         lines = f.readlines()
-    lines = [line.replace("\n", "") for line in lines]
+    return [line.replace("\n", "") for line in lines]
 
-    with open(f"{name}.json", "r") as f:
-        json = load(f)
-    for item in json:
+def make_typescript(lines, json_object):
+    for item in json_object:
         lines.append("    {")
 
         for key, value in item.items():
@@ -82,17 +102,52 @@ def make_typescript(name):
         lines.append("    },")
 
     lines.append("];")
-
-    with open(f"{name}-list.ts", "w") as f:
-        f.write("\n".join(lines))
+    return "\n".join(lines)
 
 
+def make_potion_list():
+    lines = get_lines("potion.txt")
+
+    potions = get_helper("potions")
+    for i in range(len(potions)):
+        potion = potions[i]
+        path = potions_path / f"{potion['id'].lower()}.webp"
+        print(path, path.exists())
+        if not path.exists():
+            url = potion["image_url"]
+            image = requests.get("url")
+        potion = get_attributes(potion, potion_attributes)
+        character = potion["pool"]
+        del potion["pool"]
+        character = character if character!="shared" else "any"
+        potion["character"] = character
+        potions[i] = potion
+
+    content = make_typescript(lines, potions)
+    with open("potion-list.ts", "w") as f:
+        f.write(content)
+
+def make_relic_list():
+    lines = get_lines("relic.txt")
+
+    relics = get_helper("relics")
+    for i in range(len(relics)):
+        relic = relics[i]
+        relic = get_attributes(relic, relic_attributes)
+        rarity = relic["rarity_key"].lower()
+        del relic["rarity_key"]
+        relic["rarity"] = rarity
+        if "character" not in relic:
+            relic["character"] = "any"
+        relics[i] = relic
+
+    content = make_typescript(lines, relics)
+    with open("relic-list.ts", "w") as f:
+        f.write(content)
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    name = "card"
-    save_cards()
-    make_typescript(name)
+    make_potion_list()
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

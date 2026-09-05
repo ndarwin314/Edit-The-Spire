@@ -19,35 +19,36 @@ export function initNavigation() {
     initBackButtons();
 }
 
+const tabs = {
+    stats: {
+        button: getElement<HTMLButtonElement>("#stat-tab"),
+        page: getElement<HTMLElement>("#inventory-page"),
+    },
+    deck: {
+        button: getElement<HTMLButtonElement>("#deck-tab"),
+        page: getElement<HTMLElement>("#deck-page"),
+    },
+    map: {
+        button: getElement<HTMLButtonElement>("#map-tab"),
+        page: getElement<HTMLElement>("#map-page"),
+    },
+    card: {
+        button: getElement<HTMLButtonElement>("#card-tab"),
+        page: getElement<HTMLElement>("#card-library")
+    }
+};
+
+export function showTab(name: keyof typeof tabs) {
+    for (const [tabName, tab] of Object.entries(tabs)) {
+        const active = tabName === name;
+
+        tab.page.hidden = !active;
+        tab.button.classList.toggle("active", active);
+    }
+}
+
 function initTabs() {
 
-    const tabs = {
-        stats: {
-            button: getElement<HTMLButtonElement>("#stat-tab"),
-            page: getElement<HTMLElement>("#inventory-page"),
-        },
-        deck: {
-            button: getElement<HTMLButtonElement>("#deck-tab"),
-            page: getElement<HTMLElement>("#deck-page"),
-        },
-        map: {
-            button: getElement<HTMLButtonElement>("#map-tab"),
-            page: getElement<HTMLElement>("#map-page"),
-        },
-        card: {
-            button: getElement<HTMLButtonElement>("#card-tab"),
-            page: getElement<HTMLElement>("#card-library")
-        }
-    };
-
-    function showTab(name: keyof typeof tabs) {
-        for (const [tabName, tab] of Object.entries(tabs)) {
-            const active = tabName === name;
-
-            tab.page.hidden = !active;
-            tab.button.classList.toggle("active", active);
-        }
-    }
 
     for (const [name, tab] of Object.entries(tabs)) {
         tab.button.addEventListener("click", () => showTab(name as keyof typeof tabs));

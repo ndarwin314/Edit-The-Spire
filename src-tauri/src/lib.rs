@@ -197,6 +197,13 @@ fn get_deck(state: State<'_, Mutex<AppState>>) -> Vec<Card> {
 }
 
 #[tauri::command]
+fn set_deck(deck: Vec<Card>,state: State<'_, Mutex<AppState>>)  {
+    let mut state = state.lock().unwrap();
+    let index = state.index;
+    state.save.players[index].deck = deck;
+}
+
+#[tauri::command]
 fn save(state: State<'_, Mutex<AppState>>) -> Result<(), String> {
     let state = state.lock().unwrap();
     let path = Path::new(&state.directory);
@@ -226,6 +233,7 @@ pub fn run() {
             get_potions,
             set_potions,
             get_deck,
+            set_deck,
             find_runs,
             get_energy,
             set_energy,

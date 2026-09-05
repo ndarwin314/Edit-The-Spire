@@ -50,7 +50,8 @@ export class DeckView {
     }
 
     async save() {
-
+        console.log(this.state.cards)
+        //await player.setDeck(this.state.cards)
     }
 
     private async resetHelper() {

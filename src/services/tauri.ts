@@ -45,7 +45,7 @@ export const player = {
     },
 
     async setPotions(potions: Potion[], max_potions: number) {
-        await invoke("set_potions", {potions: potions, max_potions: max_potions});
+        await invoke("set_potions", {potions, max_potions});
     },
 
     async getRelics(): Promise<Relic[]> {
@@ -58,6 +58,10 @@ export const player = {
 
     async getDeck(): Promise<Card[]> {
         return invoke("get_deck");
+    },
+
+    async setDeck(deck: Card[])  {
+        return invoke("set_deck", {deck});
     },
 
     async save() {

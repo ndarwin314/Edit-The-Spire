@@ -1,5 +1,5 @@
 import {getElement, overlayOnClick} from "../utils/utils.ts";
-import {showPage} from "./navigation.ts";
+import {showPage, showTab} from "./navigation.ts";
 
 export class SaveManager {
     private readonly saveButton: HTMLButtonElement;
@@ -36,12 +36,14 @@ export class SaveManager {
 
     private discard() {
         this.saveScreen.classList.remove("active");
+        showTab("stats");
         showPage("saveSelector");
     }
 
     private async accept() {
         this.saveScreen.classList.remove("active");
         await this.saveFunction();
+        showTab("stats");
         showPage("saveSelector");
     }
 }

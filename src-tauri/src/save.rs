@@ -17,15 +17,15 @@ pub struct Player {
     pub max_energy: i32,
     pub max_hp: i32,
     pub max_potion_slot_count: i32,
-    pub net_id: i32,
-    pub odds: Odds,
+    //pub net_id: i32,
+    //pub odds: Odds,
     pub relic_grab_bag: RelicGrabBag,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub relics: Vec<Relic>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub potions: Vec<Potion>,
     //pub rng: PlayerRng,
-    pub unlock_state: UnlockState,
+    //pub unlock_state: UnlockState,
 
     #[serde(flatten)]
     pub other: serde_json::Map<String, Value>,
