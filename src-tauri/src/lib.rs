@@ -157,7 +157,7 @@ fn get_gold(state: State<'_, Mutex<AppState>>) -> i32 {
 fn set_gold(gold: i32, state: State<'_, Mutex<AppState>>) {
     let mut state = state.lock().unwrap();
     let index = state.index;
-    state.save.players[index].max_energy = gold;
+    state.save.players[index].gold = gold;
 }
 
 #[tauri::command]
