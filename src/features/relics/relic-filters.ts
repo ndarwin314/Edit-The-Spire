@@ -47,21 +47,18 @@ export class RelicFilters {
         this.setupRarityFilters();
         this.setupAncientFilters();
         this.setupCharacterFilters();
-    }
-
-    async init() {
-        await this.initializeRelicList();
+        this.initializeRelicList();
         this.onChange();
     }
 
 
-    private async initializeRelicList() {
+    private initializeRelicList() {
         for (const relic of relics) {
-            this.relicGrid.appendChild(await this.createRelic(relic))
+            this.relicGrid.appendChild(this.createRelic(relic))
         }
     }
 
-    private async createRelic(relic: RelicDefinition): Promise<HTMLElement> {
+    private createRelic(relic: RelicDefinition): HTMLElement {
         const element = document.createElement("div");
 
         element.classList.add("item-slot");

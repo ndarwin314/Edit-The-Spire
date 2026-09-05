@@ -39,7 +39,7 @@ export class PotionView {
         this.library.addEventListener("click", event => overlayOnClick(event, fun));
     }
 
-    load(potions: Potion[], max_potions: number) {
+    async load(potions: Potion[], max_potions: number) {
         this.state.potions = new Array(max_potions+1);
         this.state.max_potions = max_potions;
         for (const potion of potions) {
@@ -67,7 +67,6 @@ export class PotionView {
     }
 
     async render() {
-        await this.potionFilters.init();
         this.container.replaceChildren();
         for (let i = 0; i <= this.state.max_potions; i++) {
             this.container.appendChild(await this.createPotionElement(i));

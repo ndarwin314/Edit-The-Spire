@@ -68,11 +68,11 @@ export class CharacterView {
             this.state.gold,
             this.state.energy
         );
-        this.potionView.load(
+        await this.potionView.load(
             this.state.potions,
             this.state.maxPotions,
         );
-        this.relicView.load(
+        await this.relicView.load(
             this.state.relics,
             save.character
         );

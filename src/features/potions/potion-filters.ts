@@ -40,21 +40,17 @@ export class PotionFilters {
 
         this.setupRarityFilters();
         this.setupCharacterFilters();
-    }
-
-    async init() {
-        await this.initializePotionList();
+        this.initializePotionList();
         this.onChange();
     }
 
-
-    private async initializePotionList() {
+    private initializePotionList() {
         for (const potion of potions) {
-            this.potionGrid.appendChild(await this.createPotion(potion))
+            this.potionGrid.appendChild(this.createPotion(potion))
         }
     }
 
-    private async createPotion(potion: PotionDefinition): Promise<HTMLElement> {
+    private createPotion(potion: PotionDefinition): HTMLElement {
         const element = document.createElement("div");
 
         element.classList.add("item-slot");

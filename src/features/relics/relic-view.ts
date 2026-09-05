@@ -37,7 +37,7 @@ export class RelicView {
         this.library.addEventListener("click", event => overlayOnClick(event, fun));
     }
 
-    load(relics: Relic[], character: string) {
+    async load(relics: Relic[], character: string) {
         this.state.relics = relics;
         this.state.character = character;
 
@@ -62,7 +62,6 @@ export class RelicView {
     }
 
     async render() {
-        await this.relicFilters.init();
         this.container.replaceChildren();
         let i= 0;
         for (const relic of this.state.relics) {
