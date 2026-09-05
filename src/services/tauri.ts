@@ -29,7 +29,7 @@ export const player = {
     },
 
     async setGold(gold: number): Promise<void> {
-        await invoke("set_gold", { gold });
+        await invoke("set_gold", { gold: gold });
     },
 
     async getEnergy(): Promise<number> {
@@ -37,19 +37,31 @@ export const player = {
     },
 
     async setEnergy(energy: number): Promise<void> {
-        await invoke("set_energy", { energy });
+        await invoke("set_energy", { energy: energy });
     },
 
     async getPotions(): Promise<[number, Potion[]]> {
         return invoke("get_potions");
     },
 
+    async setPotions(potions: Potion[], max_potions: number) {
+        await invoke("set_potions", {potions: potions, max_potions: max_potions});
+    },
+
     async getRelics(): Promise<Relic[]> {
         return invoke("get_relics");
     },
 
+    async setRelics(relics: Relic[]) {
+        await invoke("set_relics", {relics: relics});
+    },
+
     async getDeck(): Promise<Card[]> {
         return invoke("get_deck");
+    },
+
+    async save() {
+        await invoke("save");
     }
 
 };

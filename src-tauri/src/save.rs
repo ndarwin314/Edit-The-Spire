@@ -1,3 +1,4 @@
+use std::path::PathBuf;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
@@ -118,6 +119,7 @@ pub struct SaveFile {
 
 pub struct AppState {
     pub save: SaveFile,
+    pub directory: String,
     pub index: usize
 }
 
@@ -130,6 +132,7 @@ impl Default for AppState {
                 players: vec![],
                 other: serde_json::Map::new(),
                 map_point_history: vec![]},
+            directory: String::new(),
         }
     }
 }

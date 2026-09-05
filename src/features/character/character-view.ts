@@ -7,7 +7,7 @@ import { PotionView } from "../potions/potion-view";
 
 import {CharacterInputs} from "./character-inputs.ts";
 
-interface CharacterState {
+export interface CharacterState {
     health: [number, number];
     gold: number;
     energy: number;
@@ -62,18 +62,44 @@ export class CharacterView {
     async load(save: SaveInfo) {
         this.state = await this.loadState(save);
 
+        this.inputs.load(
+            this.state.health[0],
+            this.state.health[1],
+            this.state.gold,
+            this.state.energy
+        );
         this.potionView.load(
             this.state.potions,
             this.state.maxPotions,
         );
-        this.relicView.load(this.state.relics, save.character);
+        this.relicView.load(
+            this.state.relics,
+            save.character
+        );
 
     }
 
-    render() {
+
+    async render() {
+        await this.relicView.render();
+        await this.potionView.render();
         this.renderCharacter();
-        this.relicView.render();
-        this.potionView.render();
+
+        this.inputs.render()
+    }
+
+    async save() {
+        this.inputs.save(this.state);
+        this.relicView.save(this.state);
+        this.potionView.save(this.state);
+        await Promise.all([
+            player.setHealth(this.state.health[0], this.state.health[1]),
+            player.setGold(this.state.gold),
+            player.setEnergy(this.state.energy),
+            player.setRelics(this.state.relics),
+            player.setPotions(this.state.potions, this.state.maxPotions),
+        ])
+
     }
 
     private async loadState(save: SaveInfo): Promise<CharacterState> {
@@ -102,30 +128,15 @@ export class CharacterView {
         };
     }
 
-    private renderCharacter(
-    ) {
+    private renderCharacter() {
         if (this.state==undefined) return;
         const save = this.state.save_info;
-        const state = this.state
         this.charName.setAttribute("char-name", cleanCharName(save.character));
 
         this.ascension.setAttribute(
             "ascension-value",
             String(save.ascension),
         );
-
-        this.currentHP.textContent =
-            String(state.health[0]);
-
-        this.maxHP.textContent =
-            String(state.health[1]);
-
-        this.gold.textContent =
-            String(state.gold);
-
-        this.energy.textContent =
-            String(state.energy);
-
     }
 
 }

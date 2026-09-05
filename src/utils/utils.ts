@@ -3,7 +3,6 @@ import {Card} from "../app/types.ts";
 const images = import.meta.glob(
     "/src/assets/**/*.*",
     {
-        eager: true,
         query: "?url",
         import: "default"
     }
@@ -64,20 +63,31 @@ export function input_sanitizer(event: InputEvent) {
     }
 }
 
-export function getRelicImage(relic: string) {
-    return images[`/src/assets/Relics/${relic}.webp`];
+
+export async function getImage(path: string) {
+    const loader = images[path];
+
+    if (!loader) {
+        return
+        //throw new Error(`Image not found: ${path}`);
+    }
+
+    return await loader() as string;
+}
+export async function getRelicImage(relic: string) {
+    return getImage(`/src/assets/relics/${relic}.webp`);
 }
 
-export function getPotionImage(potion: string) {
-    return images[`/src/assets/Potions/${potion}.webp`];
+export async function getPotionImage(potion: string) {
+    return getImage(`/src/assets/potions/${potion}.webp`);
 }
 
-export function getCardImage(card: string, upgraded: boolean) {
-    return images[`/src/assets/card-renders/${card}${upgraded? "_upgraded": ""}.webp`];
+export async function getCardImage(card: string, upgraded: boolean) {
+    return getImage(`/src/assets/card-renders/${card}${upgraded? "_upgraded": ""}.webp`);
 }
 
-export function getPlusIcon() {
-    return images['/src/assets/general/plus_icon.png']
+export async function getPlusIcon() {
+    return getImage('/src/assets/general/plus_icon.png');
 }
 
 export function overlayOnClick(event: Event, fun: () => void) {
@@ -86,12 +96,12 @@ export function overlayOnClick(event: Event, fun: () => void) {
     }
 }
 
-export function renderCard(element: HTMLElement, card: Card) {
+export async function renderCard(element: HTMLElement, card: Card) {
     const cardName = cleanCardName(card.id);
     element.classList.add("card-entry");
     element.setAttribute("card-name", cardName);
 
-    const image = makeCardImage(card);
+    const image = await makeCardImage(card);
     const enchantment = makeEnchantmentBadge(card);
 
     element.appendChild(image);
@@ -120,17 +130,39 @@ export function makeEnchantmentBadge(card: Card) {
     return enchantment;
 }
 
-export function makeCardImage(card: Card) {
+export async function makeCardImage(card: Card) {
     const image = document.createElement("img");
-    image.src = getCardURL(card);
+    image.src = await getCardURL(card);
     image.classList.add("card-image");
 
     return image;
 }
 
 
-export function getCardURL(card: Card) {
+export async function getCardURL(card: Card) {
     const cardName = cleanCardName(card.id);
     const upgraded = !(card.current_upgrade_level===undefined || card.current_upgrade_level==0);
-    return getCardImage(cardName, upgraded);
+    return await getCardImage(cardName, upgraded);
+}
+
+export function lazyLoadImage(
+    img: HTMLImageElement,
+    path: string
+) {
+    const observer = new IntersectionObserver(
+        async (entries, observer) => {
+            if (!entries[0].isIntersecting) {
+                return;
+            }
+
+            observer.disconnect();
+
+            img.src = await getImage(path);
+        },
+        {
+            rootMargin: "50px"
+        }
+    );
+
+    observer.observe(img);
 }

@@ -107,11 +107,12 @@ fn save_helper(file_name: String) -> SaveFile {
 
 #[tauri::command]
 fn load_save(file_name: String, state: State<'_, Mutex<AppState>>){
-    let save: SaveFile = save_helper(file_name);
+    let save: SaveFile = save_helper(file_name.clone());
     let index = 0;
     let mut state = state.lock().unwrap();
     state.save = save;
     state.index = index;
+    state.directory = file_name;
 }
 
 #[tauri::command]
@@ -167,10 +168,25 @@ fn get_relics(state: State<'_, Mutex<AppState>>) -> Vec<Relic> {
 }
 
 #[tauri::command]
+fn set_relics(relics: Vec<Relic>, state: State<'_, Mutex<AppState>>) {
+    let mut state = state.lock().unwrap();
+    let index = state.index;
+    state.save.players[index].relics = relics;
+}
+
+#[tauri::command]
 fn get_potions(state: State<'_, Mutex<AppState>>) -> (i32, Vec<Potion>) {
     let state = state.lock().unwrap();
     let player = &state.save.players[state.index];
     (player.max_potion_slot_count, player.potions.clone())
+}
+
+#[tauri::command(rename_all = "snake_case")]
+fn set_potions(potions: Vec<Potion>, max_potions: i32, state: State<'_, Mutex<AppState>>) {
+    let mut state = state.lock().unwrap();
+    let index = state.index;
+    state.save.players[index].potions = potions;
+    state.save.players[index].max_potion_slot_count = max_potions;
 }
 
 #[tauri::command]
@@ -178,6 +194,15 @@ fn get_deck(state: State<'_, Mutex<AppState>>) -> Vec<Card> {
     let state = state.lock().unwrap();
     let player = &state.save.players[state.index];
     player.deck.clone()
+}
+
+#[tauri::command]
+fn save(state: State<'_, Mutex<AppState>>) -> Result<(), String> {
+    let state = state.lock().unwrap();
+    let path = Path::new(&state.directory);
+    let contents = serde_json::to_string_pretty(&state.save).expect("Should have been able to serialize");
+    fs::write(path, contents).expect("Should have written successfully");
+    Ok(())
 }
 
 
@@ -197,11 +222,15 @@ pub fn run() {
             get_gold,
             set_gold,
             get_relics,
+            set_relics,
             get_potions,
+            set_potions,
             get_deck,
             find_runs,
             get_energy,
-            set_energy])
+            set_energy,
+            save
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -10,9 +10,9 @@ export class CardEditor {
     private card: Card | null = null;
 
     constructor(
-        private onUpgrade: (card: Card) => void,
-        private onRemove: (card: Card) => void,
-        private onEnchant: (card: Card) => void,
+        private onUpgrade: (card: Card) => Promise<void>,
+        private onRemove: (card: Card) => Promise<void>,
+        private onEnchant: (card: Card) => Promise<void>,
     )
     {
         this.element = getElement("#card-editor");
@@ -20,7 +20,7 @@ export class CardEditor {
 
         this.enchantmentEditor = new EnchantmentEditor(
             () => this.reveal(),
-            card => this.onEnchant(card)
+            async card => await this.onEnchant(card)
         );
     }
 
@@ -36,16 +36,16 @@ export class CardEditor {
         const upgradeButton =
             this.element.querySelector<HTMLButtonElement>("#upgrade")!;
 
-        upgradeButton.addEventListener("click", () => {
-                this.onUpgrade(this.card!)
+        upgradeButton.addEventListener("click", async () => {
+                await this.onUpgrade(this.card!)
             }
         );
 
         const removeButton =
             this.element.querySelector<HTMLButtonElement>("#remove")!;
 
-        removeButton.addEventListener("click", () =>
-            this.onRemove(this.card!)
+        removeButton.addEventListener("click", async () =>
+            await this.onRemove(this.card!)
         );
 
         const enchantButton =
@@ -63,16 +63,16 @@ export class CardEditor {
     }
 
 
-    open(card: Card) {
+    async open(card: Card) {
         this.card = card;
 
         this.element.classList.add("active");
-        this.update(card);
+        await this.update(card);
     }
 
-    update(card: Card) {
+    async update(card: Card) {
         this.preview.replaceChildren();
-        renderCard(this.preview, card);
+        await renderCard(this.preview, card);
     }
 
     suppress() {

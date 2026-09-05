@@ -1,5 +1,5 @@
 import {relics, RelicDefinition, RelicCharacter, RelicRarity, RelicAncient} from "./relic-list.ts";
-import {getRelicImage, getElement} from "../../utils/utils.ts";
+import {getElement, lazyLoadImage} from "../../utils/utils.ts";
 
 export interface RelicFilterState {
     rarities: Set<RelicRarity>
@@ -47,27 +47,27 @@ export class RelicFilters {
         this.setupRarityFilters();
         this.setupAncientFilters();
         this.setupCharacterFilters();
-        this.initializeRelicList();
+    }
+
+    async init() {
+        await this.initializeRelicList();
+        this.onChange();
     }
 
 
-    private initializeRelicList() {
+    private async initializeRelicList() {
         for (const relic of relics) {
-            this.relicGrid.appendChild(this.createRelic(relic))
+            this.relicGrid.appendChild(await this.createRelic(relic))
         }
     }
 
-    private createRelic(relic: RelicDefinition): HTMLElement {
+    private async createRelic(relic: RelicDefinition): Promise<HTMLElement> {
         const element = document.createElement("div");
 
         element.classList.add("item-slot");
 
         const image = document.createElement("img");
-        const test = getRelicImage(relic.id);
-        if (test===undefined) {
-            //console.log(relic);
-        }
-        image.src = getRelicImage(relic.id);
+        lazyLoadImage(image, `/src/assets/relics/${relic.id}.webp`);
         element.appendChild(image)
         element.hidden = true;
         element.addEventListener("click", () => {

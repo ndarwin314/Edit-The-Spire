@@ -1,5 +1,5 @@
 
-import {getPotionImage, getElement} from "../../utils/utils.ts";
+import {getElement, lazyLoadImage} from "../../utils/utils.ts";
 import {PotionCharacter, PotionRarity, PotionDefinition, potions} from "./potion-list.ts";
 
 export interface PotionFilterState {
@@ -40,27 +40,27 @@ export class PotionFilters {
 
         this.setupRarityFilters();
         this.setupCharacterFilters();
-        this.initializePotionList();
+    }
+
+    async init() {
+        await this.initializePotionList();
+        this.onChange();
     }
 
 
-    private initializePotionList() {
+    private async initializePotionList() {
         for (const potion of potions) {
-            this.potionGrid.appendChild(this.createPotion(potion))
+            this.potionGrid.appendChild(await this.createPotion(potion))
         }
     }
 
-    private createPotion(potion: PotionDefinition): HTMLElement {
+    private async createPotion(potion: PotionDefinition): Promise<HTMLElement> {
         const element = document.createElement("div");
 
         element.classList.add("item-slot");
 
         const image = document.createElement("img");
-        const test = getPotionImage(potion.id);
-        if (test===undefined) {
-            //console.log(potion)
-        }
-        image.src = getPotionImage(potion.id);
+        lazyLoadImage(image, `/src/assets/potions/${potion.id}.webp`);
         element.appendChild(image)
         element.hidden = true;
         element.addEventListener("click", () => {

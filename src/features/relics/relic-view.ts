@@ -1,6 +1,7 @@
 import type {Relic} from "../../app/types";
 import {cleanRelicName, getPlusIcon, getRelicImage, overlayOnClick} from "../../utils/utils.ts";
 import {RelicFilters} from "./relic-filters.ts";
+import {CharacterState} from "../character/character-view.ts";
 
 export interface RelicViewState {
     relics: Relic[]
@@ -47,27 +48,40 @@ export class RelicView {
         );
     }
 
-    render() {
+    save(globalState: CharacterState) {
+        let floor = globalState.save_info.floor;
+        let relics: Relic[] = [];
+        for (const relic of this.state.relics) {
+            relics.push({
+                id: relic.id,
+                floor_added_to_deck: relic.floor_added_to_deck > 0 ? relic.floor_added_to_deck: floor+1
+            });
+        }
+
+        globalState.relics = relics;
+    }
+
+    async render() {
+        await this.relicFilters.init();
         this.container.replaceChildren();
         let i= 0;
         for (const relic of this.state.relics) {
             this.container.appendChild(
-                this.createRelicElement(relic, i)
+                await this.createRelicElement(relic, i)
             );
             i++;
         }
-        this.container.appendChild(this.createAddRelic(i));
-
+        this.container.appendChild(await this.createAddRelic(i));
     }
 
-    static replaceRelic(relicView: RelicView, relicID: string) {
+    static async replaceRelic(relicView: RelicView, relicID: string) {
         let index = relicView.state.selected_relic;
         const children = relicView
             .container
             .children;
         const relicContainer = children[index];
         relicContainer.replaceChildren();
-        relicContainer.appendChild(relicView.createRelicImage(relicID));
+        relicContainer.appendChild(await relicView.createRelicImage(relicID));
 
         let floor = -1;
         let temp: Relic = {
@@ -75,7 +89,7 @@ export class RelicView {
             floor_added_to_deck: floor
         };
         if (index==children.length-1) {
-            relicView.container.appendChild(relicView.createAddRelic(index+1));
+            relicView.container.appendChild(await relicView.createAddRelic(index+1));
             relicView.state.relics.push(temp);
         } else {
             floor = relicView.state.relics[index].floor_added_to_deck;
@@ -95,7 +109,7 @@ export class RelicView {
         }
         return this.createRelicElement(addRelic, index);
     }
-    private createRelicElement(relic: Relic, index: number) {
+    private async createRelicElement(relic: Relic, index: number) {
         let cleanedName = cleanRelicName(relic.id);
         const element = document.createElement("div");
 
@@ -103,17 +117,17 @@ export class RelicView {
 
         const image = this.createRelicImage(cleanedName);
 
-        element.appendChild(image);
+        element.appendChild(await image);
 
         element.addEventListener("click",() => this.clickEvent(index));
 
         return element;
     }
 
-    private createRelicImage(relicID: string) {
+    private async createRelicImage(relicID: string) {
         const image = document.createElement("img");
 
-        image.src = relicID==="plus_icon" ? getPlusIcon(): getRelicImage(relicID);
+        image.src = await (relicID==="plus_icon" ? getPlusIcon(): getRelicImage(relicID));
         return image;
     }
 

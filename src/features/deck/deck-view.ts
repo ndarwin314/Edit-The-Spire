@@ -27,9 +27,9 @@ export class DeckView {
         this.deckSearch = this.deckPage.querySelector(".sort-bar")!;
 
         this.cardEditor = new CardEditor(
-            card => this.upgradeCallback(card),
-            card => this.removeCallback(card),
-            card => this.enchantmentCallback(card)
+            async card => await this.upgradeCallback(card),
+            async card => await this.removeCallback(card),
+            async card => await this.enchantmentCallback(card)
         );
 
         this.cardLibrary = new CardLibrary();
@@ -43,18 +43,22 @@ export class DeckView {
         this.cardEditor.init()
 
         const resetButton = this.deckPage.querySelector("#reset-button")!;
-        resetButton.addEventListener("click", () => this.resetHelper());
+        resetButton.addEventListener("click", async () => await this.resetHelper());
 
         const libButton = getElement("#card-library-button");
         libButton.addEventListener("click", () => this.cardLibrary.open());
     }
 
-    private resetHelper() {
-        this.state.cards = structuredClone(this.state.originalCards);
-        this.render();
+    async save() {
+
     }
 
-    private upgradeCallback(card: Card) {
+    private async resetHelper() {
+        this.state.cards = structuredClone(this.state.originalCards);
+        await this.render();
+    }
+
+    private async upgradeCallback(card: Card) {
         const index = this.state.cards.indexOf(card);
         if (index === -1) {
             return;
@@ -63,10 +67,10 @@ export class DeckView {
             card.current_upgrade_level === 1 ? 0 : 1;
 
         this.updateGrid(card, index);
-        this.cardEditor.update(card);
+        await this.cardEditor.update(card);
     }
 
-    private removeCallback(card: Card) {
+    private async removeCallback(card: Card) {
         const index = this.state.cards.indexOf(card);
         if (index === -1) {
             return;
@@ -75,16 +79,16 @@ export class DeckView {
         this.state.cards.splice(index, 1);
 
         this.cardEditor.close();
-        this.render();
+        await this.render();
     }
 
-    private enchantmentCallback(card: Card) {
+    private async enchantmentCallback(card: Card) {
         const index = this.state.cards.indexOf(card);
         if (index === -1) {
             return;
         }
         this.updateGrid(card, index);
-        this.cardEditor.update(card);
+        await this.cardEditor.update(card);
     }
 
 
@@ -103,22 +107,22 @@ export class DeckView {
         this.state.originalCards = structuredClone(this.state.cards);
     }
 
-    render() {
+    async render() {
         this.cardGrid.replaceChildren();
         let i= 0;
         for (const card of this.state.cards) {
-            this.cardGrid.appendChild(this.createCard(card));
+            this.cardGrid.appendChild(await this.createCard(card));
             i++;
         }
         this.deckCount.innerText = String(this.state.cards.length);
     }
 
-    private createCard(card: Card) {
+    private async createCard(card: Card) {
         const element = document.createElement("div");
 
-        renderCard(element, card);
+        await renderCard(element, card);
 
-        element.addEventListener("click", () => this.cardEditor.open(card));
+        element.addEventListener("click", async () => await this.cardEditor.open(card));
 
         return element;
     }
