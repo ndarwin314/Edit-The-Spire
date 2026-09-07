@@ -17,14 +17,18 @@ export class CardEditor {
     {
         this.element = getElement("#card-editor");
         this.preview = this.element.querySelector<HTMLImageElement>("#preview-card")!;
+        this.initEventListeners();
 
         this.enchantmentEditor = new EnchantmentEditor(
             () => this.reveal(),
             async card => await this.onEnchant(card)
         );
+
+
+        this.preview.replaceChildren();
     }
 
-    init() {
+    private initEventListeners() {
         this.element.addEventListener("click", event =>
             overlayOnClick(event, () => this.close()));
 
@@ -57,10 +61,8 @@ export class CardEditor {
                 this.suppress();
             }
         )
-
-        this.enchantmentEditor.init();
-        this.preview.replaceChildren();
     }
+
 
 
     async open(card: Card) {

@@ -33,9 +33,7 @@ export class EnchantmentEditor {
             id: undefined,
             amount: -1
         }
-    }
 
-    init() {
         const fun = () => {
             this.close();
         }
@@ -46,13 +44,10 @@ export class EnchantmentEditor {
         closeButton.addEventListener("click", event => overlayOnClick(event, fun));
 
         const confirmButton = this.element.querySelector(".confirm-button")!;
-        confirmButton.addEventListener("click", () => {
-            this.confirm()
-        });
+        confirmButton.addEventListener("click", () => this.confirm());
 
         this.render();
     }
-
     setCard(card: Card) {
         this.card = card;
     }
@@ -90,14 +85,16 @@ export class EnchantmentEditor {
 
     close() {
         this.element.classList.remove("active");
+        this.selectedEnchantment.hidden = true;
         this.card = null;
         this.callback();
     }
 
     confirm() {
         if (this.card==null) return;
-
-        this.card.enchantment = structuredClone(this.state);
+        const enchantment = structuredClone(this.state);
+        enchantment.id = "ENCHANTMENT." + enchantment.id?.toUpperCase();
+        this.card.enchantment = enchantment;
         this.afterChange(this.card);
         this.state.id = undefined;
         this.state.amount = -1;

@@ -40,7 +40,6 @@ export class DeckView {
             index: -1
         };
 
-        this.cardEditor.init()
 
         const resetButton = this.deckPage.querySelector("#reset-button")!;
         resetButton.addEventListener("click", async () => await this.resetHelper());
@@ -50,8 +49,7 @@ export class DeckView {
     }
 
     async save() {
-        console.log(this.state.cards)
-        //await player.setDeck(this.state.cards)
+        await player.setDeck(this.state.cards);
     }
 
     private async resetHelper() {
@@ -67,7 +65,7 @@ export class DeckView {
         card.current_upgrade_level =
             card.current_upgrade_level === 1 ? 0 : 1;
 
-        this.updateGrid(card, index);
+        await this.updateGrid(card, index);
         await this.cardEditor.update(card);
     }
 
@@ -88,16 +86,16 @@ export class DeckView {
         if (index === -1) {
             return;
         }
-        this.updateGrid(card, index);
+        await this.updateGrid(card, index);
         await this.cardEditor.update(card);
     }
 
 
-    private updateGrid(card: Card, index: number) {
+    private async updateGrid(card: Card, index: number) {
         const entry = this.cardGrid.children[index];
         entry.replaceChildren();
 
-        renderCard(<HTMLElement>entry, card)
+        await renderCard(<HTMLElement>entry, card)
 
         entry.setAttribute("card-name", cleanCardName(card.id));
     }
