@@ -75,12 +75,19 @@ export class RelicView {
 
     static async replaceRelic(relicView: RelicView, relicID: string) {
         let index = relicView.state.selected_relic;
-        const children = relicView
-            .container
-            .children;
+        const children = relicView.container.children;
         const relicContainer = children[index];
         relicContainer.replaceChildren();
-        relicContainer.appendChild(await relicView.createRelicImage(relicID));
+
+        let cleanedName = cleanRelicName(relicID);
+
+        if (cleanedName !== "plus_icon") {
+            const tooltipContainer = await relicView.createTooltipContainer(cleanedName);
+            relicContainer.appendChild(tooltipContainer);
+        } else {
+            const image = await relicView.createRelicImage(cleanedName);
+            relicContainer.appendChild(image);
+        }
 
         let floor = -1;
         let temp: Relic = {
@@ -111,16 +118,35 @@ export class RelicView {
     private async createRelicElement(relic: Relic, index: number) {
         let cleanedName = cleanRelicName(relic.id);
         const element = document.createElement("div");
-
         element.classList.add("item-slot");
 
-        const image = this.createRelicImage(cleanedName);
-
-        element.appendChild(await image);
+        if (cleanedName !== "plus_icon") {
+            const tooltipContainer = await this.createTooltipContainer(cleanedName);
+            element.appendChild(tooltipContainer);
+        } else {
+            const image = this.createRelicImage(cleanedName);
+            element.appendChild(await image);
+        }
 
         element.addEventListener("click",() => this.clickEvent(index));
-
+        
         return element;
+    }
+
+    private async createTooltipContainer(cleanedName: string): Promise<HTMLElement> {
+        const tooltipContainer = document.createElement("div");
+        tooltipContainer.classList.add("tooltip-container");
+
+        const image = await this.createRelicImage(cleanedName);
+
+        const tooltipContents = document.createElement("div");
+        tooltipContents.classList.add("tooltip-contents");
+        tooltipContents.textContent = cleanedName;
+
+        tooltipContainer.appendChild(image);
+        tooltipContainer.appendChild(tooltipContents);
+
+        return tooltipContainer;
     }
 
     private async createRelicImage(relicID: string) {
