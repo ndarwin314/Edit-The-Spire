@@ -29,7 +29,8 @@ export class DeckView {
         this.cardEditor = new CardEditor(
             async card => await this.upgradeCallback(card),
             async card => await this.removeCallback(card),
-            async card => await this.enchantmentCallback(card)
+            async card => await this.enchantmentCallback(card),
+            async card => await this.copyCallback(card)
         );
 
         this.cardLibrary = new CardLibrary();
@@ -88,6 +89,17 @@ export class DeckView {
         }
         await this.updateGrid(card, index);
         await this.cardEditor.update(card);
+    }
+
+    private async copyCallback(card: Card) {
+        const index = this.state.cards.indexOf(card);
+        if (index === -1) {
+            return;
+        }
+        const copy = structuredClone(card);
+        this.state.cards.splice(index, 0, copy);
+        this.cardEditor.close();
+        await this.render();
     }
 
 

@@ -8,7 +8,6 @@ import {SaveInfo} from "../../app/types.ts";
 const grid = getElement<HTMLDivElement>("#save-grid");
 
 export async function loadSaveList(onSelect: (save: SaveInfo) => void) {
-    showPage("saveSelector")
 
     const s = await saves.find()
     grid.replaceChildren();
@@ -17,4 +16,5 @@ export async function loadSaveList(onSelect: (save: SaveInfo) => void) {
         const card = createSaveCard(save, onSelect);
         grid.appendChild(card);
     }
+    showPage("saveSelector")
 }

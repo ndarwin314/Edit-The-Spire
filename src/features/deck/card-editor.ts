@@ -13,6 +13,7 @@ export class CardEditor {
         private onUpgrade: (card: Card) => Promise<void>,
         private onRemove: (card: Card) => Promise<void>,
         private onEnchant: (card: Card) => Promise<void>,
+        private onCopy: (card: Card) => Promise<void>,
     )
     {
         this.element = getElement("#card-editor");
@@ -50,6 +51,13 @@ export class CardEditor {
 
         removeButton.addEventListener("click", async () =>
             await this.onRemove(this.card!)
+        );
+
+        const copyButton =
+            this.element.querySelector<HTMLButtonElement>("#add-copy")!;
+
+        copyButton.addEventListener("click", async () =>
+            await this.onCopy(this.card!)
         );
 
         const enchantButton =
