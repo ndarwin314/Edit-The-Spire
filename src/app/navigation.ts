@@ -1,4 +1,4 @@
-import {getElement, getElements} from "../utils/utils.ts";
+import {getElement, getElements} from "../utils/dom.ts";
 
 const pages = {
     startup: getElement<HTMLElement>("#startup-screen-page"),

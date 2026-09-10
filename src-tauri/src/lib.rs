@@ -30,15 +30,18 @@ fn deck_size(save_file: SaveFile) -> usize {
 
 #[tauri::command]
 fn find_runs(app: tauri::AppHandle) -> Result<Vec<SaveInfo>, String> {
-    let temp = app.path();
-    let base_dir;
-    if cfg!(target_os = "windows") {
-        base_dir = temp.config_dir().map_err(|e| e.to_string())?;
-    } else {
-        base_dir = temp.local_data_dir().map_err(|e| e.to_string())?;
-    }
+    let base_dir = {
+        let temp = app.path();
+        if cfg!(target_os = "windows") {
+            temp.config_dir()
+        }
+        else {
+            temp.local_data_dir()
+        }.map_err(|e| e.to_string())?
+    };
 
-    let steam_dir =base_dir.join("SlayTheSpire2").join("steam");
+
+    let steam_dir = base_dir.join("SlayTheSpire2").join("steam");
 
     let mut saves = Vec::<SaveInfo>::new();
 
@@ -80,12 +83,12 @@ fn find_runs(app: tauri::AppHandle) -> Result<Vec<SaveInfo>, String> {
 
             if save_path.exists() && save_path.is_file() {
                 let path = save_path.to_string_lossy().into_owned();
-                let save_file = save_helper(path);
+                let save_file = save_helper(&path);
                 let player = &save_file.players[0];
                 saves.push(SaveInfo{
                     steam_id: steam_id.clone(),
                     profile: profile.clone(),
-                    path: save_path.to_string_lossy().into_owned(),
+                    path,
                     character: player.character_id.clone(),
                     floor: save_file.map_point_history.len() as i32,
                     ascension: save_file.ascension,
@@ -97,17 +100,18 @@ fn find_runs(app: tauri::AppHandle) -> Result<Vec<SaveInfo>, String> {
     Ok(saves)
 }
 
-fn save_helper(file_name: String) -> SaveFile {
-    let path = Path::new(&file_name);
+fn save_helper(file_name: &String) -> SaveFile {
+    let path = Path::new(file_name);
     let contents = fs::read_to_string(path)
         .expect("Should have been able to read the file");
-    let save: SaveFile = serde_json::from_str(&contents).expect("Should have been able to deserialize");
+    let save: SaveFile = serde_json::from_str(&contents)
+        .expect("Should have been able to deserialize");
     save
 }
 
 #[tauri::command]
 fn load_save(file_name: String, state: State<'_, Mutex<AppState>>){
-    let save: SaveFile = save_helper(file_name.clone());
+    let save: SaveFile = save_helper(&file_name);
     let index = 0;
     let mut state = state.lock().unwrap();
     state.save = save;

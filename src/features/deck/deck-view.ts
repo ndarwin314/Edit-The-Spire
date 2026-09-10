@@ -1,8 +1,11 @@
-import {cleanCardName, getElement, renderCard} from "../../utils/utils.ts";
 import {Card} from "../../app/types.ts";
 import {player} from "../../services/tauri.ts";
 import { CardEditor } from "./card-editor.ts";
 import {CardLibrary} from "./card-library.ts";
+import {getElement} from "../../utils/dom.ts";
+import {cleanCardName} from "../../utils/sanitization.ts";
+import {renderCard, renderCardImage} from "./card-utils.ts";
+
 
 interface DeckState {
     cards: Card[],
@@ -14,6 +17,7 @@ export class DeckView {
     private readonly deckPage: HTMLElement;
     // @ts-ignore
     private readonly deckSearch: HTMLElement;
+    // @ts-ignore
     private readonly cardLibrary: CardLibrary;
     private readonly cardGrid: HTMLElement;
     private readonly deckCount: HTMLElement;
@@ -45,8 +49,8 @@ export class DeckView {
         const resetButton = this.deckPage.querySelector("#reset-button")!;
         resetButton.addEventListener("click", async () => await this.resetHelper());
 
-        const libButton = getElement("#card-library-button");
-        libButton.addEventListener("click", () => this.cardLibrary.open());
+        //const libButton = getElement("#card-library-button");
+        //libButton.addEventListener("click", () => this.cardLibrary.open());
     }
 
     async save() {
@@ -104,10 +108,11 @@ export class DeckView {
 
 
     private async updateGrid(card: Card, index: number) {
-        const entry = this.cardGrid.children[index];
+        const entry = <HTMLElement>this.cardGrid.children[index];
         entry.replaceChildren();
 
-        await renderCard(<HTMLElement>entry, card)
+        const image = await renderCardImage(card);
+        renderCard(entry, card, image)
 
         entry.setAttribute("card-name", cleanCardName(card.id));
     }
@@ -130,8 +135,9 @@ export class DeckView {
 
     private async createCard(card: Card) {
         const element = document.createElement("div");
+        const image = await renderCardImage(card);
 
-        await renderCard(element, card);
+        renderCard(element, card, image);
 
         element.addEventListener("click", async () => await this.cardEditor.open(card));
 

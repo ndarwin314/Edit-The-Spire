@@ -1,5 +1,6 @@
 import {relics, RelicDefinition, RelicCharacter, RelicRarity, RelicAncient} from "./relic-list.ts";
-import {cleanRelicName, getElement, lazyLoadImage} from "../../utils/utils.ts";
+import {getElement} from "../../utils/dom.ts";
+import {renderRelicElement, renderRelicLazy} from "./relic-utils.ts";
 
 export interface RelicFilterState {
     rarities: Set<RelicRarity>
@@ -59,29 +60,9 @@ export class RelicFilters {
     }
 
     private createRelic(relic: RelicDefinition): HTMLElement {
-        const element = document.createElement("div");
+        const image = renderRelicLazy(relic.id);
 
-        element.classList.add("item-slot");
-
-        let cleanedName = cleanRelicName(relic.id);
-
-        const image = document.createElement("img");
-        lazyLoadImage(image, `/src/assets/relics/${relic.id}.webp`);
-
-        if (cleanedName !== "plus_icon") {
-        const tooltipContainer = document.createElement("div");
-        tooltipContainer.classList.add("tooltip-container");
-
-        const tooltipContents = document.createElement("div");
-        tooltipContents.classList.add("tooltip-contents");
-        tooltipContents.textContent = cleanedName;
-
-        tooltipContainer.appendChild(image);
-        tooltipContainer.appendChild(tooltipContents);
-        element.appendChild(tooltipContainer);
-    } else {
-        element.appendChild(image);
-    }
+        const element = renderRelicElement(relic.id, image);
 
         element.hidden = true;
         element.addEventListener("click", () => {

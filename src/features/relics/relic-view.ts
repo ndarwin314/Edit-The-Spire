@@ -1,7 +1,10 @@
 import type {Relic} from "../../app/types";
-import {cleanRelicName, getPlusIcon, getRelicImage, overlayOnClick} from "../../utils/utils.ts";
 import {RelicFilters} from "./relic-filters.ts";
 import {CharacterState} from "../character/character-view.ts";
+import {cleanRelicName} from "../../utils/sanitization.ts";
+import {overlayOnClick} from "../../utils/dom.ts";
+import {renderRelicElement, renderRelicImage} from "./relic-utils.ts";
+import {createTooltipContainer} from "../../utils/render.ts";
 
 export interface RelicViewState {
     relics: Relic[]
@@ -66,7 +69,7 @@ export class RelicView {
         let i= 0;
         for (const relic of this.state.relics) {
             this.container.appendChild(
-                await this.createRelicElement(relic, i)
+                await this.createRelic(relic, i)
             );
             i++;
         }
@@ -79,15 +82,10 @@ export class RelicView {
         const relicContainer = children[index];
         relicContainer.replaceChildren();
 
-        let cleanedName = cleanRelicName(relicID);
+        const cleanedName = cleanRelicName(relicID);
+        const image = await renderRelicImage(relicID)
 
-        if (cleanedName !== "plus_icon") {
-            const tooltipContainer = await relicView.createTooltipContainer(cleanedName);
-            relicContainer.appendChild(tooltipContainer);
-        } else {
-            const image = await relicView.createRelicImage(cleanedName);
-            relicContainer.appendChild(image);
-        }
+        relicContainer.appendChild(createTooltipContainer(cleanedName, image));
 
         let floor = -1;
         let temp: Relic = {
@@ -113,48 +111,17 @@ export class RelicView {
             id: "RELIC.PLUS_ICON",
             floor_added_to_deck: -1
         }
-        return this.createRelicElement(addRelic, index);
+        return this.createRelic(addRelic, index);
     }
-    private async createRelicElement(relic: Relic, index: number) {
-        let cleanedName = cleanRelicName(relic.id);
-        const element = document.createElement("div");
-        element.classList.add("item-slot");
-
-        if (cleanedName !== "plus_icon") {
-            const tooltipContainer = await this.createTooltipContainer(cleanedName);
-            element.appendChild(tooltipContainer);
-        } else {
-            const image = this.createRelicImage(cleanedName);
-            element.appendChild(await image);
-        }
+    private async createRelic(relic: Relic, index: number) {
+        const image = await renderRelicImage(relic.id)
+        const element = renderRelicElement(relic.id, image);
 
         element.addEventListener("click",() => this.clickEvent(index));
-        
+
         return element;
     }
 
-    private async createTooltipContainer(cleanedName: string): Promise<HTMLElement> {
-        const tooltipContainer = document.createElement("div");
-        tooltipContainer.classList.add("tooltip-container");
-
-        const image = await this.createRelicImage(cleanedName);
-
-        const tooltipContents = document.createElement("div");
-        tooltipContents.classList.add("tooltip-contents");
-        tooltipContents.textContent = cleanedName;
-
-        tooltipContainer.appendChild(image);
-        tooltipContainer.appendChild(tooltipContents);
-
-        return tooltipContainer;
-    }
-
-    private async createRelicImage(relicID: string) {
-        const image = document.createElement("img");
-
-        image.src = await (relicID==="plus_icon" ? getPlusIcon(): getRelicImage(relicID));
-        return image;
-    }
 
     private clickEvent(index: number) {
         this.library.classList.add("active");

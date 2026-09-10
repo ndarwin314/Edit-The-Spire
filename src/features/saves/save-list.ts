@@ -1,8 +1,8 @@
-import { getElement } from "../../utils/utils.ts";
 import { createSaveCard } from "./save-card";
 import { showPage } from "../../app/navigation";
 import { saves } from "../../services/tauri.ts";
 import {SaveInfo} from "../../app/types.ts";
+import {getElement} from "../../utils/dom.ts";
 
 
 const grid = getElement<HTMLDivElement>("#save-grid");

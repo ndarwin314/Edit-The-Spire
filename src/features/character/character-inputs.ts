@@ -1,5 +1,5 @@
-import { input_sanitizer } from "../../utils/utils.ts";
 import {CharacterState} from "./character-view.ts";
+import {input_sanitizer} from "../../utils/sanitization.ts";
 
 interface CharacterInputState {
     currentHP: number,

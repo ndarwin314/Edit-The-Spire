@@ -1,5 +1,5 @@
-import {getElement, overlayOnClick} from "../../utils/utils.ts";
 import {Card, Enchantment} from "../../app/types.ts";
+import {getElement, overlayOnClick} from "../../utils/dom.ts";
 
 const enchantAmounts: Map<string, number> = new Map(
     [

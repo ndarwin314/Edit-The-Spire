@@ -1,6 +1,6 @@
-
-import {getElement, lazyLoadImage} from "../../utils/utils.ts";
 import {PotionCharacter, PotionRarity, PotionDefinition, potions} from "./potion-list.ts";
+import {getElement} from "../../utils/dom.ts";
+import {renderPotionElement, renderPotionLazy} from "./potion-utils.ts";
 
 export interface PotionFilterState {
     rarities: Set<PotionRarity>
@@ -51,13 +51,10 @@ export class PotionFilters {
     }
 
     private createPotion(potion: PotionDefinition): HTMLElement {
-        const element = document.createElement("div");
+        const image = renderPotionLazy(potion.id);
 
-        element.classList.add("item-slot");
+        const element = renderPotionElement(potion.id, image);
 
-        const image = document.createElement("img");
-        lazyLoadImage(image, `/src/assets/potions/${potion.id}.webp`);
-        element.appendChild(image)
         element.hidden = true;
         element.addEventListener("click", () => {
             this.state.selectedPotion = potion.id;

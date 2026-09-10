@@ -1,5 +1,5 @@
 import type {SaveInfo} from "../../app/types.ts";
-import {cleanCharName} from "../../utils/utils.ts";
+import {cleanCharName} from "../../utils/sanitization.ts";
 
 export function createSaveCard(sf: SaveInfo, onSelect: (save: SaveInfo) => void): HTMLDivElement {
     const card = document.createElement("div");

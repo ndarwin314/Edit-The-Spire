@@ -33,6 +33,7 @@ export interface RelicDefinition {
     rarity: RelicRarity;
     ancient?: RelicAncient;
     character?: RelicCharacter;
+    description: string;
 }
 
 export const relics: RelicDefinition[] = [

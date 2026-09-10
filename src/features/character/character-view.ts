@@ -1,11 +1,12 @@
 import type {Potion, Relic, SaveInfo} from "../../app/types";
 import { player } from "../../services/tauri";
-import { getElement, cleanCharName} from "../../utils/utils";
 
 import { RelicView } from "../relics/relic-view";
 import { PotionView } from "../potions/potion-view";
 
 import {CharacterInputs} from "./character-inputs.ts";
+import {getElement} from "../../utils/dom.ts";
+import {cleanCharName} from "../../utils/sanitization.ts";
 
 export interface CharacterState {
     health: [number, number];

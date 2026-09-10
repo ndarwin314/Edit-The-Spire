@@ -1,9 +1,10 @@
 import type {Potion} from "../../app/types";
-import {cleanPotionName, getPlusIcon, getPotionImage, overlayOnClick} from "../../utils/utils.ts";
 import {PotionFilters} from "./potion-filters.ts";
 import {CharacterState} from "../character/character-view.ts";
+import {overlayOnClick} from "../../utils/dom.ts";
+import {renderPotionElement, renderPotionImage} from "./potion-utils.ts";
+import {placeholder} from "../../utils/image.ts";
 
-const placeholder = "potion_placeholder";
 
 export interface PotionViewState {
     potions: string[]
@@ -76,7 +77,6 @@ export class PotionView {
 
     }
 
-
     static async replacePotion(potionView: PotionView, potionID: string) {
         let index = potionView.state.selected_potion;
         const children = potionView
@@ -84,33 +84,22 @@ export class PotionView {
             .children;
         const potionContainer = children[index];
         potionContainer.replaceChildren();
-        potionContainer.appendChild(await potionView.createPotionImage(potionID));
+        potionContainer.appendChild(await renderPotionImage(potionID));
 
         potionView.state.potions[index] = "POTION." + potionID.toUpperCase();
         potionView.state.selected_potion = -1;
     }
 
     private async createPotionElement(index: number) {
-        const element = document.createElement("div");
-
-        element.classList.add("item-slot");
-
-        let image_url = placeholder;
-        if (this.state.potions[index]!=undefined) {
-            image_url = cleanPotionName(this.state.potions[index]);
-        }
-        const image = await this.createPotionImage(image_url);
+        const potion = this.state.potions[index];
+        const image = await renderPotionImage(potion);
+        const element = renderPotionElement(potion, image);
 
         element.addEventListener("click", async () => await this.clickEvent(index));
-        element.appendChild(image);
+
         return element
     }
 
-    private async createPotionImage(potionID: string) {
-        const image = document.createElement("img");
-        image.src = await (potionID==="plus_icon" ? getPlusIcon(): getPotionImage(potionID));
-        return image;
-    }
 
     private async clickPlus(index: number) {
         this.state.potions.push("plus_icon");
@@ -121,7 +110,7 @@ export class PotionView {
         const children = this.container.children;
         const potionContainer = children[index];
         potionContainer.replaceChildren();
-        potionContainer.appendChild(await this.createPotionImage(placeholder));
+        potionContainer.appendChild(await renderPotionImage(placeholder));
 
         this.container.appendChild(await this.createPotionElement(index+1));
     }

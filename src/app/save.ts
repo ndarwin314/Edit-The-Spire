@@ -1,5 +1,6 @@
-import {getElement, overlayOnClick} from "../utils/utils.ts";
+
 import {showPage, showTab} from "./navigation.ts";
+import {getElement, overlayOnClick} from "../utils/dom.ts";
 
 export class SaveManager {
     private readonly saveButton: HTMLButtonElement;

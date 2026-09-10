@@ -6,8 +6,8 @@ import { CharacterView } from "../features/character/character-view";
 import {player, saves} from "../services/tauri";
 import type { SaveInfo } from "./types";
 import {DeckView} from "../features/deck/deck-view.ts";
-import {getElement} from "../utils/utils.ts";
 import {SaveManager} from "./save.ts";
+import {getElement} from "../utils/dom.ts";
 
 export class App {
     private readonly characterView: CharacterView;
