@@ -196,7 +196,8 @@ body {
 .inventory-container::-webkit-scrollbar,
 .library-panel .item-grid::-webkit-scrollbar,
 .panel-toolbar::-webkit-scrollbar,
-.card-grid::-webkit-scrollbar {
+.card-grid::-webkit-scrollbar,
+.card-filter-panel::-webkit-scrollbar {
   width: 6px;
 }
 
@@ -204,7 +205,8 @@ body {
 .inventory-container::-webkit-scrollbar-track,
 .library-panel .item-grid::-webkit-scrollbar-track,
 .panel-toolbar::-webkit-scrollbar-track,
-.card-grid::-webkit-scrollbar-track {
+.card-grid::-webkit-scrollbar-track,
+.card-filter-panel::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
 }
@@ -213,7 +215,8 @@ body {
 .inventory-container::-webkit-scrollbar-thumb,
 .library-panel .item-grid::-webkit-scrollbar-thumb,
 .panel-toolbar::-webkit-scrollbar-thumb,
-.card-grid::-webkit-scrollbar-thumb {
+.card-grid::-webkit-scrollbar-thumb,
+.card-filter-panel::-webkit-scrollbar-thumb {
   background: #DB6514;
   border-radius: 8px;
 }
@@ -898,6 +901,7 @@ body {
   min-height: 0;
   margin-bottom: 0;
   padding: 2rem;
+  padding-right: 1rem;
   
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, clamp(130px, 15vw, 170px)), 1fr));
@@ -1142,8 +1146,17 @@ body {
   height: 100vh;
   width: 100vw;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: left;
+  align-items: first baseline;
+}
+
+.card-library-container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  padding-right: 1rem;
 }
 
 .card-filter-panel {
@@ -1152,17 +1165,17 @@ body {
   align-items: flex-start;
   gap: clamp(0.5rem, 5vh, 3.25rem);
   background-color: #212D32;
+  border-top: 5px solid #354A4F;
   border-right: 5px solid #354A4F;
-  padding: 1rem;
-  width: clamp(15rem, 15%, 16rem);
+  border-bottom: 5px solid #354A4F;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 1.5rem;
+  width: 16rem;
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 0;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  align-self: center;
+  height: 80vh;
 }
 
 .card-filter-group {
@@ -1170,7 +1183,7 @@ body {
   flex-direction: column;
   align-items: left;
   width: 100%;
-  gap: 15%;
+  gap: 10%;
 }
 
 .card-filter-header {
@@ -1180,8 +1193,8 @@ body {
 }
 
 .card-filter-label {
-  font-size: 1rem;
-  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.15rem;
 }
 
 .card-filter-row.search-bar {
@@ -1189,6 +1202,7 @@ body {
   height: 2.5rem;
   width: 100%;
   border-radius: 10px;
+  cursor: text;
 }
 
 .card-filter-row {
@@ -1207,7 +1221,7 @@ body {
 
 .card-filter-chip {
   font-family: inherit;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: white;
   background-color: rgba(0, 0, 0, 0.4);
   border: 1px solid #353545;

@@ -354,81 +354,83 @@
 
         <!-- CARD LIBRARY -->
       <div id="card-library" hidden>
-        <div class="card-filter-panel">
-          <div class="card-filter-group search-bar">
-            <div class="card-filter-header">
-              <span class="card-filter-label">Search:</span>
+        <div class="card-library-container">
+          <div class="card-filter-panel">
+            <div class="card-filter-group search-bar">
+              <div class="card-filter-header">
+                <span class="card-filter-label">Search:</span>
+              </div>
+              <div class="card-filter-row search-bar"></div>
             </div>
-            <div class="card-filter-row search-bar"></div>
+            <div class="card-filter-group source-filter">
+              <div class="card-filter-header">
+                <span class="card-filter-label">Source:</span>
+              </div>
+              <div class="card-filter-row" id="source-filters">
+                <button class="card-filter-chip icon-chip" data-value="ironclad" aria-pressed="false">
+                  <img src="./src/assets/character-icons/character_icon_ironclad.webp"/>
+                </button>
+                <button class="card-filter-chip icon-chip" data-value="silent" aria-pressed="false">
+                  <img src="./src/assets/character-icons/character_icon_silent.webp"/>
+                </button>
+                <button class="card-filter-chip icon-chip" data-value="regent" aria-pressed="false">
+                  <img src="./src/assets/character-icons/character_icon_regent.webp"/>
+                </button>
+                <button class="card-filter-chip icon-chip" data-value="necrobinder" aria-pressed="false">
+                  <img src="./src/assets/character-icons/character_icon_necrobinder.webp"/>
+                </button>
+                <button class="card-filter-chip icon-chip" data-value="defect" aria-pressed="false">
+                  <img src="./src/assets/character-icons/character_icon_defect.webp"/>
+                </button>
+                <button class="card-filter-chip icon-chip" data-value="colorless" aria-pressed="false">
+                  <img src="./src/assets/general/energy_colorless.webp"/>
+                </button>
+              </div>
+            </div>
+            <div class="card-filter-group rarity-filter">
+              <div class="card-filter-header">
+                <span class="card-filter-label">Rarity:</span>
+              </div>
+              <div class="card-filter-row rarity-filter" id="card-rarity-filters">
+                <button class="card-filter-chip" data-value="basic" aria-pressed="false">Basic</button>
+                <button class="card-filter-chip" data-value="common" aria-pressed="false">Common</button>
+                <button class="card-filter-chip" data-value="uncommon" aria-pressed="false">Uncommon</button>
+                <button class="card-filter-chip" data-value="rare" aria-pressed="false">Rare</button>
+                <button class="card-filter-chip" data-value="ancient" aria-pressed="false">Ancient</button>
+                <button class="card-filter-chip" data-value="event" aria-pressed="false">Event</button>
+                <button class="card-filter-chip" data-value="token" aria-pressed="false">Token</button>
+              </div>
+            </div>
+            <div class="card-filter-group type">
+              <div class="card-filter-header">
+                <span class="card-filter-label">Type:</span>
+              </div>
+              <div class="card-filter-row type-filter" id="card-type-filters">
+                <button class="card-filter-chip" data-value="attack" aria-pressed="false">Attack</button>
+                <button class="card-filter-chip" data-value="skil" aria-pressed="false">Skill</button>
+                <button class="card-filter-chip" data-value="power" aria-pressed="false">Power</button>
+                <button class="card-filter-chip" data-value="status" aria-pressed="false">Status</button>
+                <button class="card-filter-chip" data-value="curse" aria-pressed="false">Curse</button>
+                <button class="card-filter-chip" data-value="quest" aria-pressed="false">Quest</button>
+              </div>
+            </div>
+            <div class="card-filter-group cost">
+              <div class="card-filter-header">
+                <span class="card-filter-label">Cost:</span>
+              </div>
+              <div class="card-filter-row cost-filter" id="card-cost-filters">
+                <button class="card-filter-chip" data-value="0" aria-pressed="false">0</button>
+                <button class="card-filter-chip" data-value="1" aria-pressed="false">1</button>
+                <button class="card-filter-chip" data-value="2" aria-pressed="false">2</button>
+                <button class="card-filter-chip" data-value="3+" aria-pressed="false">3</button>
+                <button class="card-filter-chip" data-value="X" aria-pressed="false">X</button>
+                <button class="card-filter-chip" data-value="unplayable" aria-pressed="false">Unplayable</button>
+              </div>
+            </div>
+            <!-- <button type="button" class="back-button"></button> -->
           </div>
-          <div class="card-filter-group source-filter">
-            <div class="card-filter-header">
-              <span class="card-filter-label">Source:</span>
-            </div>
-            <div class="card-filter-row" id="source-filters">
-              <button class="card-filter-chip icon-chip" data-value="ironclad" aria-pressed="false">
-                <img src="./src/assets/character-icons/character_icon_ironclad.webp"/>
-              </button>
-              <button class="card-filter-chip icon-chip" data-value="silent" aria-pressed="false">
-                <img src="./src/assets/character-icons/character_icon_silent.webp"/>
-              </button>
-              <button class="card-filter-chip icon-chip" data-value="regent" aria-pressed="false">
-                <img src="./src/assets/character-icons/character_icon_regent.webp"/>
-              </button>
-              <button class="card-filter-chip icon-chip" data-value="necrobinder" aria-pressed="false">
-                <img src="./src/assets/character-icons/character_icon_necrobinder.webp"/>
-              </button>
-              <button class="card-filter-chip icon-chip" data-value="defect" aria-pressed="false">
-                <img src="./src/assets/character-icons/character_icon_defect.webp"/>
-              </button>
-              <button class="card-filter-chip icon-chip" data-value="colorless" aria-pressed="false">
-                <img src="./src/assets/general/energy_colorless.webp"/>
-              </button>
-            </div>
-          </div>
-          <div class="card-filter-group rarity-filter">
-            <div class="card-filter-header">
-              <span class="card-filter-label">Rarity:</span>
-            </div>
-            <div class="card-filter-row rarity-filter" id="card-rarity-filters">
-              <button class="card-filter-chip" data-value="basic" aria-pressed="false">Basic</button>
-              <button class="card-filter-chip" data-value="common" aria-pressed="false">Common</button>
-              <button class="card-filter-chip" data-value="uncommon" aria-pressed="false">Uncommon</button>
-              <button class="card-filter-chip" data-value="rare" aria-pressed="false">Rare</button>
-              <button class="card-filter-chip" data-value="ancient" aria-pressed="false">Ancient</button>
-              <button class="card-filter-chip" data-value="event" aria-pressed="false">Event</button>
-              <button class="card-filter-chip" data-value="token" aria-pressed="false">Token</button>
-            </div>
-          </div>
-          <div class="card-filter-group type">
-            <div class="card-filter-header">
-              <span class="card-filter-label">Type:</span>
-            </div>
-            <div class="card-filter-row type-filter" id="card-type-filters">
-              <button class="card-filter-chip" data-value="attack" aria-pressed="false">Attack</button>
-              <button class="card-filter-chip" data-value="skil" aria-pressed="false">Skill</button>
-              <button class="card-filter-chip" data-value="power" aria-pressed="false">Power</button>
-              <button class="card-filter-chip" data-value="status" aria-pressed="false">Status</button>
-              <button class="card-filter-chip" data-value="curse" aria-pressed="false">Curse</button>
-              <button class="card-filter-chip" data-value="quest" aria-pressed="false">Quest</button>
-            </div>
-          </div>
-          <div class="card-filter-group cost">
-            <div class="card-filter-header">
-              <span class="card-filter-label">Cost:</span>
-            </div>
-            <div class="card-filter-row cost-filter" id="card-cost-filters">
-              <button class="card-filter-chip" data-value="0" aria-pressed="false">0</button>
-              <button class="card-filter-chip" data-value="1" aria-pressed="false">1</button>
-              <button class="card-filter-chip" data-value="2" aria-pressed="false">2</button>
-              <button class="card-filter-chip" data-value="3+" aria-pressed="false">3</button>
-              <button class="card-filter-chip" data-value="X" aria-pressed="false">X</button>
-              <button class="card-filter-chip" data-value="unplayable" aria-pressed="false">Unplayable</button>
-            </div>
-          </div>
-          <!-- <button type="button" class="back-button"></button> -->
+          <div class="card-grid" id="library-grid"></div>
         </div>
-        <div class="card-grid" id="library-grid"></div>
       </div>
 
         <!-- MAP TAB -->
