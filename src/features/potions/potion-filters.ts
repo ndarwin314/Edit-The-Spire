@@ -2,30 +2,42 @@ import {PotionCharacter, PotionRarity, PotionDefinition, potions} from "./potion
 import {getElement} from "../../utils/dom.ts";
 import {renderPotionElement, renderPotionLazy} from "./potion-utils.ts";
 
-export interface PotionFilterState {
+import {Filter, FilterState} from "../../utils/filter.ts";
+
+export interface PotionFilterState extends FilterState{
     rarities: Set<PotionRarity>
     characters: PotionCharacter
     selectedPotion?: string
+    query: string
+    matches: Set<String>
 }
 
-export class PotionFilters {
-    private readonly allFilters: NodeListOf<HTMLButtonElement>;
-    private readonly rarityFilters: NodeListOf<HTMLButtonElement>;
-    private readonly characterFilters: NodeListOf<HTMLButtonElement>;
-    private readonly potionGrid: HTMLDivElement;
-    private state: PotionFilterState;
-    private readonly rarityFilterContainer =
-        getElement<HTMLElement>("#rarity-filters-potion");
+class PotionFilters extends Filter<PotionDefinition>{
+    protected readonly allFilters: NodeListOf<HTMLButtonElement>;
+    protected readonly rarityFilters: NodeListOf<HTMLButtonElement>;
+    protected readonly characterFilters: NodeListOf<HTMLButtonElement>;
+    protected state: PotionFilterState;
+    protected readonly rarityFilterContainer: HTMLElement;
 
     constructor(
         private readonly callback: (potionID: string) => void,
         private readonly library: HTMLElement
     ) {
-        this.potionGrid = <HTMLDivElement>this.library.querySelector(".item-grid");
+        super(
+            library.querySelector(".item-grid")!,
+            getElement("#potion-search"),
+            potions,
+
+        );
+
+        this.rarityFilterContainer = getElement<HTMLElement>("#rarity-filters-potion");
+
 
         this.state = {
             rarities: new Set(),
             characters: "any",
+            query: "",
+            matches: new Set()
         }
 
         this.allFilters = library.querySelectorAll<HTMLButtonElement>(".filter-chip");
@@ -38,15 +50,17 @@ export class PotionFilters {
             .querySelector("#character-filters-potion")!
             .querySelectorAll<HTMLButtonElement>(".filter-chip");
 
+
         this.setupRarityFilters();
         this.setupCharacterFilters();
+        this.setupSearchFilter();
         this.initializePotionList();
         this.onChange();
     }
 
     private initializePotionList() {
         for (const potion of potions) {
-            this.potionGrid.appendChild(this.createPotion(potion))
+            this.grid.appendChild(this.createPotion(potion))
         }
     }
 
@@ -71,11 +85,11 @@ export class PotionFilters {
         );
     }
 
+
     private matchesRarity(potion: PotionDefinition) {
         if (this.state.rarities.size === 0) {
             return true;
         }
-
         return this.state.rarities.has(potion.rarity);
     }
 
@@ -83,18 +97,10 @@ export class PotionFilters {
         return this.state.characters==="any" || this.state.characters===potion.character;
     }
 
-    private matchesFilters(potion: PotionDefinition) {
-        return this.matchesCharacter(potion) && this.matchesRarity(potion);
+    protected matchesFilters(potion: PotionDefinition) {
+        return this.matchesCharacter(potion) && this.matchesRarity(potion) && this.matchesSearch(potion);
     }
 
-    private onChange() {
-        let i = 0;
-        for (const element of this.potionGrid.children) {
-            let potion = potions[i];
-            (<HTMLElement>element).hidden = !this.matchesFilters(potion);
-            i++;
-        }
-    }
 
     private setupRarityFilters() {
         this.rarityFilters.forEach(button => {
@@ -196,6 +202,11 @@ export class PotionFilters {
         this.state = {
             rarities: new Set(),
             characters: "any",
+            query: "",
+            matches: new Set()
         }
+        this.searchBar.textContent = this.state.query;
     }
 }
+
+export default PotionFilters

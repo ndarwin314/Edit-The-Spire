@@ -1,3 +1,4 @@
+import {Definition} from "../../utils/filter.ts";
 
 export type PotionRarity =
     | "starter"
@@ -14,7 +15,7 @@ export type PotionCharacter =
     | "necrobinder"
     | "defect";
 
-export interface PotionDefinition {
+export interface PotionDefinition extends Definition {
     id: string;
     name: string;
     rarity: PotionRarity;

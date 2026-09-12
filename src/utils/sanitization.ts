@@ -21,9 +21,17 @@ export function cleanEnchantmentName(enchantment: string): string {
     return enchantment.replace("ENCHANTMENT.", "").replace("_", " ").toLowerCase();
 }
 
-export function input_sanitizer(event: InputEvent) {
+export function integralSanitizer(event: InputEvent) {
     if (event.inputType.startsWith("insert")) {
         if (event.data && !/^\d+$/.test(event.data)) {
+            event.preventDefault();
+        }
+    }
+}
+
+export function alphaSanitizer(event: InputEvent) {
+    if (event.inputType.startsWith("insert")) {
+        if (event.data && !/^[a-zA-Z ]+$/.test(event.data)) {
             event.preventDefault();
         }
     }

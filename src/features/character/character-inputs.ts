@@ -1,5 +1,5 @@
 import {CharacterState} from "./character-view.ts";
-import {input_sanitizer} from "../../utils/sanitization.ts";
+import {integralSanitizer} from "../../utils/sanitization.ts";
 
 interface CharacterInputState {
     currentHP: number,
@@ -86,7 +86,7 @@ export class CharacterInputs {
     ) {
         element.addEventListener(
             "beforeinput",
-            event => input_sanitizer(event),
+            event => integralSanitizer(event),
         );
 
         element.addEventListener(

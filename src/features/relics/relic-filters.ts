@@ -1,34 +1,42 @@
 import {relics, RelicDefinition, RelicCharacter, RelicRarity, RelicAncient} from "./relic-list.ts";
 import {getElement} from "../../utils/dom.ts";
 import {renderRelicElement, renderRelicLazy} from "./relic-utils.ts";
+import {Filter, FilterState} from "../../utils/filter.ts";
 
-export interface RelicFilterState {
+export interface RelicFilterState extends FilterState{
     rarities: Set<RelicRarity>
     characters: RelicCharacter
     ancients: RelicAncient
     selectedRelic?: string
+    query: string
+    matches: Set<String>
 }
 
-export class RelicFilters {
+class RelicFilters extends Filter<RelicDefinition>{
     private readonly allFilters: NodeListOf<HTMLButtonElement>;
     private readonly rarityFilters: NodeListOf<HTMLButtonElement>;
     private readonly characterFilters: NodeListOf<HTMLButtonElement>;
     private readonly ancientFilters: NodeListOf<HTMLButtonElement>;
-    private readonly relicGrid: HTMLDivElement;
-    private state: RelicFilterState;
-    private readonly rarityFilterContainer =
-        getElement<HTMLElement>("#rarity-filters");
+    protected state: RelicFilterState;
+    private readonly rarityFilterContainer = getElement<HTMLElement>("#rarity-filters");
 
     constructor(
         private readonly callback: (relicID: string) => void,
         private readonly library: HTMLElement
         ) {
-        this.relicGrid = <HTMLDivElement>this.library.querySelector(".item-grid");
+        super(
+            library.querySelector(".item-grid")!,
+            getElement("#relic-search"),
+            relics,
+        )
+
 
         this.state = {
             rarities: new Set(),
             characters: "any",
-            ancients: "none"
+            ancients: "none",
+            query: "",
+            matches: new Set()
         }
 
         this.allFilters = library.querySelectorAll<HTMLButtonElement>(".filter-chip");
@@ -45,17 +53,19 @@ export class RelicFilters {
             .querySelector("#ancient-filters")!
             .querySelectorAll<HTMLButtonElement>(".filter-chip");
 
+
         this.setupRarityFilters();
         this.setupAncientFilters();
         this.setupCharacterFilters();
         this.initializeRelicList();
+        this.setupSearchFilter();
         this.onChange();
     }
 
 
     private initializeRelicList() {
         for (const relic of relics) {
-            this.relicGrid.appendChild(this.createRelic(relic))
+            this.grid.appendChild(this.createRelic(relic))
         }
     }
 
@@ -95,17 +105,11 @@ export class RelicFilters {
         return this.state.ancients==="none" || this.state.ancients===relic.ancient;
     }
 
-    private matchesFilters(relic: RelicDefinition) {
-        return this.matchesAncient(relic) && this.matchesCharacter(relic) && this.matchesRarity(relic);
-    }
-
-    private onChange() {
-        let i = 0;
-        for (const element of this.relicGrid.children) {
-            let relic = relics[i];
-            (<HTMLElement>element).hidden = !this.matchesFilters(relic);
-            i++;
-        }
+    protected matchesFilters(relic: RelicDefinition) {
+        return this.matchesAncient(relic) &&
+            this.matchesCharacter(relic) &&
+            this.matchesRarity(relic) &&
+            this.matchesSearch(relic);
     }
 
     private setupRarityFilters() {
@@ -180,6 +184,7 @@ export class RelicFilters {
         });
     }
 
+
     private disableAllAncients() {
         this.ancientFilters.forEach(button => {
             this.forceOff(button);
@@ -249,7 +254,12 @@ export class RelicFilters {
         this.state = {
             rarities: new Set(),
             characters: "any",
-            ancients: "none"
+            ancients: "none",
+            query: "",
+            matches: new Set()
         }
+        this.searchBar.textContent = this.state.query;
     }
 }
+
+export default RelicFilters

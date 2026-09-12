@@ -1,5 +1,5 @@
 import type {Potion} from "../../app/types";
-import {PotionFilters} from "./potion-filters.ts";
+import PotionFilters from "./potion-filters.ts";
 import {CharacterState} from "../character/character-view.ts";
 import {overlayOnClick} from "../../utils/dom.ts";
 import {renderPotionElement, renderPotionImage} from "./potion-utils.ts";
@@ -91,10 +91,12 @@ export class PotionView {
     }
 
     private async createPotionElement(index: number) {
-        const potion = this.state.potions[index];
+        let potion = this.state.potions[index];
+        if (potion == undefined) {
+            potion = placeholder;
+        }
         const image = await renderPotionImage(potion);
         const element = renderPotionElement(potion, image);
-
         element.addEventListener("click", async () => await this.clickEvent(index));
 
         return element

@@ -1,5 +1,5 @@
 import type {Relic} from "../../app/types";
-import {RelicFilters} from "./relic-filters.ts";
+import RelicFilters from "./relic-filters.ts";
 import {CharacterState} from "../character/character-view.ts";
 import {cleanRelicName} from "../../utils/sanitization.ts";
 import {overlayOnClick} from "../../utils/dom.ts";

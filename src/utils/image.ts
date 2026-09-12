@@ -33,11 +33,13 @@ export function getRelicPath(relicID: string) {
 }
 
 export function getPotionPath(potionID: string) {
-    potionID = cleanPotionName(potionID);
     let path = placeholder;
+
     if (potionID != undefined) {
+        potionID = cleanPotionName(potionID);
         path = potionID==="plus_icon" ? getPlusPath(): `/src/assets/potions/${potionID}.webp`
     }
+
     return path;
 }
 

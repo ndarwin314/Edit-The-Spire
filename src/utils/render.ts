@@ -1,6 +1,5 @@
-export function createTooltipContainer(cleanedName: string, image: HTMLElement): HTMLElement {
+export function createTooltipContainer(cleanedName: string, image: HTMLImageElement): HTMLElement {
     if (cleanedName==="plus_icon") return image;
-
     const tooltipContainer = document.createElement("div");
     tooltipContainer.classList.add("tooltip-container");
 

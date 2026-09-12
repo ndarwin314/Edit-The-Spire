@@ -2,18 +2,39 @@ import {CardDefinition, cards} from "./card-list.ts";
 import {getElement} from "../../utils/dom.ts";
 import {renderCardLazy} from "./card-utils.ts";
 import {cleanCardName} from "../../utils/sanitization.ts";
+import {Filter} from "../../utils/filter.ts";
 
-export class CardLibrary {
+export interface CardLibraryState {
+    query: string,
+    matches: Set<string>
+}
+
+export class CardLibrary extends Filter<CardDefinition>{
+    // @ts-ignore
     private readonly element: HTMLElement;
-    private readonly grid: HTMLElement
+    protected state: CardLibraryState;
+
     constructor() {
+        super(
+            getElement("#library-grid"),
+            getElement("#card-library-search"),
+            cards
+        )
+
         this.element = getElement("#card-library");
-        this.grid = getElement("#library-grid");
+
+        this.state = {
+            query: "",
+            matches: new Set()
+        }
 
         this.grid.replaceChildren();
         for (const card of cards) {
             this.grid.appendChild(this.createCard(card));
         }
+
+        this.setupSearchFilter();
+        //this.onChange();
     }
 
     private createCard(card: CardDefinition) {
@@ -26,5 +47,4 @@ export class CardLibrary {
         element.appendChild(image);
         return element;
     }
-    
 }
