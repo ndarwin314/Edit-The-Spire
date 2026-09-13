@@ -3,41 +3,26 @@ import {getElement} from "../../utils/dom.ts";
 import {renderCardLazy} from "./card-utils.ts";
 import {cleanCardName} from "../../utils/sanitization.ts";
 import {Filter} from "../../utils/filter.ts";
+import {RelicAncient, RelicCharacter, RelicRarity} from "../relics/relic-list.ts";
 
 export interface CardLibraryState {
-    query: string,
-    matches: Set<string>
+    rarities: Set<RelicRarity>
+    characters: RelicCharacter
+    ancients: RelicAncient
+    query: string
+    matches: Set<String>
 }
 
 export class CardLibrary extends Filter<CardDefinition>{
-    // @ts-ignore
-    private readonly element: HTMLElement;
-    protected state: CardLibraryState;
-
     constructor() {
         super(
-            getElement("#library-grid"),
+            getElement("#card-library"),
             getElement("#card-library-search"),
             cards
         )
-
-        this.element = getElement("#card-library");
-
-        this.state = {
-            query: "",
-            matches: new Set()
-        }
-
-        this.grid.replaceChildren();
-        for (const card of cards) {
-            this.grid.appendChild(this.createCard(card));
-        }
-
-        this.setupSearchFilter();
-        //this.onChange();
     }
 
-    private createCard(card: CardDefinition) {
+    protected createElement(card: CardDefinition) {
         const image = renderCardLazy(card.id);
         const element = document.createElement("div");
 
