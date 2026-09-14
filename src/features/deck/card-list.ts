@@ -1,4 +1,5 @@
 export type CardRarity =
+    | "any"
     | "Basic"
     | "Common"
     | "Uncommon"
@@ -11,6 +12,7 @@ export type CardRarity =
     | "Quest"
 
 export type CardType =
+    | "any"
     | "Attack"
     | "Skill"
     | "Power"
@@ -19,12 +21,15 @@ export type CardType =
     | "Quest"
 
 export type CardColor =
+    | "any"
     | "ironclad"
     | "silent"
     | "regent"
     | "necrobinder"
     | "defect"
     | "colorless"
+
+export type CardCost = number | "x";
 
 export interface CardDefinition {
     id: string;

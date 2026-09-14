@@ -1,11 +1,9 @@
 import Fuse from "fuse.js";
 import {alphaSanitizer} from "./sanitization.ts";
-import {RelicAncient, RelicCharacter, RelicRarity} from "../features/relics/relic-list.ts";
-import {PotionCharacter, PotionRarity} from "../features/potions/potion-list.ts";
 
 export interface FilterState {
-    rarities: Set<RelicRarity>
-    characters: RelicCharacter
+    rarities: Set<string>
+    characters: string
     query: string
     matches: Set<String>
 }
@@ -14,6 +12,8 @@ export interface Definition {
     name: string
     id: string
 }
+
+export const selector = ".filter-chip, .card-filter-chip";
 
 export class Filter<T extends Definition> {
     protected readonly grid: HTMLElement;
@@ -46,14 +46,14 @@ export class Filter<T extends Definition> {
 
         this.grid = library.querySelector(".item-grid")!;
 
-        this.allFilters = library.querySelectorAll<HTMLButtonElement>(".filter-chip");
+        this.allFilters = library.querySelectorAll<HTMLButtonElement>(selector);
         this.rarityFilters = library
             .querySelector(".rarity-filter")!
-            .querySelectorAll<HTMLButtonElement>(".filter-chip");
+            .querySelectorAll<HTMLButtonElement>(selector);
 
         this.characterFilters = library
             .querySelector(".character-filter")!
-            .querySelectorAll<HTMLButtonElement>(".filter-chip");
+            .querySelectorAll<HTMLButtonElement>(selector);
 
 
         this.setupFilters(this.rarityFilters, button => this.rarityClick(button));
@@ -78,7 +78,7 @@ export class Filter<T extends Definition> {
 
     // @ts-ignore
     protected rarityClick(button: HTMLButtonElement) {
-        const rarity = button.dataset.value as PotionRarity;
+        const rarity = button.dataset.value as string;
 
         this.toggle(button);
 
@@ -97,7 +97,7 @@ export class Filter<T extends Definition> {
     }
 
     protected characterClick(button: HTMLButtonElement) {
-        const value = button.dataset.value as PotionCharacter;
+        const value = button.dataset.value as string;
         this.toggle(button);
 
         if (button.classList.contains("active")) {
@@ -186,7 +186,7 @@ export class Filter<T extends Definition> {
 
     protected disableOtherElements(
         filter: NodeListOf<HTMLButtonElement>,
-        name: RelicAncient | RelicCharacter | RelicRarity) {
+        name: string) {
         filter.forEach(button => {
             const value = button.dataset.value;
             if (value !== name) {
@@ -201,7 +201,7 @@ export class Filter<T extends Definition> {
 
             if (active) {
                 this.toggle(button);
-                this.state.characters =  character as PotionCharacter;
+                this.state.characters =  character as string;
             }
         });
         this.onChange();

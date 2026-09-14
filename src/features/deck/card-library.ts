@@ -1,25 +1,49 @@
-import {CardDefinition, cards} from "./card-list.ts";
+import {CardColor, CardCost, CardDefinition, CardRarity, cards, CardType} from "./card-list.ts";
 import {getElement} from "../../utils/dom.ts";
 import {renderCardLazy} from "./card-utils.ts";
 import {cleanCardName} from "../../utils/sanitization.ts";
-import {Filter} from "../../utils/filter.ts";
-import {RelicAncient, RelicCharacter, RelicRarity} from "../relics/relic-list.ts";
+import {Filter, selector} from "../../utils/filter.ts";
 
 export interface CardLibraryState {
-    rarities: Set<RelicRarity>
-    characters: RelicCharacter
-    ancients: RelicAncient
+    rarities: Set<CardRarity>
+    characters: CardColor
+    cost: CardCost
+    type: CardType
     query: string
     matches: Set<String>
 }
 
 export class CardLibrary extends Filter<CardDefinition>{
+    protected readonly costFilters: NodeListOf<HTMLButtonElement>;
+    protected readonly typeFilters: NodeListOf<HTMLButtonElement>;
+    protected state : CardLibraryState;
     constructor() {
         super(
             getElement("#card-library"),
             getElement("#card-library-search"),
             cards
         )
+        this.state = {
+            rarities: new Set(),
+            characters: "any",
+            type: "any",
+            cost: -1,
+            query: "",
+            matches: new Set()
+        }
+
+        this.costFilters = this.library
+            .querySelector("#card-cost-filters")!
+            .querySelectorAll<HTMLButtonElement>(selector);
+
+        this.setupFilters(this.costFilters, button => this.costClick(button));
+
+        this.typeFilters = this.library
+            .querySelector("#card-type-filters")!
+            .querySelectorAll<HTMLButtonElement>(selector);
+
+        this.onChange();
+
     }
 
     protected createElement(card: CardDefinition) {
@@ -31,5 +55,52 @@ export class CardLibrary extends Filter<CardDefinition>{
         element.setAttribute("card-name", cleanCardName(card.id));
         element.appendChild(image);
         return element;
+    }
+
+    protected costClick(button: HTMLButtonElement) {
+        const value = button.dataset.value as CardCost;
+
+        this.toggle(button);
+
+        if (button.classList.contains("active")) {
+            this.disableOtherElements(this.costFilters, String(value));
+            this.state.cost = value;
+        } else {
+            this.selectAnyCharacter();
+            this.state.cost = -1;
+        }
+        this.onChange();
+    }
+
+    private matchesRarity(card: CardDefinition) {
+        if (this.state.rarities.size === 0) {
+            return true;
+        }
+
+        return this.state.rarities.has(card.rarity.toLowerCase() as CardRarity);
+    }
+
+    private matchesCharacter(card: CardDefinition) {
+        return this.state.characters==="any" || this.state.characters===card.color;
+    }
+
+    private matchesCost(card: CardDefinition) {
+        if (this.state.cost==="x") {
+            return card.is_x_cost;
+        } else if (Number(this.state.cost) < 0) {
+            return true;
+        } else if (Number(this.state.cost) >= 3) {
+            return card.cost >= 3;
+        } else {
+            return card.cost == this.state.cost;
+        }
+    }
+
+
+    protected matchesFilters(card: CardDefinition) {
+        return this.matchesCharacter(card) &&
+            this.matchesRarity(card) &&
+            this.matchesSearch(card) &&
+            this.matchesCost(card);
     }
 }
