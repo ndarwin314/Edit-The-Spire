@@ -127,4 +127,8 @@ export class RelicView {
         this.library.classList.add("active");
         this.state.selected_relic = index;
     }
+
+    reset() {
+        this.relicFilters.reset();
+    }
 }

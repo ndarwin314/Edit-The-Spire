@@ -150,4 +150,9 @@ export class DeckView {
 
         return element;
     }
+
+
+    reset() {
+        this.cardLibrary.reset();
+    }
 }

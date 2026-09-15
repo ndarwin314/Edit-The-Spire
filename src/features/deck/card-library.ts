@@ -66,7 +66,7 @@ export class CardLibrary extends Filter<CardDefinition>{
 
     protected async cardClick(card: CardDefinition) {
         const prototype: Card = {
-            id: card.id,
+            id: "CARD." + card.id,
             floor_added_to_deck: -1,
             current_upgrade_level: 0,
 
@@ -146,5 +146,21 @@ export class CardLibrary extends Filter<CardDefinition>{
             this.matchesSearch(card) &&
             this.matchesCost(card) &&
             this.matchesType(card);
+    }
+
+    reset() {
+        this.allFilters.forEach(button => {
+            this.forceOff(button);
+        });
+        this.state = {
+            rarities: new Set(),
+            characters: "any",
+            query: "",
+            cost: -1,
+            type: "any",
+            matches: new Set()
+        }
+        this.searchBar.textContent = this.state.query;
+        this.onChange();
     }
 }

@@ -19,7 +19,8 @@ export class App {
         this.characterView = new CharacterView();
         this.deckView = new DeckView();
         this.saveManager = new SaveManager(
-            async () => await this.save()
+            async () => await this.save(),
+            () => this.reset()
         );
 
         initNavigation();
@@ -30,6 +31,11 @@ export class App {
 
     init() {
         showPage("startup");
+    }
+
+    reset() {
+        this.deckView.reset();
+        this.characterView.reset();
     }
 
     private async save() {

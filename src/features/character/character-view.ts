@@ -80,6 +80,11 @@ export class CharacterView {
 
     }
 
+    reset() {
+        this.relicView.reset();
+        this.potionView.reset();
+    }
+
 
     async render() {
         await this.relicView.render();

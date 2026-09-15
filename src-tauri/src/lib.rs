@@ -83,7 +83,7 @@ fn find_runs(app: tauri::AppHandle) -> Result<Vec<SaveInfo>, String> {
 
             if save_path.exists() && save_path.is_file() {
                 let path = save_path.to_string_lossy().into_owned();
-                let save_file = save_helper(&path);
+                let save_file = save_helper(&path).map_err(|e| e.to_string())?;
                 let player = &save_file.players[0];
                 saves.push(SaveInfo{
                     steam_id: steam_id.clone(),
@@ -100,23 +100,24 @@ fn find_runs(app: tauri::AppHandle) -> Result<Vec<SaveInfo>, String> {
     Ok(saves)
 }
 
-fn save_helper(file_name: &String) -> SaveFile {
+fn save_helper(file_name: &str) -> Result<SaveFile, std::io::Error> {
     let path = Path::new(file_name);
-    let contents = fs::read_to_string(path)
-        .expect("Should have been able to read the file");
-    let save: SaveFile = serde_json::from_str(&contents)
-        .expect("Should have been able to deserialize");
-    save
+    let contents = fs::read_to_string(path)?;
+    let save: SaveFile = serde_json::from_str(&contents)?;
+
+    Ok(save)
 }
 
 #[tauri::command]
-fn load_save(file_name: String, state: State<'_, Mutex<AppState>>){
-    let save: SaveFile = save_helper(&file_name);
+fn load_save(file_name: String, state: State<'_, Mutex<AppState>>) -> Result<String, String> {
+    let save = save_helper(&file_name).map_err(|e| e.to_string())?;
+
     let index = 0;
     let mut state = state.lock().unwrap();
     state.save = save;
     state.index = index;
     state.directory = file_name;
+    Ok(state.directory.clone())
 }
 
 #[tauri::command]

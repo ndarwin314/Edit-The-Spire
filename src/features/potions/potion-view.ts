@@ -127,4 +127,8 @@ export class PotionView {
         }
     }
 
+    reset() {
+        this.potionFilters.reset();
+    }
+
 }

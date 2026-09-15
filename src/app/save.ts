@@ -7,7 +7,8 @@ export class SaveManager {
     private readonly saveScreen: HTMLElement;
 
     constructor(
-        private readonly saveFunction: () => Promise<void>
+        private readonly saveFunction: () => Promise<void>,
+        private readonly resetFunction: () => void
     ) {
         this.saveButton = getElement(".save-button");
         this.saveScreen = getElement("#save-changes-popup");
@@ -37,6 +38,7 @@ export class SaveManager {
 
     private discard() {
         this.saveScreen.classList.remove("active");
+        this.resetFunction();
         showTab("stats");
         showPage("saveSelector");
     }
@@ -44,6 +46,7 @@ export class SaveManager {
     private async accept() {
         this.saveScreen.classList.remove("active");
         await this.saveFunction();
+        this.resetFunction();
         showTab("stats");
         showPage("saveSelector");
     }

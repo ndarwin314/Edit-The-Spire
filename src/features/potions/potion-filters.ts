@@ -72,6 +72,7 @@ class PotionFilters extends Filter<PotionDefinition>{
             matches: new Set()
         }
         this.searchBar.textContent = this.state.query;
+        this.onChange();
     }
 }
 

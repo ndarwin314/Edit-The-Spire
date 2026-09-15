@@ -160,6 +160,7 @@ class RelicFilters extends Filter<RelicDefinition>{
             matches: new Set()
         }
         this.searchBar.textContent = this.state.query;
+        this.onChange();
     }
 
     protected disableAllAncients() {
