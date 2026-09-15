@@ -37,7 +37,9 @@ export class DeckView {
             async card => await this.copyCallback(card)
         );
 
-        this.cardLibrary = new CardLibrary();
+        this.cardLibrary = new CardLibrary(
+            async card => await this.addCallback(card)
+        );
 
         this.state = {
             cards: [],
@@ -103,6 +105,11 @@ export class DeckView {
         const copy = structuredClone(card);
         this.state.cards.splice(index, 0, copy);
         this.cardEditor.close();
+        await this.render();
+    }
+
+    private async addCallback(card: Card) {
+        this.state.cards.push(card);
         await this.render();
     }
 

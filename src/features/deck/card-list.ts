@@ -29,7 +29,7 @@ export type CardColor =
     | "defect"
     | "colorless"
 
-export type CardCost = number | "x";
+export type CardCost = number | "x" | "unplayable";
 
 export interface CardDefinition {
     id: string;
