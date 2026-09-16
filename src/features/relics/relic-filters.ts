@@ -46,7 +46,7 @@ class RelicFilters extends Filter<RelicDefinition>{
     protected createElement(relic: RelicDefinition): HTMLElement {
         const image = renderRelicLazy(relic.id);
 
-        const element = renderRelicElement(relic.id, image);
+        const element = renderRelicElement(relic.id, relic.description, image);
 
         element.hidden = true;
         element.addEventListener("click", () => {

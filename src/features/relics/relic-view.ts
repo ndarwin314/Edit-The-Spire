@@ -5,11 +5,17 @@ import {cleanRelicName} from "../../utils/sanitization.ts";
 import {overlayOnClick} from "../../utils/dom.ts";
 import {renderRelicElement, renderRelicImage} from "./relic-utils.ts";
 import {createTooltipContainer} from "../../utils/render.ts";
+import {RelicDefinition, relics} from "./relic-list.ts";
 
 export interface RelicViewState {
     relics: Relic[]
     selected_relic: number
     character: string
+}
+
+let relicLookup: Map<string, RelicDefinition> = new Map<string, RelicDefinition>()
+for (const relic of relics) {
+    relicLookup.set(cleanRelicName(relic.id), relic)
 }
 
 export class RelicView {
@@ -85,7 +91,7 @@ export class RelicView {
         const cleanedName = cleanRelicName(relicID);
         const image = await renderRelicImage(relicID)
 
-        relicContainer.appendChild(createTooltipContainer(cleanedName, image));
+        relicContainer.appendChild(createTooltipContainer(cleanedName, relicLookup.get(cleanedName)!.description, image));
 
         let floor = -1;
         let temp: Relic = {
@@ -115,7 +121,12 @@ export class RelicView {
     }
     private async createRelic(relic: Relic, index: number) {
         const image = await renderRelicImage(relic.id)
-        const element = renderRelicElement(relic.id, image);
+        const cleanedName = cleanRelicName(relic.id)
+        let description = "";
+        if (relicLookup.has(cleanedName)) {
+            description = relicLookup.get(cleanedName)!.description
+        }
+        const element = renderRelicElement(relic.id, description, image);
 
         element.addEventListener("click",() => this.clickEvent(index));
 

@@ -20,11 +20,11 @@ export function renderPotionLazy(potionID: string) {
     return image;
 }
 
-export function renderPotionElement(potionID: string, image: HTMLImageElement) {
+export function renderPotionElement(potionID: string, description: string, image: HTMLImageElement) {
     const element = document.createElement("div");
 
     element.classList.add("item-slot");
 
-    element.appendChild(createTooltipContainer(cleanPotionName(potionID), image));
+    element.appendChild(createTooltipContainer(cleanPotionName(potionID), description, image));
     return element
 }

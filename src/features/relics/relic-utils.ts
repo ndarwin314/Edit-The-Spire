@@ -3,12 +3,12 @@ import {getImage, getRelicPath, lazyLoadImage} from "../../utils/image.ts";
 import {createTooltipContainer} from "../../utils/render.ts";
 
 
-export function renderRelicElement(relicID: string, image: HTMLImageElement) {
+export function renderRelicElement(relicID: string, description: string, image: HTMLImageElement) {
     const element = document.createElement("div");
     let cleanedName = cleanRelicName(relicID);
     element.classList.add("item-slot");
 
-    element.appendChild(createTooltipContainer(cleanedName, image));
+    element.appendChild(createTooltipContainer(cleanedName, description, image));
 
     return element;
 }

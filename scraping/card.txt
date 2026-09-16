@@ -1,30 +1,35 @@
 export type CardRarity =
-    | "Basic"
-    | "Common"
-    | "Uncommon"
-    | "Rare"
-    | "Ancient"
-    | "Event"
-    | "Token"
-    | "Curse"
-    | "Status"
-    | "Quest"
+    | "any"
+    | "basic"
+    | "common"
+    | "uncommon"
+    | "rare"
+    | "ancient"
+    | "event"
+    | "token"
+    | "curse"
+    | "status"
+    | "quest"
 
 export type CardType =
-    | "Attack"
-    | "Skill"
-    | "Power"
-    | "Status"
-    | "Curse"
-    | "Quest"
+    | "any"
+    | "attack"
+    | "skill"
+    | "power"
+    | "status"
+    | "curse"
+    | "quest"
 
 export type CardColor =
+    | "any"
     | "ironclad"
     | "silent"
     | "regent"
     | "necrobinder"
     | "defect"
     | "colorless"
+
+export type CardCost = number | "x" | "unplayable";
 
 export interface CardDefinition {
     id: string;

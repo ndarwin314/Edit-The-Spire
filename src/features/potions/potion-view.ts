@@ -96,7 +96,7 @@ export class PotionView {
             potion = placeholder;
         }
         const image = await renderPotionImage(potion);
-        const element = renderPotionElement(potion, image);
+        const element = renderPotionElement(potion, potion, image);
         element.addEventListener("click", async () => await this.clickEvent(index));
 
         return element

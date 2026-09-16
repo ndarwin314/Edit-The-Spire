@@ -32,7 +32,8 @@ class PotionFilters extends Filter<PotionDefinition>{
     protected createElement(potion: PotionDefinition): HTMLElement {
         const image = renderPotionLazy(potion.id);
 
-        const element = renderPotionElement(potion.id, image);
+        // TODO
+        const element = renderPotionElement(potion.id, potion.description, image);
 
         element.hidden = true;
         element.addEventListener("click", () => {
