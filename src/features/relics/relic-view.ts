@@ -13,7 +13,7 @@ export interface RelicViewState {
     character: string
 }
 
-let relicLookup: Map<string, RelicDefinition> = new Map<string, RelicDefinition>()
+let relicLookup: Map<string, RelicDefinition> = new Map();
 for (const relic of relics) {
     relicLookup.set(cleanRelicName(relic.id), relic)
 }
@@ -68,6 +68,7 @@ export class RelicView {
         }
 
         globalState.relics = relics;
+        console.log(this.state.relics)
     }
 
     async render() {
@@ -95,7 +96,7 @@ export class RelicView {
 
         let floor = -1;
         let temp: Relic = {
-            id: "RELIC." + relicID.toUpperCase(),
+            id: relicID.toUpperCase(),
             floor_added_to_deck: floor
         };
         if (index==children.length-1) {
@@ -104,7 +105,7 @@ export class RelicView {
         } else {
             floor = relicView.state.relics[index].floor_added_to_deck;
             relicView.state.relics[index] = {
-                id: "RELIC." + relicID.toUpperCase(),
+                id: relicID.toUpperCase(),
                 floor_added_to_deck: floor
             };
         }

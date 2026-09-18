@@ -16,6 +16,7 @@ export interface Potion {
 export interface Relic {
     id: string;
     floor_added_to_deck: number;
+    props?: object;
 }
 
 export interface Card {

@@ -1,3 +1,5 @@
+import {renderDescription} from "./description-renderer.ts";
+
 const tooltipContents = document.createElement("div");
 tooltipContents.classList.add("tooltip-contents");
 document.body.appendChild(tooltipContents);
@@ -11,21 +13,21 @@ export function createTooltipContainer(cleanedName: string, description: string,
     tooltipContainer.appendChild(image);
 
     tooltipContainer.addEventListener("mouseenter", () => {
-    tooltipContents.innerHTML = description;
-    tooltipContents.style.display = "block";
+        tooltipContents.replaceChildren(renderDescription(description));
+        tooltipContents.style.display = "block";
 
-    const rect = tooltipContainer.getBoundingClientRect();
+        const rect = tooltipContainer.getBoundingClientRect();
 
-    let top = rect.bottom + 6;
-    let left = rect.left;
+        let top = rect.bottom + 6;
+        let left = rect.left;
 
-    const tooltipWidth = tooltipContents.offsetWidth;
-    if (left + tooltipWidth > window.innerWidth - 16) {
-      left = rect.right - tooltipWidth;
-    }
+        const tooltipWidth = tooltipContents.offsetWidth;
+        if (left + tooltipWidth > window.innerWidth - 16) {
+          left = rect.right - tooltipWidth;
+        }
 
-    tooltipContents.style.top = `${top}px`;
-    tooltipContents.style.left = `${Math.max(16, left)}px`;
+        tooltipContents.style.top = `${top}px`;
+        tooltipContents.style.left = `${Math.max(16, left)}px`;
   });
 
   tooltipContainer.addEventListener("mouseleave", () => {

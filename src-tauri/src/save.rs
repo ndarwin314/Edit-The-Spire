@@ -42,6 +42,9 @@ pub struct Card {
     #[serde(default)]
     #[serde(skip_serializing_if = "is_default")]
     pub enchantment: Enchantment,
+    #[serde(default)]
+    pub props: Value,
+
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]

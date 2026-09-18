@@ -12,6 +12,7 @@ export interface PotionViewState {
     selected_potion: number
 }
 
+
 export class PotionView {
     public readonly potionFilters: PotionFilters;
     public readonly state: PotionViewState;
@@ -86,7 +87,7 @@ export class PotionView {
         potionContainer.replaceChildren();
         potionContainer.appendChild(await renderPotionImage(potionID));
 
-        potionView.state.potions[index] = "POTION." + potionID.toUpperCase();
+        potionView.state.potions[index] = potionID.toUpperCase();
         potionView.state.selected_potion = -1;
     }
 
@@ -96,7 +97,8 @@ export class PotionView {
             potion = placeholder;
         }
         const image = await renderPotionImage(potion);
-        const element = renderPotionElement(potion, potion, image);
+
+        const element = renderPotionElement(potion, image);
         element.addEventListener("click", async () => await this.clickEvent(index));
 
         return element

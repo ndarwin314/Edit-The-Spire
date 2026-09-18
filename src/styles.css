@@ -1302,3 +1302,7 @@ body {
   cursor: pointer;
   transform: translate(-35%);
 }
+
+.keyword {
+  font-weight: bold;
+}
