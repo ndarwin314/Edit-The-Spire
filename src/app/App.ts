@@ -42,6 +42,7 @@ export class App {
         await this.characterView.save();
         await this.deckView.save();
         await player.save();
+        await loadSaveList(save => this.openSave(save));
     }
 
     private setupSaveSelection() {

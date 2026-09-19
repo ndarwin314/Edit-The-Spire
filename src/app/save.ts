@@ -22,7 +22,7 @@ export class SaveManager {
         continueButton.addEventListener("click", () => this.continue());
 
         const discardButton = this.saveScreen.querySelector(".discard-changes")!;
-        discardButton.addEventListener("click", () => this.discard());
+        discardButton.addEventListener("click", async () => this.discard());
 
         const acceptButton = this.saveScreen.querySelector(".save-changes")!;
         acceptButton.addEventListener("click", async () => await this.accept());

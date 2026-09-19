@@ -4,8 +4,8 @@ export function renderDescription(
 ): DocumentFragment {
 
     // matches  [ ] blocks with a span that break up the block into multiple elements
-    const regex = /\[{1,2}.*<span(?<content>.*)<\/span>]{1,2}/;
-    description = description.replace(regex, "<span$<content></span>");
+    const regex = /\[{1,2}.*(?<content><span.*<\/span>)]{1,2}/;
+    description = description.replace(regex, "$<content>");
 
     const parsed = new DOMParser().parseFromString(
         `<div>${description}</div>`,
@@ -271,7 +271,7 @@ function appendExternalLinkMarkup(
         return;
     }
 
-    
+
     const rawLabel = match[2];
     const label = htmlToText(rawLabel);
 

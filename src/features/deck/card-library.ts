@@ -127,7 +127,7 @@ export class CardLibrary extends Filter<CardDefinition>{
 
     private matchesCost(card: CardDefinition) {
         if (this.state.cost==="x") {
-            return card.is_x_cost;
+            return card.is_x_cost || card.is_x_star_cost;
         } else if (this.state.cost==="unplayable") {
             return card.keywords != null && card.keywords.includes("Unplayable");
         } else if (Number(this.state.cost) < 0) {

@@ -132,7 +132,6 @@ export class Filter<T extends Definition> {
 
     protected searchHelper() {
         this.state.query = this.searchBar.textContent;
-        console.log(this.state.query)
         this.onChange();
     }
 
