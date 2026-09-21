@@ -1,12 +1,10 @@
 mod save;
 
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 use std::sync::Mutex;
 use serde::Serialize;
 use tauri::{Builder, Manager, State};
-use serde_json::{Number, Value};
-use tauri::process::restart;
 use crate::save::{AppState, Relic, SaveFile, Potion, Card};
 
 #[derive(Serialize)]
