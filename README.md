@@ -1,6 +1,21 @@
 # Edit The Spire
 
-Edit The Spire is a desktop save editor for **Slay the Spire 2**. It is built with [Tauri](https://v2.tauri.app/), TypeScript, and Vite.
+Edit The Spire is a desktop save editor for **Slay the Spire 2**. It is built with [Tauri](https://v2.tauri.app/), [TypeScript](https://www.typescriptlang.org/), and [Vite](https://vite.dev/).
+
+## Features
+
+* Discover save files at the systems default location for Slay the Spire 2 saves.
+* Edit current health, max health, gold, and max energy per turn.
+* Add potions and potion slots.
+* Add relics.
+* Upgrade, enchant, duplicate, remove, and add cards to deck.
+* Filter and search cards, potions, and relics by character, rarity, etc.
+
+## Usage
+
+* Ensure that saves you want to edit are in the default location.
+* Disable Steam sync across devices.
+* Close Slay the Spire 2 while editing and saving files.
 
 ## Screenshots
 
@@ -77,7 +92,7 @@ src-tauri/target/release/bundle/
 ## Tech Stack
 
 * [Tauri 2](https://v2.tauri.app/)
-* TypeScript
-* Vite
-* Rust
-* pnpm
+* [TypeScript](https://www.typescriptlang.org/)
+* [Vite](https://vite.dev/)
+* [Rust](https://rust-lang.org/)
+* [pnpm](https://pnpm.io/)
