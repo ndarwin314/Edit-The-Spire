@@ -28,10 +28,10 @@ const tabs = {
         button: getElement<HTMLButtonElement>("#deck-tab"),
         page: getElement<HTMLElement>("#deck-page"),
     },
-    map: {
-        button: getElement<HTMLButtonElement>("#map-tab"),
-        page: getElement<HTMLElement>("#map-page"),
-    },
+    //map: {
+    //    button: getElement<HTMLButtonElement>("#map-tab"),
+    //    page: getElement<HTMLElement>("#map-page"),
+    //},
     card: {
         button: getElement<HTMLButtonElement>("#card-tab"),
         page: getElement<HTMLElement>("#card-library")
