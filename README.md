@@ -2,6 +2,14 @@
 
 Edit The Spire is a desktop save editor for **Slay the Spire 2**. It is built with [Tauri](https://v2.tauri.app/), TypeScript, and Vite.
 
+## Screenshots
+
+![main screen][images/startPage.png]
+
+![character select][images/characterSelect.png]
+
+![potions][images/potions.png]
+
 ## Download
 
 Pre-built releases are available for Windows, macOS, and Linux on the [Releases page](https://github.com/ndarwin314/Edit-The-Spire/releases).
