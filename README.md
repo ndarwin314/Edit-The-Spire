@@ -4,11 +4,15 @@ Edit The Spire is a desktop save editor for **Slay the Spire 2**. It is built wi
 
 ## Screenshots
 
-![main screen][images/startPage.png]
+<p align="center">
+  <img src="images/startPage.png" alt="Main window" width="80%">
+</p>
 
-![character select][images/characterSelect.png]
 
-![potions][images/potions.png]
+<p align="center">
+  <img src="images/characterSelect.png" alt="Character Select Page" width="45%">
+  <img src="images/potions.png" alt="Potion editor" width="45%">
+</p>
 
 ## Download
 
