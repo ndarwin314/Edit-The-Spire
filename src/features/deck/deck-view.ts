@@ -4,7 +4,7 @@ import { CardEditor } from "./card-editor.ts";
 import {CardLibrary} from "./card-library.ts";
 import {getElement} from "../../utils/dom.ts";
 import {cleanCardName} from "../../utils/sanitization.ts";
-import {renderCard, renderCardImage} from "./card-utils.ts";
+import {renderCard, renderCardImage, renderCardLazy} from "./card-utils.ts";
 
 
 interface DeckState {
@@ -85,7 +85,7 @@ export class DeckView {
         this.state.cards.splice(index, 1);
 
         this.cardEditor.close();
-        await this.render();
+        await this.createElementList();
     }
 
     private async enchantmentCallback(card: Card) {
@@ -105,12 +105,12 @@ export class DeckView {
         const copy = structuredClone(card);
         this.state.cards.splice(index, 0, copy);
         this.cardEditor.close();
-        await this.render();
+        await this.createElementList();
     }
 
     private async addCallback(card: Card) {
         this.state.cards.push(card);
-        await this.render();
+        await this.createElementList();
     }
 
 
@@ -131,18 +131,22 @@ export class DeckView {
     }
 
     async render() {
+        await this.createElementList();
+    }
+
+    protected async createElementList() {
         this.cardGrid.replaceChildren();
         let i= 0;
         for (const card of this.state.cards) {
-            this.cardGrid.appendChild(await this.createCard(card));
+            this.cardGrid.appendChild(await this.createElement(card));
             i++;
         }
         this.deckCount.innerText = String(this.state.cards.length);
     }
 
-    private async createCard(card: Card) {
+    protected async createElement(card: Card) {
         const element = document.createElement("div");
-        const image = await renderCardImage(card);
+        const image = renderCardLazy(card.id);
 
         renderCard(element, card, image);
 
