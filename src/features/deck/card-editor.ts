@@ -1,7 +1,7 @@
 import { Card } from "../../app/types.ts";
 import {EnchantmentEditor} from "./enchantment-editor.ts";
 import {getElement, overlayOnClick} from "../../utils/dom.ts";
-import {renderCard, renderCardImage} from "./card-utils.ts";
+import {renderCard, renderCardLazy} from "./card-utils.ts";
 
 export class CardEditor {
     private readonly element: HTMLElement;
@@ -81,7 +81,7 @@ export class CardEditor {
 
     async update(card: Card) {
         this.preview.replaceChildren();
-        const image = await renderCardImage(card);
+        const image = renderCardLazy(card.id, card.current_upgrade_level==1);
         renderCard(this.preview, card, image);
     }
 

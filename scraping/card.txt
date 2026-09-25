@@ -29,20 +29,20 @@ export type CardColor =
     | "defect"
     | "colorless"
 
-export type CardCost = number | "x" | "unplayable";
+export type CardCost = number | "x" | "unplayable" | "";
 
 export interface CardDefinition {
     id: string;
     name: string;
-    cost: number;
+    cost: CardCost;
     is_x_cost: boolean;
-    star_cost: number;
+    star_cost: CardCost;
     is_x_star_cost: boolean;
     type: CardType;
     rarity: CardRarity;
     color: CardColor;
-    keywords: string[] | null;
-    tags: string[] | null;
+    tags: string[] | string;
+    unplayable: boolean;
+    description: string;
 }
-
 export const cards: CardDefinition[] = [

@@ -71,7 +71,6 @@ export class DeckView {
         }
         card.current_upgrade_level =
             card.current_upgrade_level === 1 ? 0 : 1;
-
         await this.updateGrid(card, index);
         await this.cardEditor.update(card);
     }

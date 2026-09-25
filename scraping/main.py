@@ -28,6 +28,22 @@ def potions():
         f.write(ts)
     download_images(name, rows)
 
+def cards():
+    name = "cards"
+    rows = scrape_table(name)
+    fun = funcs[name]
+    objects = []
+    for row in rows:
+        n: str = row["Name"]
+        if "Mad" in n and "(" in n:
+            continue
+        objects.append(fun(row))
+    lines = get_lines(f"{name[:-1]}.txt")
+    ts = make_typescript(lines, objects)
+    with open(f"{name[:-1]}-list.ts", "w") as f:
+        f.write(ts)
+    download_images(name, rows)
+
 def main():
     for name in TABLES:
         rows = scrape_table(name)
@@ -41,7 +57,6 @@ def main():
         download_images(name, rows)
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-   potions()
-
+   cards()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

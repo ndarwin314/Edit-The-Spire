@@ -7,6 +7,8 @@ def clean_name(name: str):
         name = "FAKE_" + name.replace("?", "").replace("'", "")
     if name.endswith("extract"):
         name = "clarity"
+    name.replace("(", "")
+    name.replace(")", "")
     name = name.replace("'", "")
     name = name.replace("-", "_")
     name = name.replace(" ", "_")
@@ -21,6 +23,10 @@ def make_relic_id(relic_name: str):
 
 def make_potion_id(potion_name: str):
     return "POTION." + clean_name(potion_name).upper()
+
+def make_card_id(potion_name: str):
+    card_name = clean_name(potion_name).upper()
+    return "CARD." + card_name
 
 def normalize_ancient(value: str | None) -> str | None:
     if not value or value == "-":
@@ -51,16 +57,38 @@ def make_potion(potion):
         "rarity": potion.get("Rarity").lower(),
     }
 
+
+
 def make_card(card):
     name = card.get("Name")
+    id_ = make_card_id(name)
+    if name.startswith("Strike_"):
+        name = "Strike"
+    elif name.startswith("Defend_"):
+        name = "Defend"
+
+
+    cost = card.get("Cost").lower()
+    try:
+        cost = int(cost)
+    except ValueError:
+        pass
+    star_cost = card.get("StarCost", -1).lower()
+    try:
+        star_cost = int(star_cost)
+    except ValueError:
+        pass
     return {
-        "id": make_potion_id(name),
+        "id":id_,
         "name": name,
-        "character": card.get("Color", "any").lower(),
+        "color": card.get("Color", "any").lower(),
         "description": card.get("Description"),
         "rarity": card.get("Rarity").lower(),
-        "cost": card.get("Cost"),
-        "star_cost": card.get("StarCost", -1),
+        "cost": cost,
+        "is_x_cost": cost==-1,
+        "star_cost": star_cost,
+        "is_x_star_cost": star_cost == -1,
         "type": card.get("Type").lower(),
-        "tags": card.get("Tags")
+        "tags": card.get("Tags"),
+        "unplayable": cost==-2
     }

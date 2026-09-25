@@ -42,7 +42,8 @@ pub struct Card {
     #[serde(skip_serializing_if = "is_default")]
     pub enchantment: Enchantment,
     #[serde(default)]
-    pub props: Value,
+    #[serde(skip_serializing_if = "is_default")]
+    pub props:serde_json::Map<String, Value>,
 
 }
 
@@ -67,6 +68,9 @@ pub struct Potion {
 pub struct Relic {
     pub floor_added_to_deck: i32,
     pub id: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "is_default")]
+    pub props:serde_json::Map<String, Value>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Default)]

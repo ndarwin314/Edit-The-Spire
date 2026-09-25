@@ -66,7 +66,7 @@ export class CardLibrary extends Filter<CardDefinition>{
 
     protected async cardClick(card: CardDefinition) {
         const prototype: Card = {
-            id: "CARD." + card.id,
+            id: card.id,
             floor_added_to_deck: -1,
             current_upgrade_level: 0,
 
@@ -92,13 +92,13 @@ export class CardLibrary extends Filter<CardDefinition>{
     }
 
     protected typeClick(button: HTMLButtonElement) {
-        const value = button.dataset.value as CardType;
+        let value = button.dataset.value as CardType;
 
         this.toggle(button);
 
         if (button.classList.contains("active")) {
             this.disableOtherElements(this.typeFilters, String(value));
-            this.state.type = value;
+            this.state.type = value as CardType;
         } else {
             this.selectAnyCharacter();
             this.state.type = "any";
@@ -129,11 +129,11 @@ export class CardLibrary extends Filter<CardDefinition>{
         if (this.state.cost==="x") {
             return card.is_x_cost || card.is_x_star_cost;
         } else if (this.state.cost==="unplayable") {
-            return card.keywords != null && card.keywords.includes("Unplayable");
+           return card.unplayable;
         } else if (Number(this.state.cost) < 0) {
             return true;
         } else if (Number(this.state.cost) >= 3) {
-            return card.cost >= 3;
+            return Number(card.cost) >= 3;
         } else {
             return card.cost == this.state.cost;
         }

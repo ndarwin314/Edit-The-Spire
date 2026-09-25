@@ -44,9 +44,9 @@ export async function renderCardImage(card: Card) {
     return image;
 }
 
-export function renderCardLazy(cardID: string) {
+export function renderCardLazy(cardID: string, upgraded: boolean=false) {
     const image = document.createElement("img");
-    lazyLoadImage(image, getCardHelper(cleanCardName(cardID), false));
+    lazyLoadImage(image, getCardHelper(cleanCardName(cardID), upgraded));
     image.classList.add("card-image");
 
     return image;
