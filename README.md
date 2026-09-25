@@ -31,7 +31,7 @@ Edit The Spire is a desktop save editor for **Slay the Spire 2**. It is built wi
 
 ## Download
 
-Pre-built releases are available for Windows, macOS, and Linux on the [Releases page](https://github.com/ndarwin314/Edit-The-Spire/releases).
+Pre-built releases are available for Windows, macOS, and Linux on the [Releases page](https://github.com/ndarwin314/Edit-The-Spire/releases). Currently the builds aren't signed so your OS may not let you run the download directly, particularly on max.
 
 ### Windows
 
